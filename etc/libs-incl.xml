@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- declares the libraries needed to build aspirin -->
+<project name="library-dependencies">
+  <fileset dir="${libs.dir}" id="aspirin.libs">
+    <!-- nothing -->
+  </fileset>
+</project>
