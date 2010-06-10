@@ -1,0 +1,39 @@
+<flex-config>
+  <window-title>Aspirin API Documentation</window-title>
+  <main-title>Aspirin API Documentation</main-title>
+  <footer>Copyright&#160;&#169;&#160;2007-2010 Three Rings Design, Inc.</footer>
+  <packages>
+    <package>
+      <string>com.threerings.display</string>
+      <string>Display utilities and random useful bits.</string>
+    </package>
+    <package>
+      <string>com.threerings.geom</string>
+      <string>Geometic utility classes.</string>
+    </package>
+    <package>
+      <string>com.threerings.media</string>
+      <string>Media playing classes.</string>
+    </package>
+    <package>
+      <string>com.threerings.text</string>
+      <string>TextField utilities.</string>
+    </package>
+    <package>
+      <string>com.threerings.ui</string>
+      <string>User-interface utilities and simple UI components.</string>
+    </package>
+    <package>
+      <string>com.threerings.util</string>
+      <string>Collections and utility classes.</string>
+    </package>
+    <package>
+      <string>com.threerings.util.maps</string>
+      <string>Implementations of the com.threerings.util.Map interface. Use the com.threerings.util.Maps factory to create instances.</string>
+    </package>
+    <package>
+      <string>com.threerings.util.sets</string>
+      <string>Implementations of the com.threerings.util.Set interface. Use the com.threerings.util.Sets factory to create instances.</string>
+    </package>
+  </packages>
+</flex-config>
