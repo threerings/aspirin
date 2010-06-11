@@ -50,7 +50,7 @@ public class BackgroundJPGEncoder extends EventDispatcher
      *
      * @param image The bitmap to encode.
      * @param quality The jpeg quality from 1 to 100 which determines the compression level.
-     * @param timeSlice The number of milliseconds of processing to do per frame.  
+     * @param timeSlice The number of milliseconds of processing to do per frame.
      */
     public function BackgroundJPGEncoder (
         image :BitmapData, quality :Number = 50, timeSlice :int = 100)
@@ -60,38 +60,38 @@ public class BackgroundJPGEncoder extends EventDispatcher
         _timer = new Timer(1);
         _timer.addEventListener(TimerEvent.TIMER, timerHandler);
     }
-    
+
     /**
      * Start encoding
      */
-    public function start () :void 
+    public function start () :void
     {
         _timer.start();
     }
-    
+
     /**
      * Cancel encoding and discard any intermediate results.
-     */	
+     */
     public function cancel () :void
     {
         _timer.stop();
         _timer = null;
         _encoder = null;
     }
-    
+
     protected function timerHandler (event :TimerEvent) :void
     {
         if (_encoder.process(_timeSlice)) {
             _timer.stop();
             // The jpeg is ready so we fire an event passing it to the consumer.
             dispatchEvent(new ValueEvent(Event.COMPLETE, _encoder.getJpeg()));
-        } 
+        }
     }
-    
+
     protected var _timeSlice :int;
     protected var _timer :Timer;
-    protected var _encoder :JPGEncoder; 
-    
+    protected var _encoder :JPGEncoder;
+
     protected const PIXEL_GRANULARITY :int = 100;
 }
 }

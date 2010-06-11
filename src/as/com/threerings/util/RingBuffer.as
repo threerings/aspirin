@@ -171,12 +171,12 @@ public class RingBuffer
             return _array[index];
         }
     }
-    
+
     /**
      * Executes a test function on each item in the ring buffer
      * until an item is reached that returns false for the specified
      * function.
-     * 
+     *
      * Returns a Boolean value of true if all items in the buffer return
      * true for the specified function; otherwise, false.
      */
@@ -187,20 +187,20 @@ public class RingBuffer
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Executes a function on each item in the ring buffer.
-     */ 
+     */
     public function forEach (callback :Function, thisObject :* = null) :void
     {
         for (var i :int = 0; i < _length; ++i) {
             callback.call(thisObject, this.at(i));
         }
     }
-    
+
     /**
      * Searches for an item in the ring buffer by using strict equality
      * (===) and returns the index position of the item, or -1
@@ -213,7 +213,7 @@ public class RingBuffer
                 return i;
             }
         }
-        
+
         return -1;
     }
 

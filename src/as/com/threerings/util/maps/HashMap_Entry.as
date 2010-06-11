@@ -23,7 +23,7 @@ package com.threerings.util.maps {
 
 import com.threerings.util.Hashable;
 
-/** 
+/**
  * A key/value pair in a HashMap. This is really an internal class to HashMap, and when
  * Flash CS4 is fixed, it will go nestle back into HashMap.as's luxurious folds.
  * @private

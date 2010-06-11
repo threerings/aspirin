@@ -75,13 +75,13 @@ public class MathUtil
      * <p>Supports various distance metrics: the common Euclidean distance, taxicab distance,
      * arbitrary Minkowski distances, and Chebyshev distance.
      *
-     * <p>See the <a href="http://www.nist.gov/dads/HTML/lmdistance.html">NIST web page on 
+     * <p>See the <a href="http://www.nist.gov/dads/HTML/lmdistance.html">NIST web page on
      * distance definitions</a>.<p>
      *
      * @param x1 x value of the first point
      * @param y1 y value of the first point
      * @param x2 x value of the second point
-     * @param y2 y value of the second point    
+     * @param y2 y value of the second point
      * @param p Optional: p value of the norm function. Common cases:
      *          <ul><li>p = 2 (default): standard Euclidean distance on a plane
      *              <li>p = 1: taxicab distance (aka Manhattan distance)
@@ -135,6 +135,6 @@ public class MathUtil
     public static function floorDiv (dividend :int, divisor :int) :int
     {
         return ((dividend >= 0) ? dividend : (dividend - divisor + 1))/divisor;
-    }    
+    }
 }
 }

@@ -47,7 +47,7 @@ public class Assert
 {
     /** Controls whether stack dumps should be included in the error log (default value is true).*/
     public static var dumpStack :Boolean = true;
-    
+
     /** Asserts that the value is equal to null. */
     public static function isNull (value :Object, message :String = null) :void
     {
@@ -71,7 +71,7 @@ public class Assert
             fail(message);
         }
     }
-    
+
     /** Asserts that the value is true. */
     public static function isTrue (value :Boolean, message :String = null) :void
     {
@@ -95,7 +95,7 @@ public class Assert
         } catch (err :SecurityError) {
             // probably not allowed
         }
-    }        
+    }
 
     protected static var _log :Log = Log.getLog(Assert);
     protected static var _debug :Boolean = Capabilities.isDebugger;

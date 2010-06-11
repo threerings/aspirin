@@ -399,7 +399,7 @@ public class MediaContainer extends Sprite
      */
     public function containerDimensionsUpdated (newWidth :Number, newHeight :Number) :void
     {
-        // do nothing in base MediaContainer 
+        // do nothing in base MediaContainer
     }
 
     /**
@@ -464,7 +464,7 @@ public class MediaContainer extends Sprite
         if (isImage(url)) {
             _isImage = true;
             // load images into our domain so that we can view their pixels
-            return new LoaderContext(true, 
+            return new LoaderContext(true,
                 new ApplicationDomain(ApplicationDomain.currentDomain),
                 getSecurityDomain(url));
 

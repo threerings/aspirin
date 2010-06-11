@@ -334,7 +334,7 @@ public class FlvVideoPlayer extends EventDispatcher
     protected const log :Log = Log.getLog(this);
 
     protected var _autoPlay :Boolean;
-    
+
     protected var _vid :Video = new Video();
 
     protected var _netCon :NetConnection;

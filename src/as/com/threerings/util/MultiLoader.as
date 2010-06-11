@@ -65,7 +65,7 @@ public class MultiLoader
      * probably only want to use this with an Array sources.
      * @param appDom the ApplicationDomain in which to load the contents, or null to specify
      * that it should load in a child of the current ApplicationDomain.
-     * 
+     *
      * @example Load one embed, add it as a child.
      * <listing version="3.0">
      * MultiLoader.getContents(EMBED_CONSTANT, addChild);
@@ -82,15 +82,15 @@ public class MultiLoader
      * function handleComplete (result :Object) :void {
      *    // process a result here. Result may be a DisplayObject or an Error.
      * };
-     * 
+     *
      * var obj :Object = {
      *     key1: "http://somehost.com/someImage.gif",
      *     key2: "http://somehost.com/someOtherImage.gif"
      * };
-     * 
+     *
      * MultiLoader.getContents(obj, handleComplete, true);
      * </listing>
-     * 
+     *
      * @example Load 3 embeds, wait to handle them until they're all loaded.
      * <listing version="3.0">
      * function handleComplete (results :Array) :void {

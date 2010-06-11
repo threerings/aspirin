@@ -76,7 +76,7 @@ public interface Set
      *
      * If you return a Boolean, you may return <code>true</code> to indicate that you've
      * found what you were looking for, and halt iteration.
-     */ 
+     */
     function forEach (fn :Function) :void;
 }
 }

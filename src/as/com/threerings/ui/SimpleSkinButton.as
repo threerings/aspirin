@@ -79,7 +79,7 @@ public class SimpleSkinButton extends SimpleButton
         skin.width = field.width + (padding * 2);
         skin.height = height;
         state.addChild(skin);
-    
+
         field.x = padding + xshift;
         field.y = (height - field.height) / 2 + yshift;
         state.addChild(field);

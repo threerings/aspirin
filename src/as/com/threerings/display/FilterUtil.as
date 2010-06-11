@@ -198,7 +198,7 @@ public class FilterUtil
      *
      * @param hueShift a value, in degrees, between -180 and 180.
     */
-    public static function shiftHueBy (original :ColorMatrixFilter, 
+    public static function shiftHueBy (original :ColorMatrixFilter,
         hueShift :int) :ColorMatrixFilter
     {
         var cosMatrix :Array = [ 0.787, -0.715, -0.072,
@@ -211,7 +211,7 @@ public class FilterUtil
         var cos :Number = Math.cos(hueShift * Math.PI / 180);
         var sin :Number = Math.sin(hueShift * Math.PI / 180);
         for (var ii :int = 0; ii < 9; ii++) {
-            multiplier.push([ 0.213, 0.715, 0.072 ][ii%3] + cosMatrix[ii] * cos + 
+            multiplier.push([ 0.213, 0.715, 0.072 ][ii%3] + cosMatrix[ii] * cos +
                 sinMatrix[ii] * sin);
         }
 
@@ -226,7 +226,7 @@ public class FilterUtil
             originalMatrix = original.matrix;
         }
 
-        // this loop compresses a massive, wacky concatination function that was used in the code 
+        // this loop compresses a massive, wacky concatination function that was used in the code
         // from the site listed above
         var matrix :Array = [];
         for (ii = 0; ii < 20; ii++) {
@@ -234,12 +234,12 @@ public class FilterUtil
                 matrix.push(originalMatrix[ii]);
             } else {
                 var base :int = Math.floor(ii / 5) * 5;
-                matrix.push((originalMatrix[base] * multiplier[ii%5]) + 
-                            (originalMatrix[base+1] * multiplier[(ii%5)+3]) + 
+                matrix.push((originalMatrix[base] * multiplier[ii%5]) +
+                            (originalMatrix[base+1] * multiplier[(ii%5)+3]) +
                             (originalMatrix[base+2] * multiplier[(ii%5)+6]));
             }
         }
-        
+
         return new ColorMatrixFilter(matrix);
     }
 

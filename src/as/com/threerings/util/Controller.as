@@ -83,7 +83,7 @@ public class Controller
             return false;
         }
 
-        // finally, dispatch it 
+        // finally, dispatch it
         CommandEvent.dispatch(_controlledPanel, fn, arg);
         return true;
     }
@@ -102,6 +102,6 @@ public class Controller
     }
 
     /** The panel currently being controlled. */
-    protected var _controlledPanel :IEventDispatcher; 
+    protected var _controlledPanel :IEventDispatcher;
 }
 }

@@ -73,7 +73,7 @@ public class ExpiringMap extends LinkedMap
                 }
 
             } else {
-                _timer.delay = untilExpire; 
+                _timer.delay = untilExpire;
                 _timer.start();
                 return;
             }

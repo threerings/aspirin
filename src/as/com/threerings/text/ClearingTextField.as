@@ -47,7 +47,7 @@ public class ClearingTextField extends TextField
     }
 
     /**
-     * Set the specified text on this TextField, and clear the text 
+     * Set the specified text on this TextField, and clear the text
      * after the specified delay. If more text is set prior to the
      * delay elapsing, the clear is pushed back to that text's delay, if any.
      */

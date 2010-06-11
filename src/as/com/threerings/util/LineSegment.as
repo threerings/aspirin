@@ -50,7 +50,7 @@ public class LineSegment implements Equalable
         return Point.distance(start, stop);
     }
 
-    public function isIntersected (line :LineSegment) :Boolean 
+    public function isIntersected (line :LineSegment) :Boolean
     {
         return getIntersectionType(line) != DOES_NOT_INTERSECT;
     }
@@ -64,15 +64,15 @@ public class LineSegment implements Equalable
     }
 
     /**
-     * Tests if the given line intersects this line. This method rotates both lines so that the 
-     * start point of this line is on the left, at (0, 0).  If the lines do intersect, it then 
-     * returns INTERSECTION_NORTH if the end point of <code>line</code> is north of this line, 
+     * Tests if the given line intersects this line. This method rotates both lines so that the
+     * start point of this line is on the left, at (0, 0).  If the lines do intersect, it then
+     * returns INTERSECTION_NORTH if the end point of <code>line</code> is north of this line,
      * INTERSECTION_SOUTH otherwise.
-     * 
+     *
      * Intersections are inclusive.  If one or both points lands on this line, interects will not
      * return DOES_NOT_INTERSECT.
      */
-    public function getIntersectionType (line :LineSegment) :int 
+    public function getIntersectionType (line :LineSegment) :int
     {
         return getIntersection(line, false) as int;
     }
@@ -107,12 +107,12 @@ public class LineSegment implements Equalable
         var type :int;
 
         if (thatLineStart.y >= 0 && thatLineStop.y <= 0) {
-            interp = Point.interpolate(thatLineStart, thatLineStop, thatLineStop.y / 
+            interp = Point.interpolate(thatLineStart, thatLineStop, thatLineStop.y /
                 (thatLineStop.y + (-thatLineStart.y)));
             type = INTERSECTION_NORTH;
 
         } else if (thatLineStart.y <= 0 && thatLineStop.y >= 0) {
-            interp = Point.interpolate(thatLineStop, thatLineStart, thatLineStart.y / 
+            interp = Point.interpolate(thatLineStop, thatLineStart, thatLineStart.y /
                 (thatLineStart.y + (-thatLineStop.y)));
             type = INTERSECTION_SOUTH;
         }

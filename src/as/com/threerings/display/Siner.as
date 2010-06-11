@@ -35,7 +35,7 @@ public class Siner
      *
      * If constructed with more than one amplitude, the amplitudes are
      * additive.
-     * 
+     *
      * The Siner will start in the reset() state.
      */
     public function Siner (... args)

@@ -39,7 +39,7 @@ public class AnimationManager
     {
         throw new Error("Static only");
     }
-    
+
     /**
      * Start (or restart) the specified animation.
      */
@@ -94,7 +94,7 @@ public class AnimationManager
 
     /**
      * Track a DisplayObject that is also an Animation- it will
-     * automatically be started when added to the stage and 
+     * automatically be started when added to the stage and
      * stopped when removed.
      */
     public static function addDisplayAnimation (disp :DisplayObject) :void
