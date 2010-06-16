@@ -288,37 +288,32 @@ public class Log
     protected function processFinalArg (args :Array) :String
     {
         var lastArg :Object = args.pop();
-        var err :Error = null;
-        var errMsg :String = null;
-        if (lastArg is Error) {
-            err = lastArg as Error;
+        var errMsg :String;
+        if (lastArg == null) {
+            lastArg = "null";
 
-        } else if (lastArg != null) {
-            err = lastArg.error as Error; // maybe a UncaughtErrorEvent with Error
+        } else if ("error" in lastArg) { // if an UncaughtErrorEvent, switch to the 'error' value
+            lastArg = lastArg.error;
         }
-        if (err != null) {
+        if (lastArg is Error) {
+            var err :Error = Error(lastArg);
             var strace :String = err.getStackTrace();
-            if (strace != null) {
-                return strace; // great, we've got a stack trace, that means a debug player
+            if (strace != null) { // in a debug flashplayer, we get the stack trace. Yay!
+                return strace;
             }
-            // otherwise we're in a non-debug player, so log what we can
-            errMsg = err.message;
+            errMsg = err.message; // otherwise, let's use the message (code) of the error
 
         } else if (lastArg is ErrorEvent) {
             errMsg = String(lastArg.text);
 
-        } else if (lastArg != null && lastArg.error is ErrorEvent) { // UncaughtErrorEvent
-            errMsg = String(lastArg.error.text);
-
-        } else if (lastArg != null && lastArg.error != null) {
-            errMsg = String(lastArg.error); // some wacky object was thrown
-
         } else {
-            args.push("error?", String(lastArg)); // wtf is this? Log it to debug mis-use of arg.
+            // Either the last arg was not an Error, ErrorEvent, or UncaughtErrorEvent,
+            // or it was an UncaughtErrorEvent for a thrown non-Error, which is f'n weird.
+            // Log it with a question mark to indicate misuse.
+            args.push("error?", String(lastArg));
             return null;
         }
 
-        // log the errMsg of the Error or ErrorEvent
         args.push("message", errMsg);
         return null;
     }
