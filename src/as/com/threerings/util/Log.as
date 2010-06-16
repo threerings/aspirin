@@ -163,8 +163,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
-     * is printed, or a "message=<message>" is appended if running in a non-debug player.
+     * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
+     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -184,8 +184,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
-     * is printed, or a "message=<message>" is appended if running in a non-debug player.
+     * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
+     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -205,8 +205,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
-     * is printed, or a "message=<message>" is appended if running in a non-debug player.
+     * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
+     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -226,8 +226,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
-     * is printed, or a "message=<message>" is appended if running in a non-debug player.
+     * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
+     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
