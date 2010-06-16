@@ -21,6 +21,8 @@
 
 package com.threerings.util {
 
+import flash.events.ErrorEvent;
+
 import flash.system.Capabilities;
 
 import flash.utils.getQualifiedClassName;
@@ -161,7 +163,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error, in which case the stack trace is printed.
+     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
+     * is printed, or a "message=<message>" is appended if running in a non-debug player.
      *
      * @example
      * <listing version="3.0">
@@ -181,7 +184,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error, in which case the stack trace is printed.
+     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
+     * is printed, or a "message=<message>" is appended if running in a non-debug player.
      *
      * @example
      * <listing version="3.0">
@@ -201,7 +205,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error, in which case the stack trace is printed.
+     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
+     * is printed, or a "message=<message>" is appended if running in a non-debug player.
      *
      * @example
      * <listing version="3.0">
@@ -221,7 +226,8 @@ public class Log
      * message is generated then toString() will not be called on the values.
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
-     * A final parameter may be an Error, in which case the stack trace is printed.
+     * A final parameter may be an Error or UnhandledErrorEvent, in which case the stack trace
+     * is printed, or a "message=<message>" is appended if running in a non-debug player.
      *
      * @example
      * <listing version="3.0">
@@ -239,7 +245,7 @@ public class Log
      */
     public function logStackTrace (error :Error) :void
     {
-        warning(error.getStackTrace());
+        warning("stackTrace", error);
     }
 
     protected function doLog (level :int, args :Array) :void
@@ -260,17 +266,7 @@ public class Log
         var msg :String = getTimeStamp() + " " + LEVEL_NAMES[level] + ": " + _module;
         if (args.length > 0) {
             msg += " " + String(args[0]); // the primary log message
-            var err :Error = null;
-            if (args.length % 2 == 0) { // there's one extra arg
-                var lastArg :Object = args.pop();
-                if (lastArg is Error) {
-                    err = lastArg as Error; // ok, it's an error, we like those
-                } else if (lastArg == null) { // assume it's an error that's just null
-                    args.push("error", lastArg); // print "error=null"
-                } else {
-                    args.push(lastArg, ""); // what? Well, cope by pushing it back with a ""
-                }
-            }
+            var strace :String = (args.length % 2 == 1) ? null : processFinalArg(args);
             if (args.length > 1) {
                 for (var ii :int = 1; ii < args.length; ii += 2) {
                     msg += (ii == 1) ? " [" : ", ";
@@ -278,11 +274,53 @@ public class Log
                 }
                 msg += "]";
             }
-            if (err != null) {
-                msg += "\n" + err.getStackTrace();
+            if (strace != null) {
+                msg += "\n" + strace;
             }
         }
         return msg;
+    }
+
+    /**
+     * Process the final arg and turn it into a message, if needed, or return a stack trace.
+     * Note: we do not reference the UncaughtErrorEvent class to remain flash 9 compatible.
+     */
+    protected function processFinalArg (args :Array) :String
+    {
+        var lastArg :Object = args.pop();
+        var err :Error = null;
+        var errMsg :String = null;
+        if (lastArg is Error) {
+            err = lastArg as Error;
+
+        } else if (lastArg != null) {
+            err = lastArg.error as Error; // maybe a UncaughtErrorEvent with Error
+        }
+        if (err != null) {
+            var strace :String = err.getStackTrace();
+            if (strace != null) {
+                return strace; // great, we've got a stack trace, that means a debug player
+            }
+            // otherwise we're in a non-debug player, so log what we can
+            errMsg = err.message;
+
+        } else if (lastArg is ErrorEvent) {
+            errMsg = String(lastArg.text);
+
+        } else if (lastArg != null && lastArg.error is ErrorEvent) { // UncaughtErrorEvent
+            errMsg = String(lastArg.error.text);
+
+        } else if (lastArg != null && lastArg.error != null) {
+            errMsg = String(lastArg.error); // some wacky object was thrown
+
+        } else {
+            args.push("error?", String(lastArg)); // wtf is this? Log it to debug mis-use of arg.
+            return null;
+        }
+
+        // log the errMsg of the Error or ErrorEvent
+        args.push("message", errMsg);
+        return null;
     }
 
     /**
