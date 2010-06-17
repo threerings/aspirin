@@ -291,6 +291,7 @@ public class DataPack extends BaseDataPack
 
     /**
      * @inheritDoc
+     * @private
      */
     override protected function bytesAvailable (bytes :ByteArray) :void
     {

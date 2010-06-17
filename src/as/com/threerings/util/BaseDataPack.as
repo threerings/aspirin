@@ -226,6 +226,8 @@ public class BaseDataPack extends EventDispatcher
 
     /**
      * Extract from the datum either a String, null, or undefined.
+     *
+     * @private
      */
     protected function extractStringValue (datum :XML, valueField :String = "value") :*
     {
@@ -242,6 +244,9 @@ public class BaseDataPack extends EventDispatcher
     // TODO: detect errors and throw? Maybe only if a validation flag is passed in, and
     // then pass that flag optionally from the remixer... through entry.fromString()
     // from EditableDataPack.
+    /**
+     * @private
+     */
     protected function parseValueFromString (string :String, type :String) :Object
     {
         var bits :Array;
@@ -341,6 +346,8 @@ public class BaseDataPack extends EventDispatcher
      * var datum :XML = _metadata..data.(@name == value)[0];
      * But the (@name == value) selector doesn't work if we're compiled in CS4,
      * so this method is a workaround.
+     *
+     * @private
      */ 
     protected function getDatum (list :XMLList, name :String) :XML
     {
