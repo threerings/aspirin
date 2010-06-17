@@ -48,6 +48,7 @@
       <arg value="-compiler.optimize"/>
       <arg value="-compiler.source-path=src/as/"/>
       <arg value="-include-sources=src/as/"/>
+      <arg line="-library-path lib"/>
       <arg value="-output"/>
       <arg value="${deploy.dir}/${lib.name}.swc"/>
     </java>
@@ -62,6 +63,7 @@
       <jvmarg value="-Xbootclasspath/p:${flexsdk.dir}/asdoc/lib/xalan.jar"/>
       <arg value="+flexlib=${flexsdk.dir}/frameworks"/>
       <arg line="-library-path ${flexsdk.dir}/frameworks/libs"/>
+      <arg line="-library-path lib"/>
       <arg line="-templates-path ${flexsdk.dir}/asdoc/templates"/>
       <arg line="-doc-sources src"/>
       <arg line="-load-config+=etc/asdoc-config.xml"/>
