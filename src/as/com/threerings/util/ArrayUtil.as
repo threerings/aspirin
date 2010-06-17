@@ -41,6 +41,29 @@ public class ArrayUtil
     }
 
     /**
+     * Creates a new Array filled with a range of numbers.
+     *
+     * @param min Number to start counting from.
+     * @param max Number to count up to.
+     * @param step Count by this number. Must be positive.
+     * @return [min, max)
+     */
+    public static function range (min :Number, max :Number = 0, step :Number = 1) :Array
+    {
+        var list :Array = [];
+        if (min > max) {
+            var swap :Number = max;
+            max = min;
+            min = swap;
+        }
+        while (min < max) {
+            list.push(min);
+            min += step;
+        }
+        return list;
+    }
+
+    /**
      * Properly resizes an Array, truncating if it's too large, and padding it with 'undefined'
      * if too small.
      *
