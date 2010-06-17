@@ -19,10 +19,6 @@
       absolute path.
     </fail>
     <mkdir dir="${deploy.dir}"/>
-    <mkdir dir="${deploy.dir}/lib"/>
-    <copy todir="${deploy.dir}/lib" flatten="true">
-      <fileset refid="${lib.name}.libs"/>
-    </copy>
   </target>
 
   <target name="clean" description="Removes build results">
