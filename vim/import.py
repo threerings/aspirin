@@ -62,10 +62,13 @@ for tagfile in [fn for fn in vim.eval("&tags").split(',') if os.path.exists(fn)]
 
 
 importstatement = lambda full: "import %s;" % (full)
+linesadded = 0
 def addimport(full):
+    global linesadded
     vim.command("let ignored=cursor(0, 0)")# Search for package from the beginning
     vim.command("let packageline = search('^package ', 'c')")
     vim.command('let ignored=append(packageline, "%s")' % importstatement(full))
+    linesadded += 1
 
 # It's totally great how vim returns everything as a string and uses 0 to indicate false
 varset = lambda var: bool(int(vim.eval('exists("%s")' % var)))
@@ -93,4 +96,4 @@ else:
 if idxset:
     vim.command("unlet g:importIdx")
 # always move the cursor back
-vim.command("let ignored=cursor(startpos[1] + 1, startpos[2])")
+vim.command("let ignored=cursor(startpos[1] + %s, startpos[2])" % linesadded)
