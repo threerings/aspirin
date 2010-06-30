@@ -225,8 +225,12 @@ public class XmlUtil
     /**
      * Returns the text content of the first child with the given name
      */
-    public static function getSingleChildText (xml :XML, childName :String) :String
+    public static function getSingleChildText (xml :XML, childName :String,
+        defaultValue :* = undefined) :String
     {
+        if (!hasChild(xml, childName) && defaultValue !== undefined) {
+            return defaultValue;
+        }
         return getText(getSingleChild(xml, childName));
     }
 
