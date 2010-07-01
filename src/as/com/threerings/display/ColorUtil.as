@@ -52,9 +52,9 @@ public class ColorUtil
      */
     public static function getHue (color :uint) :Number
     {
-        var r :Number = (color >> 16) & 0xff;
-        var g :Number = (color >> 8) & 0xff;
-        var b :Number = color & 0xff;
+        var r :Number = getRed(color);
+        var g :Number = getGreen(color);
+        var b :Number = getBlue(color);
 
         var hue :Number = R2D * Math.atan2(ROOT_3 * (g - b), 2 * (r - g - b));
         return (hue >= 0 ? hue : hue + 360);
@@ -65,9 +65,9 @@ public class ColorUtil
      */
     public static function getBrightness (color :uint) :Number
     {
-        var r :Number = ((color >> 16) & 0xff) * INV_255;
-        var g :Number = ((color >> 8) & 0xff) * INV_255;
-        var b :Number = (color & 0xff) * INV_255;
+        var r :Number = getRed(color) * INV_255;
+        var g :Number = getGreen(color) * INV_255;
+        var b :Number = getBlue(color) * INV_255;
 
         return (r * LUMA_R) + (g * LUMA_G) + (b * LUMA_B);
     }
@@ -89,9 +89,9 @@ public class ColorUtil
 
         } else {
             var pct :Number = brightness / old;
-            var r :Number = ((color >> 16) & 0xff) * pct;
-            var g :Number = ((color >> 8) & 0xff) * pct;
-            var b :Number = (color & 0xff) * pct;
+            var r :Number = getRed(color) * pct;
+            var g :Number = getGreen(color) * pct;
+            var b :Number = getBlue(color) * pct;
             return composeColor(r, g, b);
         }
     }
@@ -103,6 +103,136 @@ public class ColorUtil
     public static function composeColor (r :uint, g :uint, b :uint) :uint
     {
         return (Math.min(r, 255) << 16) | (Math.min(g, 255) << 8) | Math.min(b, 255);
+    }
+
+    /**
+     * Returns the 8-bit red component of the 24-bit color.
+     */
+    public static function getRed (color :uint) :uint
+    {
+        return color >> 16 & 0xFF;
+    }
+
+    /**
+     * Returns the 8-bit green component of the 24-bit color.
+     */
+    public static function getGreen (color :uint) :uint
+    {
+        return color >> 8 & 0xFF;
+    }
+
+    /**
+     * Returns the 8-bit blue component of the 24-bit color.
+     */
+    public static function getBlue (color :uint) :uint
+    {
+        return color & 0xFF;
+    }
+
+    /**
+     * Returns an array of Numbers representing Hue, Saturation, and Brightness for the color
+     *  specified in RGB.  Based on java.awt.Color.RGBtoHSB.
+     */
+    public static function RGBtoHSB (r :int, g :int, b :int) :Array
+    {
+        var hue :Number;
+        var saturation :Number;
+        var brightness :Number;
+
+        var hsbvals :Array = new Array(3);
+
+    	var cmax :int = (r > g) ? r : g;
+	if (b > cmax) {
+            cmax = b;
+        }
+	var cmin :int = (r < g) ? r : g;
+	if (b < cmin) {
+            cmin = b;
+        }
+
+	brightness = cmax / 255.0;
+	if (cmax != 0) {
+	    saturation = (Number(cmax - cmin)) / (Number(cmax));
+        } else {
+	    saturation = 0;
+        }
+	if (saturation == 0) {
+	    hue = 0;
+        } else {
+	    var redc :Number = (Number(cmax - r)) / (Number(cmax - cmin));
+	    var greenc :Number = (Number(cmax - g)) / (Number(cmax - cmin));
+	    var bluec :Number = (Number(cmax - b)) / (Number(cmax - cmin));
+	    if (r == cmax) {
+		hue = bluec - greenc;
+            } else if (g == cmax) {
+	        hue = 2.0 + redc - bluec;
+            } else {
+		hue = 4.0 + greenc - redc;
+            }
+	    hue = hue / 6.0;
+	    if (hue < 0) {
+		hue = hue + 1.0;
+            }
+	}
+	hsbvals[0] = hue;
+	hsbvals[1] = saturation;
+	hsbvals[2] = brightness;
+	return hsbvals;
+    }
+
+    /**
+     * Returns the uint representing the color in RGB that is equivalent to the hue, saturation,
+     *  and brightness specified.  Based upon java.awt.Color.HSBtoRGB.
+     */
+    public static function HSBtoRGB (hue :Number, saturation :Number, brightness :Number) :uint
+    {
+        var r :int = 0;
+        var g :int = 0;
+        var b :int = 0;
+
+        if (saturation == 0) {
+            r = g = b = int(brightness * 255.0 + 0.5);
+        } else {
+            var h :Number = hue - Math.floor(hue) * 6.0;
+            var f :Number = h - Math.floor(h);
+            var p :Number = brightness * (1.0 - saturation);
+            var q :Number = brightness * (1.0 - saturation * f);
+            var t :Number = brightness * (1.0 - (saturation * (1.0 - f)));
+            switch (int(h)) {
+            case 0:
+                r = int(brightness * 255.0 + 0.5);
+                g = int(t * 255.0 + 0.5);
+                b = int(p * 255.0 + 0.5);
+                break;
+            case 1:
+                r = int(q * 255.0 + 0.5);
+                g = int(brightness * 255.0 + 0.5);
+                b = int(p * 255.0 + 0.5);
+                break;
+            case 2:
+                r = int(p * 255.0 + 0.5);
+                g = int(brightness * 255.0 + 0.5);
+                b = int(t * 255.0 + 0.5);
+                break;
+            case 3:
+                r = int(p * 255.0 + 0.5);
+                g = int(q * 255.0 + 0.5);
+                b = int(brightness * 255.0 + 0.5);
+                break;
+            case 4:
+                r = int(t * 255.0 + 0.5);
+                g = int(p * 255.0 + 0.5);
+                b = int(brightness * 255.0 + 0.5);
+                break;
+            case 5:
+                r = int(brightness * 255.0 + 0.5);
+                g = int(p * 255.0 + 0.5);
+                b = int(q * 255.0 + 0.5);
+                break;
+            }
+        }
+        return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
+
     }
 
     protected static const ROOT_3 :Number = Math.sqrt(3);
