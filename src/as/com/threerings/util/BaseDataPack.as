@@ -208,6 +208,14 @@ public class BaseDataPack extends EventDispatcher
     }
 
     /**
+     * Returns the array of all files within the datapack.
+     */
+    public function getFiles () :Array
+    {
+        return _zip.entries;
+    }
+
+    /**
      * Parse a data value from the specified XML datum.
      *
      * @private
@@ -252,7 +260,7 @@ public class BaseDataPack extends EventDispatcher
         var bits :Array;
         switch (type) {
         case "String":
-        case "Choice": // parse as a string, but 
+        case "Choice": // parse as a string, but
             return unescape(string);
 
         case "Number":
@@ -348,7 +356,7 @@ public class BaseDataPack extends EventDispatcher
      * so this method is a workaround.
      *
      * @private
-     */ 
+     */
     protected function getDatum (list :XMLList, name :String) :XML
     {
         for each (var x :XML in list) {
