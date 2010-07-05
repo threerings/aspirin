@@ -133,8 +133,8 @@ public class XmlUtil
         return (null != xml.attribute(name)[0]);
     }
 
-    public static function getStringArrayAttr (xml :XML, name :String, stringMapping :Array,
-        defaultValue :* = undefined) :int
+    public static function getStringArrayAttr (
+        xml :XML, name :String, stringMapping :Array, defaultValue :* = undefined) :int
     {
         return getAttr(xml, name, defaultValue,
             function (attrString :String) :int {
@@ -170,8 +170,8 @@ public class XmlUtil
         return getAttr(xml, name, defaultValue);
     }
 
-    public static function getEnumAttr (xml :XML, name :String, enumClazz :Class,
-        defaultValue :* = undefined) :*
+    public static function getEnumAttr (
+        xml :XML, name :String, enumClazz :Class, defaultValue :* = undefined) :*
     {
         return getAttr(xml, name, defaultValue,
             function (value :String) :Enum {
@@ -179,8 +179,8 @@ public class XmlUtil
             });
     }
 
-    public static function getAttr (xml :XML, name :String, defaultValue :*,
-        parseFunction :Function = null) :*
+    public static function getAttr (
+        xml :XML, name :String, defaultValue :*, parseFunction :Function = null) :*
     {
         var value :*;
 
@@ -225,8 +225,8 @@ public class XmlUtil
     /**
      * Returns the text content of the first child with the given name
      */
-    public static function getSingleChildText (xml :XML, childName :String,
-        defaultValue :* = undefined) :String
+    public static function getSingleChildText (
+        xml :XML, childName :String, defaultValue :* = undefined) :String
     {
         if (!hasChild(xml, childName) && defaultValue !== undefined) {
             return defaultValue;
