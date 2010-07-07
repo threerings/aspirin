@@ -125,21 +125,31 @@ public class Log
      */
     public static function setLevel (module :String, level :int) :void
     {
-        _setLevels[module] = level;
-        _levels = {}; // reset cached levels
+        setLevels({module:level});
     }
 
     /**
-     * Parses a String in the form of ":info;com.foo.game:debug;com.bar.util:warning"
+     * Sets levels for the given mapping between modules and log levels eg
+     * {"com.threerings":Log.INFO, "com.threerings.util":Log.DEBUG}
+     *
+     * An empty string specifies the top-level (global) module.
+     *
+     * Deprecated: Parses a String in the form of
+     * ":info;com.foo.game:debug;com.bar.util:warning"
      *
      * Semicolons separate modules, colons separate a module name from the log level.
-     * An empty string specifies the top-level (global) module.
-     */
-    public static function setLevels (settingString :String) :void
+    */
+    public static function setLevels (settings :Object) :void
     {
-        for each (var module :String in settingString.split(";")) {
-            var setting :Array = module.split(":");
-            _setLevels[setting[0]] = stringToLevel(String(setting[1]));
+        if (settings is String) {
+            for each (var setting :String in String(settings).split(";")) {
+                var pieces :Array = setting.split(":");
+                _setLevels[pieces[0]] = stringToLevel(String(pieces[1]));
+            }
+        } else {
+            for (var module :String in settings) {
+                _setLevels[module] = settings[module];
+            }
         }
         _levels = {}; // reset cached levels
     }
