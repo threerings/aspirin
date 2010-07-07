@@ -129,13 +129,13 @@ public class Log
     }
 
     /**
-     * Sets levels for the given mapping between modules and log levels eg
+     * If given an Object, sets levels using the mapping between modules and log levels eg
      * {"com.threerings":Log.INFO, "com.threerings.util":Log.DEBUG}
      *
      * An empty string specifies the top-level (global) module.
      *
-     * Deprecated: Parses a String in the form of
-     * ":info;com.foo.game:debug;com.bar.util:warning"
+     * If given a String in the form of
+     * ":info;com.foo.game:debug;com.bar.util:warning", it parses it to set the levels.
      *
      * Semicolons separate modules, colons separate a module name from the log level.
     */
