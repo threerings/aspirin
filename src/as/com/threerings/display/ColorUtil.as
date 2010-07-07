@@ -193,7 +193,7 @@ public class ColorUtil
         if (saturation == 0) {
             r = g = b = int(brightness * 255.0 + 0.5);
         } else {
-            var h :Number = hue - Math.floor(hue) * 6.0;
+            var h :Number = (hue - Math.floor(hue)) * 6.0;
             var f :Number = h - Math.floor(h);
             var p :Number = brightness * (1.0 - saturation);
             var q :Number = brightness * (1.0 - saturation * f);
