@@ -28,10 +28,10 @@ import flash.system.Capabilities;
 import flash.utils.getQualifiedClassName;
 
 /**
- * A simple logging mechanism.
+ * A simple logging mechanism.<p/>
  *
  * Log instances are created for modules, and the logging level can be configured per
- * module in a hierarchical fashion.
+ * module in a hierarchical fashion.<p/>
  *
  * Typically, you should create a module name based on the full path to a class:
  * calling getLog() and passing an object or Class will do this. Alternattely, you
@@ -39,28 +39,40 @@ import flash.utils.getQualifiedClassName;
  * module name can be like "com.foocorp.games.bunnywar". Finally, you can just
  * create made-up module names like "mygame" or "util", but this is not recommended.
  * You really should name things based on your packages, and your packages should be
- * named according to Sun's recommendations for Java packages.
+ * named according to Sun's recommendations for Java packages.<p/>
  *
- * Typical usage for creating a Log to be used by the entire class would be:
+ * @example Typical usage for creating a Log to be used by the entire class would be:
+ * <listing version="3.0">
  * public class MyClass
  * {
  *     private static const log :Log = Log.getLog(MyClass);
- *     ...
+ * 
+ *     public function doStuff (kind :String, x :int = 0) :void
+ *     {
+ *         log.info("Now doing stuff", "kind", kind, "x", x);
+ *         ...
+ * </listing>
  *
- * OR, if you just need a one-off Log:
+ * @example Or, if you just need a one-off Log:
+ * <listing version="3.0">
  *     protected function doStuff (thingy :Thingy) :void
  *     {
  *          if (!isValid(thingy)) {
- *              Log.getLog(this).warn("Invalid thingy specified", "thingy", thingy);
+ *              Log.getLog(this).warning("Invalid thingy specified", "thingy", thingy);
  *              ....
+ * </listing>
  */
 public class Log
 {
-    /** Log level constants. */
+    /** A fine-grained logging level containing detailed information. */
     public static const DEBUG :int = 0;
+    /** A logging level for informational messages. */
     public static const INFO :int = 1;
+    /** A logging level indicating a potential problem. */
     public static const WARNING :int = 2;
+    /** A logging level indicating a serious problem. */
     public static const ERROR :int = 3;
+    /** A logging level used in setLevels() to disable logged for a module. */
     public static const OFF :int = 4;
     // if you add to this, update LEVEL_NAMES and stringToLevel() at the bottom...
 
@@ -251,13 +263,14 @@ public class Log
 
     /**
      * Log just a stack trace with 'warning' priority.
-     * Deprecated, sorta. Just use warning("Message", error);
      */
+    [Deprecated(replacement="warning(\"message\", error)")]
     public function logStackTrace (error :Error) :void
     {
         warning("stackTrace", error);
     }
 
+    /** @private */
     protected function doLog (level :int, args :Array) :void
     {
         if (level < getLevel(_module)) {
@@ -271,6 +284,7 @@ public class Log
         }
     }
 
+    /** @private */
     protected function formatMessage (level :int, args :Array) :String
     {
         var msg :String = getTimeStamp() + " " + LEVEL_NAMES[level] + ": " + _module;
@@ -294,6 +308,7 @@ public class Log
     /**
      * Process the final arg and turn it into a message, if needed, or return a stack trace.
      * Note: we do not reference the UncaughtErrorEvent class to remain flash 9 compatible.
+     * @private
      */
     protected function processFinalArg (args :Array) :String
     {
@@ -330,6 +345,7 @@ public class Log
 
     /**
      * Safely format the argument to a String, calling the function if it is one.
+     * @private
      */
     protected function argToString (arg :*) :String
     {
@@ -349,6 +365,7 @@ public class Log
         return "<Error>";
     }
 
+    /** @private */
     protected function getTimeStamp () :String
     {
         var d :Date = new Date();
@@ -356,16 +373,31 @@ public class Log
 
         // format it like the date format in our java logs
         return d.fullYear + "-" +
-            StringUtil.prepad(String(d.month + 1), 2, "0") + "-" +
-            StringUtil.prepad(String(d.date), 2, "0") + " " +
-            StringUtil.prepad(String(d.hours), 2, "0") + ":" +
-            StringUtil.prepad(String(d.minutes), 2, "0") + ":" +
-            StringUtil.prepad(String(d.seconds), 2, "0") + "," +
-            StringUtil.prepad(String(d.milliseconds), 3, "0");
+            padZero(d.month + 1) + "-" +
+            padZero(d.date) + " " +
+            padZero(d.hours) + ":" +
+            padZero(d.minutes) + ":" +
+            padZero(d.seconds) + "," +
+            padZero(d.milliseconds, 3);
+    }
+
+    /**
+     * Inlined version of StringUtil.prepad, so that we don't drag in that class
+     * (and all its dependencies)
+     * @private
+     */
+    protected static function padZero (value :int, digits :int = 2) :String
+    {
+        var s :String = String(value);
+        while (s.length < digits) {
+            s = "0" + s;
+        }
+        return s;
     }
 
     /**
      * Get the logging level for the specified module.
+     * @private
      */
     protected static function getLevel (module :String) :int
     {
@@ -389,6 +421,7 @@ public class Log
         return int(lev);
     }
 
+    /** @private */
     protected static function stringToLevel (s :String) :int
     {
         switch (s.toLowerCase()) {
@@ -401,21 +434,21 @@ public class Log
         }
     }
 
-    /** The module to which this log instance applies. */
+    /** The module to which this log instance applies. @private */
     protected var _module :String;
 
-    /** Other registered LogTargets, besides the trace log. */
+    /** Other registered LogTargets, besides the trace log. @private */
     protected static var _targets :Array = [];
 
-    /** A cache of log levels, copied from _setLevels. */
+    /** A cache of log levels, copied from _setLevels. @private */
     protected static var _levels :Object = {};
 
-    /** The configured log levels. */
+    /** The configured log levels. @private */
     protected static var _setLevels :Object = {
         "": (Capabilities.isDebugger ? DEBUG : OFF) // global: debug or off
     };
 
-    /** The outputted names of each level. The last one isn't used, it corresponds with OFF. */
+    /** The string names of each level. The last one is unused, it corresponds with OFF. @private */
     protected static const LEVEL_NAMES :Array = [ "debug", "INFO", "WARN", "ERROR", false ];
 }
 }
