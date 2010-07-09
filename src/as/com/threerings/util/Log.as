@@ -22,9 +22,7 @@
 package com.threerings.util {
 
 import flash.events.ErrorEvent;
-
 import flash.system.Capabilities;
-
 import flash.utils.getQualifiedClassName;
 
 /**
@@ -46,7 +44,7 @@ import flash.utils.getQualifiedClassName;
  * public class MyClass
  * {
  *     private static const log :Log = Log.getLog(MyClass);
- * 
+ *
  *     public function doStuff (kind :String, x :int = 0) :void
  *     {
  *         log.info("Now doing stuff", "kind", kind, "x", x);
@@ -137,7 +135,9 @@ public class Log
      */
     public static function setLevel (module :String, level :int) :void
     {
-        setLevels({module:level});
+        var settings :Object = {};
+        settings[module] = level;
+        setLevels(settings);
     }
 
     /**
