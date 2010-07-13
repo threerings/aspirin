@@ -321,7 +321,7 @@ public class Log
             lastArg = lastArg.error;
         }
         if (lastArg is Error) {
-            var err :Error = lastArg as Error;
+            var err :Error = lastArg as Error; // "as" preserves the stack trace.
             var strace :String = err.getStackTrace();
             if (strace != null) { // in a debug flashplayer, we get the stack trace. Yay!
                 return strace;
