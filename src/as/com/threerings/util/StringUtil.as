@@ -167,11 +167,15 @@ public class StringUtil
     }
 
     /**
-     * Format the specified integers as coordinates, for example "+3-2".
+     * Format the specified numbers as coordinates, (e.g. "+3-2" or "-7.4432-54.23+6.3").
      */
-    public static function toCoordsString (x :int, y :int) :String
+    public static function toCoordsString (x :Number, y :Number, z :Number = NaN) :String
     {
-        return ((x >= 0) ? "+" : "") + x + ((y >= 0) ? "+" : "") + y;
+        var result :String = ((x >= 0) ? "+" : "") + x + ((y >= 0) ? "+" : "") + y;
+        if (!isNaN(z)) {
+            result = result + ((z >= 0) ? "+" : "") + z;
+        }
+        return result;
     }
 
     /**
