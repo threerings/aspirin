@@ -167,6 +167,14 @@ public class StringUtil
     }
 
     /**
+     * Format the specified integers as coordinates, for example "+3-2".
+     */
+    public static function toCoordsString (x :int, y :int) :String
+    {
+        return ((x >= 0) ? "+" : "") + x + ((y >= 0) ? "+" : "") + y;
+    }
+
+    /**
      * Format the specified number, nicely, with commas.
      * TODO: format specifyer, locale handling, etc. We'll probably move this into a
      * NumberFormat-style class.
