@@ -173,7 +173,7 @@ public class StringUtil
     {
         var result :String = ((x >= 0) ? "+" : "") + x + ((y >= 0) ? "+" : "") + y;
         if (!isNaN(z)) {
-            result = result + ((z >= 0) ? "+" : "") + z;
+            result += ((z >= 0) ? "+" : "") + z;
         }
         return result;
     }
