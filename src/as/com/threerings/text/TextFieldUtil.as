@@ -164,6 +164,24 @@ public class TextFieldUtil
     }
 
     /**
+     * After the text is set and positioned, and any desired
+     * adjustments have been made, this "bakes-in" the text size
+     * into the TextField's width/height.
+     */
+    public static function sizeFieldToText (txt :TextField) :void
+    {
+        txt.autoSize = TextFieldAutoSize.NONE;
+        // --> No shit, this is how you do it. These values are entirely
+        // missing from the public API anywhere. They are available
+        // in mx.controls.UITextField::mx_internal.TEXT_WIDTH_PADDING,
+        // but I'd like to not depend on that.
+        // This is so typical of the total lack of respect Adobe has
+        // for their developers: everyone is left to guess these on their own.
+        txt.width = txt.textWidth + WIDTH_PAD;
+        txt.height = txt.textHeight + HEIGHT_PAD;
+    }
+
+    /**
      * Add a special MouseEvent.CLICK listener so that the specified field is focusable
      * even inside a security boundary.
      */
