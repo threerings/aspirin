@@ -171,12 +171,10 @@ public class TextFieldUtil
     public static function sizeFieldToText (txt :TextField) :void
     {
         txt.autoSize = TextFieldAutoSize.NONE;
-        // --> No shit, this is how you do it. These values are entirely
-        // missing from the public API anywhere. They are available
-        // in mx.controls.UITextField::mx_internal.TEXT_WIDTH_PADDING,
-        // but I'd like to not depend on that.
-        // This is so typical of the total lack of respect Adobe has
-        // for their developers: everyone is left to guess these on their own.
+        // The WIDTH_PAD and HEIGHT_PAD values are hidden fudge factors needed to properly size
+        // text fields to the size of the text in them. They're defined in
+        // mx.controls.UITextField::mx_internal.TEXT_WIDTH_PADDING, but we'd prefer to not depend
+        // on Flex in this library.
         txt.width = txt.textWidth + WIDTH_PAD;
         txt.height = txt.textHeight + HEIGHT_PAD;
     }
