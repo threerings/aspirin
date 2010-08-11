@@ -87,6 +87,25 @@ public class MapSet
         });
     }
 
+    /**
+     * Return a String representation of this Set.
+     */
+    public function toString () :String
+    {
+        var s :String = "Set [";
+        var theSet :Object = this;
+        var comma :Boolean = false;
+        forEach(function (value :Object) :void {
+            if (comma) {
+                s += ", ";
+            }
+            s += (value === theSet) ? "(this Set)" : value;
+            comma = true;
+        });
+        s += "]";
+        return s;
+    }
+
     /** The map used for our source. @private */
     protected var _source :Map;
 }

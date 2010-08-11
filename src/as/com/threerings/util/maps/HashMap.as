@@ -150,7 +150,7 @@ public class HashMap extends AbstractMap
     }
 
     /** @inheritDoc */
-    public function forEach (fn :Function) :void
+    override public function forEach (fn :Function) :void
     {
         for (var ii :int = _entries.length - 1; ii >= 0; ii--) {
             for (var e :HashMap_Entry = (_entries[ii] as HashMap_Entry); e != null; e = e.next) {

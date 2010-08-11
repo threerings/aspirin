@@ -87,7 +87,7 @@ public class DictionaryMap extends AbstractMap
     }
 
     /** @inheritDoc */
-    public function forEach (fn :Function) :void
+    override public function forEach (fn :Function) :void
     {
         for (var key :Object in _dict) {
             if (Boolean(fn(key, _dict[key]))) {

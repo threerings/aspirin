@@ -42,6 +42,32 @@ public /* abstract */ class AbstractMap
         return (0 == size());
     }
 
+    /**
+     * Return a String representation of this Map.
+     */
+    public function toString () :String
+    {
+        var s :String = "Map {";
+        var theMap :Object = this;
+        var comma :Boolean = false;
+        forEach(function (key :Object, value :Object) :void {
+            if (comma) {
+                s += ", ";
+            }
+            s += ((key === theMap) ? "(this Map)" : key) + "=" +
+                ((value === theMap) ? "(this Map)" : value);
+            comma = true;
+        });
+        s += "}";
+        return s;
+    }
+
+    /** @private */
+    public function forEach (fn :Function) :void
+    {
+        throw new Error("Abstract");
+    }
+
     /** The size of the map. @private */
     protected var _size :int;
 }
