@@ -29,7 +29,7 @@ import com.threerings.util.Set;
  * A Set that uses a Map for backing store, thus allowing us to build on the
  * various Maps in useful ways.
  */
-public class MapSet
+public class MapSet extends AbstractSet
     implements Set
 {
     public function MapSet (source :Map)
@@ -79,31 +79,16 @@ public class MapSet
         return _source.keys();
     }
 
-    /** @inheritDoc */
-    public function forEach (fn :Function) :void
+    /**
+     * @copy com.threerings.util.Set#forEach()
+     *
+     * @internal inheritDoc doesn't work here because forEach is defined in our private superclass.
+     */
+    override public function forEach (fn :Function) :void
     {
         _source.forEach(function (k :Object, v :Object) :* {
             return fn(k);
         });
-    }
-
-    /**
-     * Return a String representation of this Set.
-     */
-    public function toString () :String
-    {
-        var s :String = "Set [";
-        var theSet :Object = this;
-        var comma :Boolean = false;
-        forEach(function (value :Object) :void {
-            if (comma) {
-                s += ", ";
-            }
-            s += (value === theSet) ? "(this Set)" : value;
-            comma = true;
-        });
-        s += "]";
-        return s;
     }
 
     /** The map used for our source. @private */

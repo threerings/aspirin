@@ -149,7 +149,11 @@ public class HashMap extends AbstractMap
         return vals;
     }
 
-    /** @inheritDoc */
+    /**
+     * @copy com.threerings.util.Map#forEach()
+     *
+     * @internal inheritDoc doesn't work here because forEach is defined in our private superclass.
+     */
     override public function forEach (fn :Function) :void
     {
         for (var ii :int = _entries.length - 1; ii >= 0; ii--) {

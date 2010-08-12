@@ -86,7 +86,11 @@ public class DictionaryMap extends AbstractMap
         return Util.values(_dict);
     }
 
-    /** @inheritDoc */
+    /**
+     * @copy com.threerings.util.Map#forEach()
+     *
+     * @internal inheritDoc doesn't work here because forEach is defined in our private superclass.
+     */
     override public function forEach (fn :Function) :void
     {
         for (var key :Object in _dict) {

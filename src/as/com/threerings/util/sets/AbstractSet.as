@@ -19,56 +19,42 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.util.maps {
+package com.threerings.util.sets {
 
 import com.threerings.util.Map;
+import com.threerings.util.Preconditions;
+import com.threerings.util.Set;
 
 /**
- * A skeletal building block for maps.
+ * A skeletal building block for sets.
  * @private
  */
-public /* abstract */ class AbstractMap
+public /* abstract */ class AbstractSet
 {
-    /** @copy com.threerings.util.Map#size() */
-    public function size () :int
-    {
-        return _size;
-    }
-
-    /** @copy com.threerings.util.Map#isEmpty() */
-    public function isEmpty () :Boolean
-    {
-        // call size(), don't examine _size directly, this helps subclasses...
-        return (0 == size());
-    }
-
     /**
-     * Return a String representation of this Map.
+     * Return a String representation of this Set.
+     * @public
      */
     public function toString () :String
     {
-        var s :String = "Map {";
-        var theMap :Object = this;
+        var s :String = "Set [";
+        var theSet :Object = this;
         var comma :Boolean = false;
-        forEach(function (key :Object, value :Object) :void {
+        forEach(function (value :Object) :void {
             if (comma) {
                 s += ", ";
             }
-            s += ((key === theMap) ? "(this Map)" : key) + "=" +
-                ((value === theMap) ? "(this Map)" : value);
+            s += (value === theSet) ? "(this Set)" : value;
             comma = true;
         });
-        s += "}";
+        s += "]";
         return s;
     }
 
-    /** @copy com.threerings.util.Map#forEach() */
+    /** @copy com.threerings.util.Set#forEach() */
     public function forEach (fn :Function) :void
     {
         throw new Error("Abstract");
     }
-
-    /** The size of the map. @private */
-    protected var _size :int;
 }
 }
