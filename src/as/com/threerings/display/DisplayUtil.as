@@ -27,12 +27,26 @@ import com.threerings.util.ClassUtil;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
+import flash.display.Sprite;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
 public class DisplayUtil
 {
+    /**
+     * Masks the Sprite according to the given rectangular area.
+     */
+    public static function maskSprite (sprite :Sprite, area :Rectangle) :void
+    {
+        var masker :Sprite = new Sprite();
+        masker.graphics.beginFill(0);
+        masker.graphics.drawRect(area.x, area.y, area.width, area.height);
+        masker.graphics.endFill();
+        sprite.addChild(masker);
+        sprite.mask = masker;
+    }
+
     /**
      * Removes all children from the specified DisplayObjectContainer
      */
