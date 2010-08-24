@@ -27,6 +27,8 @@ import com.threerings.util.ClassUtil;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
+import flash.display.Graphics;
+import flash.display.Shape;
 import flash.display.Sprite;
 import flash.geom.Matrix;
 import flash.geom.Point;
@@ -35,16 +37,34 @@ import flash.geom.Rectangle;
 public class DisplayUtil
 {
     /**
-     * Masks the Sprite according to the given rectangular area.
+     * Add a mask for the specified object. If a rectangle is specified, that area is
+     * masked, but additionally a Graphics is returned that can be drawn upon to specify the mask
+     * area.
      */
-    public static function maskSprite (sprite :Sprite, area :Rectangle) :void
+    public static function addMask (disp :DisplayObjectContainer, area :Rectangle = null) :Graphics
     {
-        var masker :Sprite = new Sprite();
-        masker.graphics.beginFill(0);
-        masker.graphics.drawRect(area.x, area.y, area.width, area.height);
-        masker.graphics.endFill();
-        sprite.addChild(masker);
-        sprite.mask = masker;
+        removeMask(disp);
+        var masker :Shape = new Shape();
+        disp.addChild(masker);
+        disp.mask = masker;
+        var g :Graphics = masker.graphics;
+        if (area != null) {
+            g.beginFill(0);
+            g.drawRect(area.x, area.y, area.width, area.height);
+            g.endFill();
+        }
+        return g;
+    }
+
+    /**
+     * Remove any mask on the specified object.
+     */
+    public static function removeMask (disp :DisplayObjectContainer) :void
+    {
+        if (disp.mask != null) {
+            disp.removeChild(disp.mask);
+            disp.mask = null;
+        }
     }
 
     /**
