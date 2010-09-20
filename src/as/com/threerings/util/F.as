@@ -158,6 +158,19 @@ public class F
             handler(event);
         }
     }
+
+    /**
+     * Creates a listener that removes itself from the event source and calls f with args.
+     *
+     * Functionally equivalent to justOnce(callback(f, args));
+     */
+    public static function callbackOnce (f: Function, ... args) :Function
+    {
+        return function (event :Event) :void {
+            event.target.removeEventListener(event.type, arguments.callee);
+            f.apply(undefined, args);
+        }
+    }
 }
 
 }
