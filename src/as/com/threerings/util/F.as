@@ -154,7 +154,7 @@ public class F
     public static function justOnce (handler :Function) :Function
     {
         return function (event :Event) :void {
-            event.target.removeEventListener(event.type, arguments.callee);
+            event.currentTarget.removeEventListener(event.type, arguments.callee);
             handler(event);
         }
     }
@@ -167,7 +167,7 @@ public class F
     public static function callbackOnce (f: Function, ... args) :Function
     {
         return function (event :Event) :void {
-            event.target.removeEventListener(event.type, arguments.callee);
+            event.currentTarget.removeEventListener(event.type, arguments.callee);
             f.apply(undefined, args);
         }
     }
