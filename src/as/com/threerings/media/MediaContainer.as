@@ -72,6 +72,13 @@ import com.threerings.util.ValueEvent;
 [Event(name="mediaSizeKnown", type="com.threerings.util.ValueEvent")]
 
 /**
+ * Dispatched just before we shut down the media.
+ *
+ * @eventType com.threerings.flash.MediaContainer.WILL_SHUTDOWN
+ */
+[Event(name="willShutdown", type="com.threerings.util.ValueEvent")]
+
+/**
  * Dispatched when we've initialized our content. This is merely a redispatch
  * of the INIT event we get from the loader.
  *
@@ -105,6 +112,13 @@ public class MediaContainer extends Sprite
      * @eventType mediaSizeKnown
      */
     public static const SIZE_KNOWN :String = "mediaSizeKnown";
+
+    /** A ValueEvent we dispatch just before we shut down our media.
+     * Value: whether or not we're being completely shut down (as opposed to switching media).
+     *
+     * @eventType willShutdown
+     */
+    public static const WILL_SHUTDOWN :String = "willShutdown";
 
     /** A log instance that can be shared by sprites. */
     protected static const log :Log = Log.getLog(MediaContainer);
@@ -312,38 +326,20 @@ public class MediaContainer extends Sprite
     }
 
     /**
-     * Unload the media we're displaying, clean up any resources.
+     * Unload the media we're displaying, clean up any resources. This method may not be
+     * overridden, as WILL_SHUTDOWN is useless if it doesn't happen first. Subclass doShutdown()
+     * instead, or even better, shutdownMedia().
      *
      * @param completely if true, we're going away and should stop
      * everything. Otherwise, we're just loading up new media.
      */
-    public function shutdown (completely :Boolean = true) :void
+    final public function shutdown (completely :Boolean = true) :void
     {
-        // remove the mask (but only if we added it)
-        if (_media != null && _media.mask != null) {
-            try {
-                removeChild(_media.mask);
-                _media.mask = null;
-
-            } catch (argErr :ArgumentError) {
-                // If we catch this error, it was thrown in removeChild
-                // and means that we did not add the media's mask,
-                // and so shouldn't remove it either. The action we
-                // take here is NOT setting _media.mask = null.
-                // Then, we continue happily...
-            }
-        }
-
-        shutdownMedia();
         if (_media != null) {
-            removeChild(_media);
-            dispatchEvent(new Event(Event.UNLOAD));
+            dispatchEvent(new ValueEvent(WILL_SHUTDOWN, completely));
         }
 
-        // clean everything up
-        _w = 0;
-        _h = 0;
-        _media = null;
+        doShutdown(completely);
     }
 
     /**
@@ -622,6 +618,40 @@ public class MediaContainer extends Sprite
     {
         shutdown();
     }
+
+    /**
+     * Do the actual shutting down. This method may be freely overridden by subclasses, although
+     * in the majority of cases shutdownMedia() should suffice for that purpose.
+     */
+    protected function doShutdown (completely :Boolean = true) :void
+    {
+        // remove the mask (but only if we added it)
+        if (_media != null && _media.mask != null) {
+            try {
+                removeChild(_media.mask);
+                _media.mask = null;
+
+            } catch (argErr :ArgumentError) {
+                // If we catch this error, it was thrown in removeChild
+                // and means that we did not add the media's mask,
+                // and so shouldn't remove it either. The action we
+                // take here is NOT setting _media.mask = null.
+                // Then, we continue happily...
+            }
+        }
+
+        shutdownMedia();
+        if (_media != null) {
+            removeChild(_media);
+            dispatchEvent(new Event(Event.UNLOAD));
+        }
+
+        // clean everything up
+        _w = 0;
+        _h = 0;
+        _media = null;
+    }
+
 
     /**
      * Configure the mask for this object.
