@@ -108,6 +108,14 @@ import com.threerings.util.ValueEvent;
 [Event(name="init", type="flash.events.Event")]
 
 /**
+ * Dispatched when a load operation has begun or data arrives on the socket. This is merely a
+ * redispatch of the PROGRESS event we get from the loader.
+ *
+ * @eventType flash.events.ProgressEvent.PROGRESS
+ */
+[Event(name="progress", type="flash.events.ProgressEvent")]
+
+/**
  * Dispatched when we've shown new media.
  *
  * @eventType flash.events.Event.COMPLETE
