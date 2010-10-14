@@ -4,7 +4,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>aspirin</artifactId>
   <packaging>swc</packaging>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.6-SNAPSHOT</version>
   <name>aspirin</name>
   <description>Utilities for use in developing ActionScript applications.</description>
   <url>http://code.google.com/p/ooo-aspirin/</url>
@@ -41,7 +41,7 @@
   </scm>
 
   <properties>
-    <flex.home>${basedir}/lib/flex_sdk</flex.home>
+    <flex.home>${env.FLEX_SDK}</flex.home>
   </properties>
 
   <build>
