@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.threerings</groupId>
+  <artifactId>aspirin</artifactId>
+  <packaging>swc</packaging>
+  <version>1.6-SNAPSHOT</version>
+  <name>aspirin</name>
+  <description>Utilities for use in developing ActionScript applications.</description>
+  <url>http://code.google.com/p/ooo-aspirin/</url>
+  <issueManagement>
+    <url>http://code.google.com/p/ooo-aspirin/issues/list</url>
+  </issueManagement>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>5</version>
+  </parent>
+
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License (LGPL), Version 2.1</name>
+      <url>http://www.fsf.org/licensing/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>samskivert</id>
+      <name>Michael Bayne</name>
+      <email>mdb@samskivert.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:svn:http://ooo-aspirin.googlecode.com/svn/trunk/</connection>
+    <developerConnection>scm:svn:https://ooo-aspirin.googlecode.com/svn/trunk/</developerConnection>
+    <url>http://ooo-aspirin.googlecode.com/svn/trunk/</url>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>maven-replacer-plugin</artifactId>
+        <version>RELEASE</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals><goal>replace</goal></goals>                    
+          </execution>
+        </executions>
+        <configuration>
+          <file>etc/aslib-config.xml.in</file>
+          <outputFile>target/aslib-config.xml</outputFile>
+          <regex>false</regex>
+          <token>@flex_sdk_dir@</token>
+          <value>${flex.home}</value>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.israfil.mojo</groupId>
+        <artifactId>maven-flex2-plugin</artifactId>
+        <version>RELEASE</version>
+        <extensions>true</extensions>
+        <configuration>
+          <flexHome>${flex.home}</flexHome>
+          <useNetwork>true</useNetwork>
+          <flexConfig>target/aslib-config.xml</flexConfig>
+          <optimize>true</optimize>
+          <source>src/as</source>
+          <extraParameters>
+            <parameter>
+              <name>include-libraries+=${basedir}/lib/zip.swc</name>
+            </parameter>
+          </extraParameters>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>RELEASE</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <keyname>mdb@samskivert.com</keyname>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>RELEASE</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>RELEASE</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
