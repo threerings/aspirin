@@ -79,6 +79,13 @@ import com.threerings.util.ValueEvent;
 [Event(name="willShutdown", type="com.threerings.util.ValueEvent")]
 
 /**
+ * Dispatched as soon as the Loader has been created, but before we load anything.
+ *
+ * @eventType com.threerings.flash.MediaContainer.LOADER_READY
+ */
+[Event(name="loaderReady", type="com.threerings.util.ValueEvent")]
+
+/**
  * Dispatched when we've initialized our content. This is merely a redispatch
  * of the INIT event we get from the loader.
  *
@@ -106,6 +113,17 @@ import com.threerings.util.ValueEvent;
  */
 public class MediaContainer extends Sprite
 {
+    /**
+     * A ValueEvent we dispatch when the loader is ready for use, but has not yet been
+     * used. This is e.g. used for initializing backends that must be ready when the
+     * media actually loads.
+     *
+     * Value: [ flash.display.Loader instance ]
+     *
+     * @eventType loaderReady
+     */
+    public static const LOADER_READY :String = "loaderReady";
+
     /** A ValueEvent we dispatch when our size is known.
      * Value: [ width, height ].
      *
@@ -307,6 +325,8 @@ public class MediaContainer extends Sprite
         addChildAt(loader, 0);
 
         addListeners(loader.contentLoaderInfo);
+
+        dispatchEvent(new ValueEvent(LOADER_READY, loader));
         return loader;
     }
 
