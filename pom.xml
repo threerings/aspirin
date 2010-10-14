@@ -53,7 +53,6 @@
           </execution>
         </executions>
         <configuration>
-          <flexHome>${basedir}/lib/flex_sdk</flexHome>
           <file>etc/aslib-config.xml.in</file>
           <outputFile>target/aslib-config.xml</outputFile>
           <regex>false</regex>
@@ -67,7 +66,7 @@
         <version>RELEASE</version>
         <extensions>true</extensions>
         <configuration>
-          <flexHome>${flex.home}</flexHome>
+          <flexHome>${basedir}/lib/flex_sdk</flexHome>
           <useNetwork>true</useNetwork>
           <flexConfig>target/aslib-config.xml</flexConfig>
           <optimize>true</optimize>
