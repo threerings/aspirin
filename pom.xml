@@ -40,6 +40,10 @@
     <url>http://ooo-aspirin.googlecode.com/svn/trunk/</url>
   </scm>
 
+  <properties>
+    <flex.home>${basedir}/lib/flex_sdk</flex.home>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -66,7 +70,7 @@
         <version>RELEASE</version>
         <extensions>true</extensions>
         <configuration>
-          <flexHome>${basedir}/lib/flex_sdk</flexHome>
+          <flexHome>${flex.home}</flexHome>
           <useNetwork>true</useNetwork>
           <flexConfig>target/aslib-config.xml</flexConfig>
           <optimize>true</optimize>
