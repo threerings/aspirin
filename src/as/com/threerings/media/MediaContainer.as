@@ -596,6 +596,7 @@ public class MediaContainer extends Sprite
     protected function handleProgress (event :ProgressEvent) :void
     {
         updateLoadingProgress(event.bytesLoaded, event.bytesTotal);
+        dispatchEvent(event);
         var info :LoaderInfo = (event.target as LoaderInfo);
         try {
             updateContentDimensions(info.width, info.height);
