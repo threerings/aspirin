@@ -86,6 +86,20 @@ import com.threerings.util.ValueEvent;
 [Event(name="loaderReady", type="com.threerings.util.ValueEvent")]
 
 /**
+ * Dispatched when we're about to show some new media.
+ *
+ * @eventType com.threerings.flash.MediaContainer.WILL_SHOW_NEW_MEDIA
+ */
+[Event(name="willShowNewMedia", type="flash.events.Event")]
+
+/**
+ * Dispatched when we've just shown some new media.
+ *
+ * @eventType com.threerings.flash.MediaContainer.DID_SHOW_NEW_MEDIA
+ */
+[Event(name="didShowNewMedia", type="flash.events.Event")]
+
+/**
  * Dispatched when we've initialized our content. This is merely a redispatch
  * of the INIT event we get from the loader.
  *
@@ -130,6 +144,20 @@ public class MediaContainer extends Sprite
      * @eventType mediaSizeKnown
      */
     public static const SIZE_KNOWN :String = "mediaSizeKnown";
+
+    /**
+     * An Event we dispatch when we're just about to show some new media.
+     *
+     * @eventType willShowNewMedia
+     */
+    public static const WILL_SHOW_NEW_MEDIA :String = "willShowNewMedia";
+
+    /**
+     * An Event we dispatch when we've just shown some new media.
+     *
+     * @eventType didShowNewMedia
+     */
+    public static const DID_SHOW_NEW_MEDIA :String = "didShowNewMedia";
 
     /** A ValueEvent we dispatch just before we shut down our media.
      * Value: whether or not we're being completely shut down (as opposed to switching media).
@@ -254,6 +282,8 @@ public class MediaContainer extends Sprite
     {
         _initialized = false;
         _isImage = false;
+
+        dispatchEvent(new Event(WILL_SHOW_NEW_MEDIA));
     }
 
     protected function showNewMedia (url :String) :void
@@ -271,7 +301,7 @@ public class MediaContainer extends Sprite
      */
     protected function didShowNewMedia () :void
     {
-        // nada in the base class...
+        dispatchEvent(new Event(DID_SHOW_NEW_MEDIA));
     }
 
     /**
