@@ -65,7 +65,7 @@ public class EventHandlerManager
     {
         // detach from our parent, if we have one
         if (_parent != null) {
-            ArrayUtil.removeFirst(_parent._children, this);
+            Arrays.removeFirst(_parent._children, this);
             _parent = null;
         }
 

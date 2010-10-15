@@ -21,7 +21,7 @@
 
 package com.threerings.display {
 
-import com.threerings.util.ArrayUtil;
+import com.threerings.util.Arrays;
 import com.threerings.util.ClassUtil;
 
 import flash.display.BitmapData;
@@ -165,7 +165,7 @@ public class DisplayUtil
     }
 
     /**
-     * Sorts a container's children, using ArrayUtil.stableSort.
+     * Sorts a container's children, using Arrays.stableSort.
      *
      * comp is a function that takes two DisplayObjects, and returns int -1 if the first
      * object should appear before the second in the container, 1 if it should appear after,
@@ -184,7 +184,7 @@ public class DisplayUtil
         }
 
         // stable sort the array
-        ArrayUtil.stableSort(children, comp);
+        Arrays.stableSort(children, comp);
 
         // set their new indexes
         for (ii = 0; ii < numChildren; ii++) {

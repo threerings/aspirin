@@ -97,7 +97,7 @@ public class Util
             if (prepend.length > 0) {
                 args.unshift.apply(null, prepend);
             }
-            ArrayUtil.resize(args, fn.length);
+            Arrays.resize(args, fn.length);
             return fn.apply(null, args);
         };
     }
@@ -204,7 +204,7 @@ public class Util
             return (obj1 as Equalable).equals(obj2);
 
         } else if ((obj1 is Array) && (obj2 is Array)) {
-            return ArrayUtil.equals(obj1 as Array, obj2 as Array);
+            return Arrays.equals(obj1 as Array, obj2 as Array);
 
         } else if ((obj1 is ByteArray) && (obj2 is ByteArray)) {
             var ba1 :ByteArray = (obj1 as ByteArray);

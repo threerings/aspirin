@@ -80,7 +80,7 @@ public class Predicates
     public static function createIn (array :Array) :Function
     {
         return function (item :*, ... _) :Boolean {
-            return ArrayUtil.contains(array, item);
+            return Arrays.contains(array, item);
         };
     }
 

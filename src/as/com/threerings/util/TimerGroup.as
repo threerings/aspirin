@@ -54,7 +54,7 @@ public class TimerGroup
     {
         // detach from our parent, if we have one
         if (_parent != null) {
-            ArrayUtil.removeFirst(_parent._children, this);
+            Arrays.removeFirst(_parent._children, this);
         }
 
         // shutdown our children
@@ -152,7 +152,7 @@ public class TimerGroup
      */
     public function cancelTimer (timer :Timer) :void
     {
-        var idx :int = ArrayUtil.indexOf(_timers, timer);
+        var idx :int = Arrays.indexOf(_timers, timer);
         if (idx >= 0) {
             _timers.splice(idx, 1);
         }

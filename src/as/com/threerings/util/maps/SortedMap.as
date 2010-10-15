@@ -21,7 +21,6 @@
 
 package com.threerings.util.maps {
 
-import com.threerings.util.ArrayUtil;
 import com.threerings.util.Comparators;
 import com.threerings.util.Map;
 import com.threerings.util.Util;

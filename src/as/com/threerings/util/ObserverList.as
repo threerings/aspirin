@@ -51,7 +51,7 @@ public class ObserverList
      */
     public function add (observer :Object, index :int = -1) :void
     {
-        if (!ArrayUtil.contains(_list, observer)) {
+        if (!Arrays.contains(_list, observer)) {
             _list.splice(index, 0, observer); // -1 to splice means "end"
         }
     }
@@ -69,7 +69,7 @@ public class ObserverList
      */
     public function remove (observer :Object) :void
     {
-        ArrayUtil.removeFirst(_list, observer);
+        Arrays.removeFirst(_list, observer);
     }
 
     /**
