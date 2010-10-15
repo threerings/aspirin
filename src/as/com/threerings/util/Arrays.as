@@ -28,7 +28,7 @@ package com.threerings.util {
  * an element that is equals() to the specified element, rather than just
  * === (strictly equals) to the specified element.
  */
-public class ArrayUtil
+public class Arrays
 {
     /**
      * Creates a new Array and fills it with a default value.
@@ -37,7 +37,7 @@ public class ArrayUtil
      */
     public static function create (size :uint, val :* = null) :Array
     {
-        return Arrays.create(size, val);
+        return padToLength([], size, val);
     }
 
     /**
@@ -50,7 +50,17 @@ public class ArrayUtil
      */
     public static function range (min :Number, max :Number = 0, step :Number = 1) :Array
     {
-        return Arrays.range(min, max, step);
+        var list :Array = [];
+        if (min > max) {
+            var swap :Number = max;
+            max = min;
+            min = swap;
+        }
+        while (min < max) {
+            list.push(min);
+            min += step;
+        }
+        return list;
     }
 
     /**
@@ -62,7 +72,11 @@ public class ArrayUtil
      */
     public static function resize (arr :Array, newLength :uint) :void
     {
-        Arrays.resize(arr, newLength);
+        if (arr.length > newLength) {
+            arr.length = newLength;
+        } else {
+            padToLength(arr, newLength, undefined);
+        }
     }
 
     /**
@@ -71,7 +85,10 @@ public class ArrayUtil
      */
     public static function padToLength (arr :Array, size :uint, val :* = null) :Array
     {
-        return Arrays.padToLength(arr, size, val);
+        while (arr.length < size) {
+            arr.push(val);
+        }
+        return arr;
     }
 
     /**
@@ -81,7 +98,7 @@ public class ArrayUtil
      */
     public static function copyOf (arr :Array) :Array
     {
-        return Arrays.copyOf(arr);
+        return arr.slice();
     }
 
     /**
@@ -92,7 +109,20 @@ public class ArrayUtil
      */
     public static function max (arr :Array, comp :Function = null) :*
     {
-        return Arrays.max(arr, comp);
+        var len :uint = arr.length;
+        if (len == 0) {
+            return undefined;
+        }
+        if (comp == null) {
+            comp = Comparators.compareUnknowns;
+        }
+        var max :* = arr[0];
+        for (var ii :uint = 1; ii < len; ii++) {
+            if (comp(max, arr[ii]) < 0) {
+                max = arr[ii];
+            }
+        }
+        return max;
     }
 
     /**
@@ -103,7 +133,10 @@ public class ArrayUtil
      */
     public static function min (arr :Array, comp :Function = null) :*
     {
-        return Arrays.min(arr, comp);
+        if (comp == null) {
+            comp = Comparators.compareUnknowns;
+        }
+        return max(arr, Comparators.createReverse(comp));
     }
 
     /**
@@ -112,7 +145,7 @@ public class ArrayUtil
      */
     public static function sort (arr :Array) :void
     {
-        Arrays.sort(arr);
+        arr.sort(Comparators.compareComparables);
     }
 
     /**
@@ -125,7 +158,7 @@ public class ArrayUtil
      */
     public static function sortOn (arr :Array, sortFields :Array) :void
     {
-        Arrays.sortOn(arr, sortFields);
+        stableSort(arr, Comparators.createFields(sortFields));
     }
 
     /**
@@ -137,7 +170,23 @@ public class ArrayUtil
      */
     public static function stableSort (arr :Array, comp :Function = null) :void
     {
-        Arrays.stableSort(arr, comp);
+        if (comp == null) {
+            comp = Comparators.compareComparables;
+        }
+        // insertion sort implementation
+        var nn :int = arr.length;
+        for (var ii :int = 1; ii < nn; ii++) {
+            var val :* = arr[ii];
+            var jj :int = ii - 1;
+            for (; jj >= 0; jj--) {
+                var compVal :* = arr[jj];
+                if (comp(val, compVal) >= 0) {
+                    break;
+                }
+                arr[jj + 1] = compVal;
+            }
+            arr[jj + 1] = val;
+        }
     }
 
     /**
@@ -152,7 +201,15 @@ public class ArrayUtil
      */
     public static function sortedInsert (arr :Array, val :*, comp :Function = null) :int
     {
-        return Arrays.sortedInsert(arr, val, comp);
+        if (comp == null) {
+            comp = Comparators.compareComparables;
+        }
+        var index :int = binarySearch(arr, 0, arr.length, val, comp);
+        if (index < 0) {
+            index = -(index + 1);
+        }
+        arr.splice(index, 0, val);
+        return index;
     }
 
     /**
@@ -162,7 +219,19 @@ public class ArrayUtil
      */
     public static function shuffle (arr :Array, rando :Random = null) :void
     {
-        Arrays.shuffle(arr, rando);
+        var randFunc :Function = (rando != null) ? rando.nextInt :
+            function (n :int) :int {
+                return int(Math.random() * n);
+            };
+        // starting from the end of the list, repeatedly swap the element in
+        // question with a random element previous to it up to and including
+        // itself
+        for (var ii :int = arr.length - 1; ii > 0; ii--) {
+            var idx :int = randFunc(ii + 1);
+            var tmp :Object = arr[idx];
+            arr[idx] = arr[ii];
+            arr[ii] = tmp;
+        }
     }
 
     /**
@@ -174,7 +243,14 @@ public class ArrayUtil
      */
     public static function indexIf (arr :Array, predicate :Function) :int
     {
-        return Arrays.indexIf(arr, predicate);
+        if (arr != null) {
+            for (var ii :int = 0; ii < arr.length; ii++) {
+                if (predicate(arr[ii])) {
+                    return ii;
+                }
+            }
+        }
+        return -1; // never found
     }
 
     /**
@@ -186,7 +262,8 @@ public class ArrayUtil
      */
     public static function findIf (arr :Array, predicate :Function) :*
     {
-        return Arrays.findIf(arr, predicate);
+        var index :int = (arr != null ? indexIf(arr, predicate) : -1);
+        return (index >= 0 ? arr[index] : undefined);
     }
 
     /**
@@ -199,7 +276,14 @@ public class ArrayUtil
      */
     public static function indexOf (arr :Array, element :Object) :int
     {
-        return Arrays.indexOf(arr, element);
+        if (arr != null) {
+            for (var ii :int = 0; ii < arr.length; ii++) {
+                if (Util.equals(arr[ii], element)) {
+                    return ii;
+                }
+            }
+        }
+        return -1; // never found
     }
 
     /**
@@ -208,7 +292,7 @@ public class ArrayUtil
      */
     public static function contains (arr :Array, element :Object) :Boolean
     {
-        return Arrays.contains(arr, element);
+        return (indexOf(arr, element) != -1);
     }
 
     /**
@@ -218,7 +302,7 @@ public class ArrayUtil
      */
     public static function removeFirst (arr :Array, element :Object) :Boolean
     {
-        return Arrays.removeFirst(arr, element);
+        return removeImpl(arr, element, true);
     }
 
     /**
@@ -228,7 +312,10 @@ public class ArrayUtil
      */
     public static function removeLast (arr :Array, element :Object) :Boolean
     {
-        return Arrays.removeLast(arr, element);
+        arr.reverse();
+        var removed :Boolean = removeFirst(arr, element);
+        arr.reverse();
+        return removed;
     }
 
     /**
@@ -238,7 +325,7 @@ public class ArrayUtil
      */
     public static function removeAll (arr :Array, element :Object) :Boolean
     {
-        return Arrays.removeAll(arr, element);
+        return removeImpl(arr, element, false);
     }
 
     /**
@@ -250,7 +337,7 @@ public class ArrayUtil
      */
     public static function removeFirstIf (arr :Array, pred :Function) :Boolean
     {
-        return Arrays.removeFirstIf(arr, pred);
+        return removeIfImpl(arr, pred, true);
     }
 
     /**
@@ -262,7 +349,10 @@ public class ArrayUtil
      */
     public static function removeLastIf (arr :Array, pred :Function) :Boolean
     {
-        return Arrays.removeLastIf(arr, pred);
+        arr.reverse();
+        var removed :Boolean = removeFirstIf(arr, pred);
+        arr.reverse();
+        return removed;
     }
 
     /**
@@ -274,7 +364,7 @@ public class ArrayUtil
      */
     public static function removeAllIf (arr :Array, pred :Function) :Boolean
     {
-        return Arrays.removeAllIf(arr, pred);
+        return removeIfImpl(arr, pred, false);
     }
 
     /**
@@ -285,7 +375,9 @@ public class ArrayUtil
     public static function splice (
         arr :Array, index :int, deleteCount :int, insertions :Array = null) :Array
     {
-        return Arrays.splice(arr, index, deleteCount, insertions);
+        var i :Array = (insertions == null) ? [] : insertions.concat(); // don't modify insertions
+        i.unshift(index, deleteCount);
+        return arr.splice.apply(arr, i);
     }
 
     /**
@@ -293,7 +385,19 @@ public class ArrayUtil
      */
     public static function equals (ar1 :Array, ar2 :Array) :Boolean
     {
-        return Arrays.equals(ar1, ar2);
+        if (ar1 === ar2) {
+            return true;
+
+        } else if (ar1 == null || ar2 == null || ar1.length != ar2.length) {
+            return false;
+        }
+
+        for (var jj :int = 0; jj < ar1.length; jj++) {
+            if (!Util.equals(ar1[jj], ar2[jj])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -307,7 +411,9 @@ public class ArrayUtil
     public static function copy (
         src :Array, srcoffset :uint, dst :Array, dstoffset :uint, count :uint) :void
     {
-        Arrays.copy(src, srcoffset, dst, dstoffset, count);
+        for (var ii :uint = 0; ii < count; ++ii) {
+            dst[dstoffset++] = src[srcoffset++];
+        }
     }
 
     /**
@@ -326,8 +432,6 @@ public class ArrayUtil
      */
     public static function transpose (x :Array, y :Array, ...arrays) :Array
     {
-        // TODO: Call Arrays version
-
         arrays.splice(0, 0, x, y);
         var len :int = Math.max.apply(null, arrays.map(Util.adapt(function (arr :Array) :int {
             return arr.length;
@@ -362,7 +466,22 @@ public class ArrayUtil
     public static function binarySearch (
         array :Array, offset :int, length :int, key :*, comp :Function) :int
     {
-        return Arrays.binarySearch(array, offset, length, key, comp);
+        var low :int = offset;
+        var high :int = offset + length - 1;
+        while (low <= high) {
+            // http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
+            var mid :int = (low + high) >>> 1;
+            var midVal :* = array[mid];
+            var cmp :int = comp(midVal, key);
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                return mid; // key found
+            }
+        }
+        return -(low + 1); // key not found.
     }
 
     /**
@@ -370,7 +489,36 @@ public class ArrayUtil
      */
     public static function fill (array :Array, val :*) :void
     {
-        Arrays.fill(array, val);
+        for (var idx :* in array) {
+            array[idx] = val;
+        }
+    }
+
+    /**
+     * Implementation of remove methods.
+     */
+    private static function removeImpl (
+        arr :Array, element :Object, firstOnly :Boolean) :Boolean
+    {
+        return removeIfImpl(arr, Predicates.createEquals(element), firstOnly);
+    }
+
+    /**
+     * Implementation of removeIf methods.
+     */
+    private static function removeIfImpl (arr :Array, pred :Function, firstOnly :Boolean) :Boolean
+    {
+        var removed :Boolean = false;
+        for (var ii :int = 0; ii < arr.length; ii++) {
+            if (pred(arr[ii])) {
+                arr.splice(ii--, 1);
+                if (firstOnly) {
+                    return true;
+                }
+                removed = true;
+            }
+        }
+        return removed;
     }
 }
 }
