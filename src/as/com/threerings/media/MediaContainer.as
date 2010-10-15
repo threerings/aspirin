@@ -271,6 +271,7 @@ public class MediaContainer extends Sprite
         _media = disp;
         updateContentDimensions(disp.width, disp.height);
         didShowNewMedia();
+        stoppedLoading();
     }
 
     /**
@@ -364,7 +365,7 @@ public class MediaContainer extends Sprite
 
         addListeners(loader.contentLoaderInfo);
 
-        dispatchEvent(new ValueEvent(LOADER_READY, loader));
+        dispatchEvent(new ValueEvent(LOADER_READY, loader.contentLoaderInfo));
         return loader;
     }
 
