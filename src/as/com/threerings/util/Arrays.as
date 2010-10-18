@@ -401,7 +401,9 @@ public class Arrays
     }
 
     /**
-     * Copy a segment of one array to another.
+     * Copy a segment of one array to another. If the two arrays are the same reference,
+     * a temporary copy may be made to safely copy the range.
+     *
      * @param src the array to copy from
      * @param srcOffset the position in the source array to begin copying from
      * @param dst the array to copy into
@@ -411,7 +413,11 @@ public class Arrays
     public static function copy (
         src :Array, srcOffset :uint, dst :Array, dstOffset :uint, count :uint) :void
     {
-        // TODO: make this cope with overlapping ranges, like System.arraycopy in Java
+        // see if we need to make a temporary copy
+        if ((src == dst) && (srcOffset + count > dstOffset)) {
+            src = src.slice(srcOffset, srcOffset + count);
+            srcOffset = 0;
+        }
         for (var ii :uint = 0; ii < count; ++ii) {
             dst[dstOffset++] = src[srcOffset++];
         }
