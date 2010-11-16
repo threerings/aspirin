@@ -29,10 +29,19 @@ public class FileUtil
      */
     public static function getDotSuffix (filename :String) :String
     {
-        var dotIndex :int = filename.lastIndexOf(".");
-        return (dotIndex >= 0 ? filename.substr(dotIndex + 1).toLowerCase() : "");
+        // is there a dot?
+        var ix :int = filename.lastIndexOf(".");
+        if (ix >= 0) {
+            var ext :String = filename.substr(ix + 1);
+            // is there a ?foo=bar component?
+            ix = ext.indexOf('?');
+            if (ix > 0) {
+                ext = ext.substring(0, ix);
+            }
+            return ext.toLowerCase();
+        }
+        return "";
     }
-
 }
 
 }
