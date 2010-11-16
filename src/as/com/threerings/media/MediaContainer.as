@@ -59,6 +59,7 @@ import flash.utils.ByteArray;
 
 import com.threerings.display.ImageUtil;
 import com.threerings.display.LoaderUtil;
+import com.threerings.util.FileUtil;
 import com.threerings.util.Log;
 import com.threerings.util.StringUtil;
 import com.threerings.util.Util;
@@ -297,7 +298,7 @@ public class MediaContainer extends Sprite
 
     protected function showNewMedia (url :String) :void
     {
-        if (StringUtil.endsWith(url.toLowerCase(), ".flv")) {
+        if (FileUtil.getDotSuffix(url) == "flv") {
             setupVideo(url);
 
         } else {
@@ -553,12 +554,10 @@ public class MediaContainer extends Sprite
         if (url == null) {
             return false;
         }
-
-        // look at the last 4 characters in the lowercased url
-        switch (url.toLowerCase().slice(-4)) {
-        case ".png":
-        case ".jpg":
-        case ".gif":
+        switch (FileUtil.getDotSuffix(url)) {
+        case "png":
+        case "jpg":
+        case "gif":
             return true;
 
         default:
