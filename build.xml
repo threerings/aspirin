@@ -88,7 +88,7 @@
     <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
              uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
     <artifact:pom id="pom" file="pom.xml"/>
-    <artifact:deploy file="${deploy.dir}/${ant.project.name}.jar" uniqueVersion="false">
+    <artifact:deploy file="${deploy.dir}/${ant.project.name}.swc" uniqueVersion="false">
       <remoteRepository url="${maven.deploy.repo}"/>
       <pom refid="pom"/>
     </artifact:deploy>
