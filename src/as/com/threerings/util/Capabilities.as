@@ -2,7 +2,7 @@
  * Simplified access functions to flash.system.Capabilities.
  */
 
-package com.threerings.utils {
+package com.threerings.util {
 
 import flash.system.Capabilities;
 

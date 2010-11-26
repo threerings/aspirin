@@ -98,6 +98,6 @@ public class Assert
     }
 
     protected static var _log :Log = Log.getLog(Assert);
-    protected static var _debug :Boolean = Capabilities.isDebugger;
+    protected static var _debug :Boolean = flash.system.Capabilities.isDebugger;
 }
 }

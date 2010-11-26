@@ -445,7 +445,7 @@ public class Log
 
     /** The configured log levels. @private */
     protected static var _setLevels :Object = {
-        "": (Capabilities.isDebugger ? DEBUG : OFF) // global: debug or off
+        "": (flash.system.Capabilities.isDebugger ? DEBUG : OFF) // global: debug or off
     };
 
     /** The string names of each level. The last one is unused, it corresponds with OFF. @private */
