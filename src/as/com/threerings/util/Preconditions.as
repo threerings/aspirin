@@ -22,10 +22,21 @@
 package com.threerings.util {
 
 /**
- * Utility functions for checking function parameters and throwing appropriate errors.
+ * Utility functions for verifying program state and throwing appropriate errors.
  */
 public class Preconditions
 {
+    /**
+     * Checks that the specified expression is true.
+     * @throws Error
+     */
+    public static function checkState (expression :Boolean, message :String = null) :void
+    {
+        if (!expression) {
+            throw new Error(message || "");
+        }
+    }
+
     /**
      * Check that the reference is not null (or undefined) and return it as a convenience.
      * @return the reference that was checked.
