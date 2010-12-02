@@ -171,6 +171,43 @@ public class F
             f.apply(undefined, args);
         }
     }
+
+    /**
+     * Creates a function that calls through to klass' constructor with the args given to it and
+     * returns the created object.
+     */
+    public static function constructor (klass :Class) :Function
+    {
+        return function (... a) :* {
+            switch (a.length) {
+                case 0:
+                    return new klass();
+                case 1:
+                    return new klass(a[0]);
+                case 2:
+                    return new klass(a[0], a[1]);
+                case 3:
+                    return new klass(a[0], a[1], a[2]);
+                case 4:
+                    return new klass(a[0], a[1], a[2], a[3]);
+                case 5:
+                    return new klass(a[0], a[1], a[2], a[3], a[4]);
+                case 6:
+                    return new klass(a[0], a[1], a[2], a[3], a[4], a[5]);
+                case 7:
+                    return new klass(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+                case 8:
+                    return new klass(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+                case 9:
+                    return new klass(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+                case 10:
+                    return new klass(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9]);
+                default:
+                    throw new Error("You animal!  F.constructor only handles up to 10 args!");
+            }
+
+        }
+    }
 }
 
 }
