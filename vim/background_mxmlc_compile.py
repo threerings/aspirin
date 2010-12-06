@@ -16,10 +16,13 @@ list.
 '''
 import re, signal, subprocess, sys, time
 start = time.time()
+def log(msg):
+    print "%s %s" % (time.strftime('%Y-%m-%d %H:%M:%S'), msg)
+log("Starting")
 def executeInVim(cmd):
-    print cmd
+    log("Running expr in vim : %s" % cmd)
     return subprocess.Popen(['mvim', '--remote-expr', cmd])
-err = re.compile(".*: col: \d+ Error:(.*)")
+err = re.compile(".*: col: \d+ (?:Error|Warning):(.*)")
 build = subprocess.Popen(sys.argv[1], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 sender = None
 queue = []
@@ -30,10 +33,12 @@ def createQueueList():
     queue = []
     return list
 
+errors = 0
 while build.poll() is None:
     line = build.stdout.readline()[:-1]
     m = err.match(line)
     if m:
+        errors += 1
         if sender is None:
             first = line
             sender = executeInVim('BackgroundSetFirstError("%s")' % line)
@@ -42,14 +47,13 @@ while build.poll() is None:
             if sender.poll() is not None:
                 sender = executeInVim("BackgroundAddErrors(%s)" % createQueueList())
 
-if build.returncode:
-    if build.returncode == 230:
-        msg = "mxmlcserver isn't running"
-    else:
-        msg = 'Compile had %s error' % build.returncode
-        if build.returncode > 1:
-            msg += "s"
-        msg += ": %s" % first
+if build.returncode == 230:
+    msg = "mxmlcserver isn't running"
+elif errors > 0:
+    msg = 'Compile had %s error' % errors
+    if errors > 1:
+        msg += "s"
+    msg += ": %s" % first
 else:
     msg = 'Compile succeeded and took %.2f seconds' % (time.time() - start)
 executeInVim('BackgroundFinish("%s" , %s)' % (msg, createQueueList()))

@@ -8,6 +8,6 @@ endfunction
 
 function! BackgroundFinish(msg, errors)
     laddexpr a:errors
-    echomsg a:msg
     redraw
+    echomsg a:msg
 endfunction
