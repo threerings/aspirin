@@ -21,12 +21,15 @@
 
 package com.threerings.geom {
 
+import com.threerings.util.Equalable;
+
 import flash.geom.Point;
 
 /**
  * Basic 2D vector implementation.
  */
 public class Vector2
+    implements Equalable
 {
     public var x :Number = 0;
     public var y :Number = 0;
@@ -297,7 +300,7 @@ public class Vector2
     public function equals (obj :Object) :Boolean
     {
         var v :Vector2 = obj as Vector2;
-        return (v != null ? x == v.x && y == v.y : false);
+        return (v != null && x == v.x && y == v.y);
     }
 
     /**
