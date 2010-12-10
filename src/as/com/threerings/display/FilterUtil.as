@@ -226,7 +226,7 @@ public class FilterUtil
             originalMatrix = original.matrix;
         }
 
-        // this loop compresses a massive, wacky concatination function that was used in the code
+        // this loop compresses a massive, wacky concatenation function that was used in the code
         // from the site listed above
         var matrix :Array = [];
         for (ii = 0; ii < 20; ii++) {
