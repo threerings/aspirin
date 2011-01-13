@@ -80,11 +80,9 @@
          dest="${maven-ant.jar}" usetimestamp="true"/>
   </target>
 
+  <property name="maven.deploy.repo" value="file://${user.home}/.m2/repository"/>
   <target name="maven-deploy" depends="dist,-download-maven-ant"
           description="Deploys build artifacts to a Maven repository.">
-    <fail unless="maven.deploy.repo">
-      Must specify Maven repository with -Dmaven.deploy.repo=file://somepath
-    </fail>
     <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
              uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
     <artifact:pom id="pom" file="pom.xml"/>
