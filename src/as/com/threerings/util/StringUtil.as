@@ -473,6 +473,16 @@ public class StringUtil
     }
 
     /**
+     * Returns a version of the string where the first letter of every word is capitalized. The
+     * other letters are lower cased. e.g.
+     *     toTitleCase("The wind in thE WILLOWS") -> "The Wind In The Willows"
+     */
+    public static function toTitleCase (s :String) :String
+    {
+        return s.toLowerCase().replace(/\b[a-z]/g, String.prototype.toUpperCase.call);
+    }
+
+    /**
      * Locate URLs in a string, return an array in which even elements
      * are plain text, odd elements are urls (as Strings). Any even element
      * may be an empty string.
