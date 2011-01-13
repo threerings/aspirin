@@ -37,6 +37,37 @@ import flash.geom.Rectangle;
 public class DisplayUtil
 {
     /**
+     * Uniformly scales a DisplayObject if its width or height are outside the given size
+     * constraints.
+     * Any constraint that's <= 0 will be ignored.
+     */
+    public static function clampSize (disp :DisplayObject, minWidth :Number = 0,
+        maxWidth :Number = 0, minHeight :Number = 0, maxHeight :Number = 0) :void
+    {
+        var scaleX :Number;
+        var scaleY :Number;
+        var scale :Number;
+        if ((maxWidth > 0 && disp.width > maxWidth) ||
+            (maxHeight > 0 && disp.height > maxHeight)) {
+
+            scaleX = (maxWidth > 0 ? maxWidth / disp.width : 1);
+            scaleY = (maxHeight > 0 ? maxHeight / disp.height : 1);
+            scale = Math.min(scaleX, scaleY);
+            disp.scaleX *= scale;
+            disp.scaleY *= scale;
+
+        } else if ((minWidth > 0 && disp.width < minWidth) ||
+            (minHeight > 0 && disp.height < minHeight)) {
+
+            scaleX = (minWidth > 0 ? minWidth / disp.width : 1);
+            scaleY = (minHeight > 0 ? minHeight / disp.height : 1);
+            scale = Math.max(scaleX, scaleY);
+            disp.scaleX *= scale;
+            disp.scaleY *= scale;
+        }
+    }
+
+    /**
      * Add a mask for the specified object. If a rectangle is specified, that area is
      * masked, but additionally a Graphics is returned that can be drawn upon to specify the mask
      * area.
