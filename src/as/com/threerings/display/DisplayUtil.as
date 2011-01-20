@@ -21,6 +21,7 @@
 
 package com.threerings.display {
 
+import com.threerings.geom.Vector2;
 import com.threerings.util.Arrays;
 import com.threerings.util.ClassUtil;
 
@@ -128,6 +129,15 @@ public class DisplayUtil
         :Point
     {
         return toDisp.globalToLocal(fromDisp.localToGlobal(p));
+    }
+
+    /**
+     * Transforms a Vector2 from one DisplayObject's coordinate space to another's.
+     */
+    public static function transformVector (v :Vector2, fromDisp :DisplayObject,
+        toDisp :DisplayObject) :Vector2
+    {
+        return Vector2.fromPoint(transformPoint(v.toPoint(), fromDisp, toDisp));
     }
 
     /**
