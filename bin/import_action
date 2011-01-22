@@ -11,11 +11,14 @@ ordering = ["flash",
         "com.threerings",
         "com.threerings.io",
         "com.threerings.util",
+        "com.threerings.presents",
+        "com.threerings.orth",
         "com.threerings.riposte",
         "com.threerings.samsara",
         "com.threerings.flashbang",
         "com.threerings.downtown",
         "com.threerings.biteme",
+        "com.threerings.who",
         "com.threerings.blueharvest"]
 ordering = [(o, re.compile("^" + o + ".*")) for o in ordering]
 byprecision = sorted(ordering, key=lambda x: -len(x[0]))
