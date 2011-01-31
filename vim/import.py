@@ -75,7 +75,7 @@ varset = lambda var: bool(int(vim.eval('exists("%s")' % var)))
 
 idxset = varset("g:importIdx")
 if varset("g:importsPickle"):
-    pickled = cPickle.load(open(vim.eval("g:importsPickle")))
+    pickled = cPickle.load(open(os.path.expanduser(vim.eval("g:importsPickle"))))
 else:
     pickled = {}
 fulls = pickled.get(classname, set())
