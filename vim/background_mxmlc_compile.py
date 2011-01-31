@@ -23,7 +23,7 @@ def executeInVim(cmd):
     log("Running expr in vim : %s" % cmd)
     return subprocess.Popen(['mvim', '--remote-expr', cmd])
 err = re.compile(".*: col: \d+ (?:Error|Warning):(.*)")
-build = subprocess.Popen(sys.argv[1], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+build = subprocess.Popen(sys.argv[1:], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 sender = None
 queue = []
 first = None
