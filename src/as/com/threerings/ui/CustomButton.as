@@ -87,6 +87,17 @@ public class CustomButton extends Sprite
         updateState();
     }
 
+    public function set toggled (toggled :Boolean) :void
+    {
+        _toggled = toggled;
+        updateState();
+    }
+
+    public function get toggled () :Boolean
+    {
+        return _toggled;
+    }
+
     protected function setupMouseEvents () :void
     {
         // We capture mouse-ups on the stage, rather than on the button itself, so that
@@ -122,7 +133,7 @@ public class CustomButton extends Sprite
     protected function updateState () :void
     {
         var newState :DisplayObject;
-        if (_mouseDown && _mouseOver) {
+        if (_mouseDown && _mouseOver || _toggled) {
             newState = _downState;
         } else if (_mouseDown || _mouseOver) {
             newState = _overState;
@@ -149,6 +160,7 @@ public class CustomButton extends Sprite
 
     protected var _mouseOver :Boolean;
     protected var _mouseDown :Boolean;
+    protected var _toggled :Boolean;
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
 }
