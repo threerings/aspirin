@@ -87,15 +87,15 @@ public class CustomButton extends Sprite
         updateState();
     }
 
-    public function set toggled (toggled :Boolean) :void
+    public function set selected (selected :Boolean) :void
     {
-        _toggled = toggled;
+        _selected = selected;
         updateState();
     }
 
-    public function get toggled () :Boolean
+    public function get selected () :Boolean
     {
-        return _toggled;
+        return _selected;
     }
 
     protected function setupMouseEvents () :void
@@ -133,7 +133,7 @@ public class CustomButton extends Sprite
     protected function updateState () :void
     {
         var newState :DisplayObject;
-        if (_mouseDown && _mouseOver || _toggled) {
+        if (_mouseDown && _mouseOver || _selected) {
             newState = _downState;
         } else if (_mouseDown || _mouseOver) {
             newState = _overState;
@@ -160,7 +160,7 @@ public class CustomButton extends Sprite
 
     protected var _mouseOver :Boolean;
     protected var _mouseDown :Boolean;
-    protected var _toggled :Boolean;
+    protected var _selected :Boolean;
 
     protected var _events :EventHandlerManager = new EventHandlerManager();
 }
