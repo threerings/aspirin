@@ -48,7 +48,7 @@ def order(imports):
                 for imp in sorted(split):
                     lines.append("import %s;" % imp)
                 lines.append("")
-    if lines[-1] == '':
+    if lines and lines[-1] == '':
         lines[-1] = '\n'
     return "\n".join(lines)
 
@@ -120,7 +120,11 @@ def process(path):
                     del dirnames[i]
             for fn in filenames:
                 if fn.endswith('.as'):
-                    organizeImports(dirpath + "/" + fn)
+                    try:
+                        organizeImports(dirpath + "/" + fn)
+                    except:
+                        print "Unable to organize", dirpath + "/" + fn
+                        raise
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
