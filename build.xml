@@ -76,19 +76,23 @@
   <condition property="maven-ant.exists"><available file="${maven-ant.jar}"/></condition>
   <target name="-download-maven-ant" unless="maven-ant.exists">
     <mkdir dir="${maven-ant.dir}"/>
-    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar" 
+    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar"
          dest="${maven-ant.jar}" usetimestamp="true"/>
   </target>
 
   <property name="maven.deploy.repo" value="file://${user.home}/.m2/repository"/>
-  <target name="maven-deploy" depends="dist,-download-maven-ant"
+  <target name="maven-deploy" depends="-download-maven-ant"
           description="Deploys build artifacts to a Maven repository.">
     <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
              uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
-    <artifact:pom id="pom" file="pom.xml"/>
+         <!--    <artifact:pom id="pom" file="pom.xml"/>
     <artifact:deploy file="${deploy.dir}/${ant.project.name}.swc" uniqueVersion="false">
       <remoteRepository url="${maven.deploy.repo}"/>
       <pom refid="pom"/>
+      </artifact:deploy>-->
+    <artifact:deploy file="bin/import_action.py" uniqueVersion="false">
+      <remoteRepository url="${maven.deploy.repo}"/>
+      <pom file="etc/py-pom.xml"/>
     </artifact:deploy>
   </target>
 </project>
