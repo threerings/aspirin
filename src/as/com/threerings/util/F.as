@@ -29,15 +29,15 @@ import flash.events.Event;
 public class F
 {
     /** @see #partial */
-    public static const _1 :Object = { idx: 0 };
-    public static const _2 :Object = { idx: 1 };
-    public static const _3 :Object = { idx: 2 };
-    public static const _4 :Object = { idx: 3 };
-    public static const _5 :Object = { idx: 4 };
-    public static const _6 :Object = { idx: 5 };
-    public static const _7 :Object = { idx: 6 };
-    public static const _8 :Object = { idx: 7 };
-    public static const _9 :Object = { idx: 8 };
+    public static const _1 :Positional = new Positional(0);
+    public static const _2 :Positional = new Positional(1);
+    public static const _3 :Positional = new Positional(2);
+    public static const _4 :Positional = new Positional(3);
+    public static const _5 :Positional = new Positional(4);
+    public static const _6 :Positional = new Positional(5);
+    public static const _7 :Positional = new Positional(6);
+    public static const _8 :Positional = new Positional(7);
+    public static const _9 :Positional = new Positional(8);
 
     /**
      * Curry a function to be evaluated later.
@@ -66,7 +66,7 @@ public class F
         return function (... right) :* {
             return adapt(f).apply(undefined,
                 left.map(function (arg :*, index :int, arr :Array) :* {
-                    return (POSITIONALS.contains(arg) ? right[arg.idx] : arg);
+                    return (arg is Positional) ? right[Positional(arg).idx] : arg;
                 }));
         }
     }
@@ -207,9 +207,19 @@ public class F
 
         }
     }
-
-    protected static const POSITIONALS :Set =
-        Sets.newBuilder(Object).addEach([ _1, _2, _3, _4, _5, _6, _7, _8, _9 ]).build();
 }
 
+}
+
+/**
+ * Positional argument marker for F.partial.
+ */
+class Positional
+{
+    internal var idx :int;
+
+    public function Positional (idx :int)
+    {
+        this.idx = idx;
+    }
 }
