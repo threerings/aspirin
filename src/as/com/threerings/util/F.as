@@ -29,15 +29,22 @@ import flash.events.Event;
 public class F
 {
     /** @see #partial */
-    public static const _ :Object = new Object();
+    public static const _1 :Object = { idx: 0 };
+    public static const _2 :Object = { idx: 1 };
+    public static const _3 :Object = { idx: 2 };
+    public static const _4 :Object = { idx: 3 };
+    public static const _5 :Object = { idx: 4 };
+    public static const _6 :Object = { idx: 5 };
+    public static const _7 :Object = { idx: 6 };
+    public static const _8 :Object = { idx: 7 };
+    public static const _9 :Object = { idx: 8 };
 
     /**
      * Curry a function to be evaluated later.
      *
      * @param left Arguments to be partially applied to the function.
      * @return A function that when invoked, calls the original function f with collected arguments.
-     *         Normally the invoked arguments are appended, but they can be "woven" into arbritrary
-     *         positions using F._.
+     *         The invoked arguments are "woven" into arbitrary positions using F._1, F._2, etc.
      *
      * @example
      * <listing version="3.0">
@@ -47,28 +54,20 @@ public class F
      * function divide (x :Number, y :Number) :Number {
      *     return x / y;
      * }
-     * var addToSeven :Function = F.partial(add, 7);
-     * var divideByTwo :Function = F.partial(divide, F._, 2);
+     * var addFirstAndThird :Function = F.partial(add, F._3, F._1);
+     * var divideByTwo :Function = F.partial(divide, F._1, 2);
      *
-     * trace(addToSeven(10)); // 17
+     * trace(addFirstAndThird(10, 999, 7)); // 17
      * trace(divideByTwo(12)); // 6
      * </listing>
      */
     public static function partial (f :Function, ... left) :Function
     {
-        if (left.indexOf(F._) == -1) {
-            // Trade some up front creation time for execution speed later
-            return function (... right) :* {
-                return adapt(f).apply(undefined, left.concat(right));
-            }
-
-        } else {
-            return function (... right) :* {
-                return adapt(f).apply(undefined,
-                    left.map(function (arg :*, index :int, arr :Array) :* {
-                        return (arg === F._) ? right.shift() : arg;
-                    }).concat(right));
-            }
+        return function (... right) :* {
+            return adapt(f).apply(undefined,
+                left.map(function (arg :*, index :int, arr :Array) :* {
+                    return (POSITIONALS.contains(arg) ? right[arg.idx] : arg);
+                }));
         }
     }
 
@@ -208,6 +207,9 @@ public class F
 
         }
     }
+
+    protected static const POSITIONALS :Set =
+        Sets.newBuilder(Object).addEach([ _1, _2, _3, _4, _5, _6, _7, _8, _9 ]).build();
 }
 
 }
