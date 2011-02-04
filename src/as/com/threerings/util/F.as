@@ -64,7 +64,7 @@ public class F
     public static function partial (f :Function, ... left) :Function
     {
         return function (... right) :* {
-            return adapt(f).apply(undefined,
+            return adapt(f).apply(this,
                 left.map(function (arg :*, index :int, arr :Array) :* {
                     return (arg is F_Positional) ? right[F_Positional(arg).idx] : arg;
                 }));
@@ -75,14 +75,14 @@ public class F
     public static function callback (f: Function, ... args) :Function
     {
         return function (... _) :* {
-            return f.apply(undefined, args);
+            return f.apply(this, args);
         }
     }
 
     public static function compose (f :Function, g :Function) :Function
     {
         return function (... rest) :* {
-            return f(g.apply(undefined, rest));
+            return f(g.apply(this, rest));
         }
     }
 
@@ -121,7 +121,7 @@ public class F
     {
         return function (... args) :* {
             args.length = f.length; // fit the args to the fn, filling in 'undefined' if growing
-            return f.apply(undefined, args);
+            return f.apply(this, args);
         }
     }
 
@@ -167,7 +167,7 @@ public class F
     {
         return function listener (event :Event) :void {
             event.currentTarget.removeEventListener(event.type, listener);
-            f.apply(undefined, args);
+            f.apply(this, args);
         }
     }
 
