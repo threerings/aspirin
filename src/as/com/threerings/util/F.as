@@ -29,15 +29,15 @@ import flash.events.Event;
 public class F
 {
     /** @see #partial */
-    public static const _1 :Positional = new Positional(0);
-    public static const _2 :Positional = new Positional(1);
-    public static const _3 :Positional = new Positional(2);
-    public static const _4 :Positional = new Positional(3);
-    public static const _5 :Positional = new Positional(4);
-    public static const _6 :Positional = new Positional(5);
-    public static const _7 :Positional = new Positional(6);
-    public static const _8 :Positional = new Positional(7);
-    public static const _9 :Positional = new Positional(8);
+    public static const _1 :F_Positional = new F_Positional(0);
+    public static const _2 :F_Positional = new F_Positional(1);
+    public static const _3 :F_Positional = new F_Positional(2);
+    public static const _4 :F_Positional = new F_Positional(3);
+    public static const _5 :F_Positional = new F_Positional(4);
+    public static const _6 :F_Positional = new F_Positional(5);
+    public static const _7 :F_Positional = new F_Positional(6);
+    public static const _8 :F_Positional = new F_Positional(7);
+    public static const _9 :F_Positional = new F_Positional(8);
 
     /**
      * Curry a function to be evaluated later.
@@ -66,7 +66,7 @@ public class F
         return function (... right) :* {
             return adapt(f).apply(undefined,
                 left.map(function (arg :*, index :int, arr :Array) :* {
-                    return (arg is Positional) ? right[Positional(arg).idx] : arg;
+                    return (arg is F_Positional) ? right[F_Positional(arg).idx] : arg;
                 }));
         }
     }
@@ -209,17 +209,4 @@ public class F
     }
 }
 
-}
-
-/**
- * Positional argument marker for F.partial.
- */
-class Positional
-{
-    internal var idx :int;
-
-    public function Positional (idx :int)
-    {
-        this.idx = idx;
-    }
 }
