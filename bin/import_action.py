@@ -79,7 +79,7 @@ def findOrdering(lines):
                     foundsections[-1].add(m.group(1))
             continue
         elif inimports:
-            if line.strip() == "":# Blank lines don't exit an import section
+            if ignoreInImports(line):
                 rawsections[-1].append(line)
                 continue
             inimports = False
@@ -90,6 +90,11 @@ def findOrdering(lines):
     foundsections = [order(found) for found in foundsections]
     rawsections = ["".join(section) for section in rawsections]
     return foundsections == rawsections, foundsections
+
+def ignoreInImports(line):
+    # Blank lines and commented out imports don't exit an import section
+    stripped = line.strip()
+    return stripped == "" or (stripped.startswith('//') and 'import' in line)
 
 def reorderImports(fn, lines, foundsections):
     print "Reorder imports:", fn
@@ -103,7 +108,7 @@ def reorderImports(fn, lines, foundsections):
             inimports = True
             continue
         elif inimports:
-            if line.startswith("import") or line.strip() == "":
+            if line.startswith("import") or ignoreInImports(line):
                 continue
             out.write(founditer.next())
             inimports = False
