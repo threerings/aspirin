@@ -44,6 +44,13 @@
     <flex.home>${env.FLEX_SDK}</flex.home>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>ooo-public</id>
+      <url>http://ooo-maven.googlecode.com/hg/repository</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>nochump</groupId>
