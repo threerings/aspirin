@@ -44,6 +44,15 @@
     <flex.home>${env.FLEX_SDK}</flex.home>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>nochump</groupId>
+      <artifactId>zip</artifactId>
+      <version>1.0</version>
+      <type>swc</type>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -53,7 +62,7 @@
         <executions>
           <execution>
             <phase>generate-sources</phase>
-            <goals><goal>replace</goal></goals>                    
+            <goals><goal>replace</goal></goals>
           </execution>
         </executions>
         <configuration>
