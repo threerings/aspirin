@@ -18,7 +18,7 @@ import re, signal, subprocess, sys, time
 start = time.time()
 def log(msg):
     print "%s %s" % (time.strftime('%Y-%m-%d %H:%M:%S'), msg)
-log("Starting")
+log("Starting " + ' '.join(sys.argv[1:]))
 def executeInVim(cmd):
     log("Running expr in vim : %s" % cmd)
     return subprocess.Popen(['mvim', '--remote-expr', cmd])
