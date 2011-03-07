@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
 <project name="aspirin" default="aslib" basedir="." xmlns:artifact="urn:maven-artifact-ant">
-  <property name="asrc.dir" location="src/as"/>
+  <property name="asrc.dir" location="src/main/as"/>
   <property name="deploy.dir" location="dist"/>
 
   <property name="ooo-build.vers" value="2.1"/>
