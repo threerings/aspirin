@@ -11,6 +11,7 @@ import flash.utils.ByteArray;
 import flash.utils.getQualifiedClassName;
 
 import com.threerings.util.Log;
+import com.threerings.util.XmlUtil;
 
 public class Http
 {
@@ -67,7 +68,16 @@ public class Http
      */
     public function xml () :Http
     {
-        _coerceResponseToXML = true;
+        return parser(XmlUtil.newXML);
+    }
+
+    /**
+     * Convert the response body to another type using a function before passing it to the
+     * onSuccess callback.
+     */
+    public function parser (parser :Function) :Http
+    {
+        _parser = parser;
         return this;
     }
 
@@ -96,7 +106,7 @@ public class Http
         }
         if (_successCallback != null) {
             loader.addEventListener(Event.COMPLETE, function (event :Event) :void {
-                _successCallback(_coerceResponseToXML ? XML(loader.data) : loader.data);
+                _successCallback((_parser != null) ? _parser(loader.data) : loader.data);
             });
         }
         loader.addEventListener(IOErrorEvent.IO_ERROR,
@@ -114,7 +124,7 @@ public class Http
     protected var _successCallback :Function;
     protected var _failureCallback :Function;
     protected var _dataFormat :String;
-    protected var _coerceResponseToXML :Boolean;
+    protected var _parser :Function;
 
     private static const log :Log = Log.getLog(Http);
 }
