@@ -44,11 +44,18 @@ import com.threerings.util.sets.SetBuilder;
 public class Sets
 {
     /**
-     * Create a new Set for storing values of the specified class.
+     * Create a new Set for storing values of the specified class. If values is given, the items in
+     * the Array are added to the created Set.
      */
-    public static function newSetOf (valueClazz :Class) :Set
+    public static function newSetOf (valueClazz :Class, values :Array=null) :Set
     {
-        return new MapSet(Maps.newMapOf(valueClazz));
+        var set :Set = new MapSet(Maps.newMapOf(valueClazz));
+        if (values != null) {
+            for each (var val :Object in values) {
+                set.add(val);
+            }
+        }
+        return set;
     }
 
     /**

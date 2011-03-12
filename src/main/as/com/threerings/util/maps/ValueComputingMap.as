@@ -24,7 +24,7 @@ package com.threerings.util.maps {
 import com.threerings.util.Map;
 
 /**
- * A Map that fills in values for missing keys using a supplied function than returning
+ * A Map that fills in values for missing keys using a supplied function rather than returning
  * undefined. containsKey() can still safely be used to see whether a mapping exists or not.
  */
 public class ValueComputingMap extends ForwardingMap
