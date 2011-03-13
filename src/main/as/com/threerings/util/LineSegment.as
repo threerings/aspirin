@@ -21,8 +21,8 @@
 
 package com.threerings.util {
 
-import flash.geom.Point;
 import flash.geom.Matrix;
+import flash.geom.Point;
 
 /**
  * Merely a typed container for two Points.

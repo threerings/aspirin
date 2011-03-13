@@ -24,7 +24,6 @@ package com.threerings.ui {
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.SimpleButton;
-
 import flash.geom.ColorTransform;
 
 import com.threerings.display.ImageUtil;

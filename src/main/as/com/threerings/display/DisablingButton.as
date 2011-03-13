@@ -21,8 +21,8 @@
 
 package com.threerings.display {
 
-import flash.display.SimpleButton;
 import flash.display.DisplayObject;
+import flash.display.SimpleButton;
 
 /**
  * A SimpleButton subclass that includes a disabledState.

@@ -21,7 +21,7 @@
 
 package com.threerings.util {
 
-import flash.utils.getTimer; // function import
+import flash.utils.getTimer;
 
 /**
  * A throttle is used to prevent code from attempting a particular operation too often. Often it is

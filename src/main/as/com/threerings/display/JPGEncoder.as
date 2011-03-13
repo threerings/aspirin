@@ -25,8 +25,8 @@ package com.threerings.display {
 // in that file to produce a derivative work. See:
 // http://code.google.com/p/as3corelib/source/browse/trunk/src/com/adobe/images/JPGEncoder.as?r=25
 
-import flash.geom.*;
 import flash.display.*;
+import flash.geom.*;
 import flash.utils.*;
 
 /**

@@ -24,17 +24,11 @@ package com.threerings.display {
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
-
 import flash.events.StatusEvent;
-
 import flash.geom.Matrix;
-
 import flash.media.Camera;
 import flash.media.Video;
-
 import flash.text.TextField;
-
-import com.threerings.util.Log;
 
 public class CameraSnapshotter extends Sprite
 {

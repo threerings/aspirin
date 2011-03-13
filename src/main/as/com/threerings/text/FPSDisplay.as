@@ -22,10 +22,8 @@
 package com.threerings.text {
 
 import flash.events.Event;
-
 import flash.text.TextField;
-
-import flash.utils.getTimer; // function import
+import flash.utils.getTimer;
 
 public class FPSDisplay extends TextField
 {

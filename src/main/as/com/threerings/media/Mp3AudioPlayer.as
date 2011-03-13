@@ -22,20 +22,15 @@
 package com.threerings.media {
 
 import flash.errors.IOError;
-
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.IOErrorEvent;
-import flash.events.ProgressEvent;
 import flash.events.TimerEvent;
-
 import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundLoaderContext;
 import flash.media.SoundTransform;
-
 import flash.net.URLRequest;
-
 import flash.utils.Timer;
 
 import com.threerings.util.Log;

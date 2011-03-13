@@ -25,10 +25,8 @@ import flash.events.EventDispatcher;
 import flash.events.IEventDispatcher;
 import flash.events.KeyboardEvent;
 import flash.events.TimerEvent;
-
 import flash.utils.Dictionary;
 import flash.utils.Timer;
-
 import flash.utils.getTimer;
 
 /**

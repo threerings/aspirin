@@ -23,45 +23,30 @@ package com.threerings.media {
 
 import flash.display.Bitmap;
 import flash.display.DisplayObject;
-import flash.display.DisplayObjectContainer;
 import flash.display.Loader;
 import flash.display.LoaderInfo;
 import flash.display.Shape;
 import flash.display.Sprite;
-
 import flash.errors.IOError;
-
-import flash.events.Event;
-import flash.events.EventDispatcher;
 import flash.events.ErrorEvent;
+import flash.events.Event;
 import flash.events.IOErrorEvent;
-import flash.events.MouseEvent;
-import flash.events.NetStatusEvent;
 import flash.events.ProgressEvent;
 import flash.events.SecurityErrorEvent;
-import flash.events.StatusEvent;
-import flash.events.TextEvent;
-
 import flash.geom.Point;
 import flash.geom.Rectangle;
-
 import flash.net.URLRequest;
-
-import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
-
 import flash.system.ApplicationDomain;
 import flash.system.LoaderContext;
 import flash.system.Security;
 import flash.system.SecurityDomain;
-
 import flash.utils.ByteArray;
 
 import com.threerings.display.ImageUtil;
 import com.threerings.display.LoaderUtil;
+
 import com.threerings.util.FileUtil;
 import com.threerings.util.Log;
-import com.threerings.util.StringUtil;
 import com.threerings.util.Util;
 import com.threerings.util.ValueEvent;
 

@@ -22,9 +22,7 @@
 package com.threerings.text {
 
 import flash.events.TimerEvent;
-
 import flash.text.TextField;
-
 import flash.utils.Timer;
 
 /**

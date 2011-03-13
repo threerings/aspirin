@@ -25,10 +25,8 @@ import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.Shape;
-
 import flash.geom.Point;
 import flash.geom.Rectangle;
-
 import flash.text.TextField;
 import flash.text.TextLineMetrics;
 

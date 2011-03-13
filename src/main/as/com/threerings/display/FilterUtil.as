@@ -22,7 +22,6 @@
 package com.threerings.display {
 
 import flash.display.DisplayObject;
-
 import flash.filters.BevelFilter;
 import flash.filters.BitmapFilter;
 import flash.filters.BlurFilter;

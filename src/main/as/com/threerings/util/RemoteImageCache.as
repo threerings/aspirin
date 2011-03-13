@@ -21,8 +21,6 @@
 
 package com.threerings.util {
 
-import com.threerings.display.DisplayUtil;
-
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Loader;
@@ -206,12 +204,12 @@ public class RemoteImageCache extends EventDispatcher
 }
 
 
-import com.threerings.display.DisplayUtil;
-
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Loader;
 import flash.display.Sprite;
+
+import com.threerings.display.DisplayUtil;
 
 class LoadingImageCtx
 {

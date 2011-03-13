@@ -244,8 +244,8 @@ public class EventHandlerManager
 }
 }
 
-import flash.events.IEventDispatcher;
 import flash.events.Event;
+import flash.events.IEventDispatcher;
 
 import com.threerings.util.Hashable;
 import com.threerings.util.StringUtil;

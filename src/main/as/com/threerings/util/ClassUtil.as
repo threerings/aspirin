@@ -22,8 +22,8 @@
 package com.threerings.util {
 
 import flash.utils.describeType;
-import flash.utils.getQualifiedClassName;
 import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 
 /**
  * Class related utility methods.

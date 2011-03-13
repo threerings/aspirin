@@ -22,7 +22,6 @@
 package com.threerings.media {
 
 import flash.display.DisplayObject;
-
 import flash.geom.Point;
 
 import com.threerings.util.ValueEvent;

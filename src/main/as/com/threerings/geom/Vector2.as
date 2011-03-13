@@ -21,9 +21,9 @@
 
 package com.threerings.geom {
 
-import com.threerings.util.Equalable;
-
 import flash.geom.Point;
+
+import com.threerings.util.Equalable;
 
 /**
  * Basic 2D vector implementation.

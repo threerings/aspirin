@@ -21,10 +21,6 @@
 
 package com.threerings.util {
 
-import flash.events.TimerEvent;
-
-import flash.utils.Timer;
-
 /**
  * This is deprecated. Use DelayUtil.
  */

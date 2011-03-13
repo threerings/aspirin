@@ -22,7 +22,6 @@
 package com.threerings.display {
 
 import flash.display.Sprite;
-
 import flash.events.Event;
 
 /**

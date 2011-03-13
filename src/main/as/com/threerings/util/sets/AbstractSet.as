@@ -21,8 +21,6 @@
 
 package com.threerings.util.sets {
 
-import com.threerings.util.Map;
-import com.threerings.util.Preconditions;
 import com.threerings.util.Set;
 
 /**

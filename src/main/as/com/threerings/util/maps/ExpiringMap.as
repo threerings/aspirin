@@ -22,8 +22,8 @@
 package com.threerings.util.maps {
 
 import flash.events.TimerEvent;
-import flash.utils.getTimer;
 import flash.utils.Timer;
+import flash.utils.getTimer;
 
 import com.threerings.util.Log;
 import com.threerings.util.Map;

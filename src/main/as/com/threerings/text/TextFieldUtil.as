@@ -21,9 +21,6 @@
 
 package com.threerings.text {
 
-import com.threerings.util.StringUtil;
-import com.threerings.util.Util;
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -34,6 +31,9 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.utils.Dictionary;
+
+import com.threerings.util.StringUtil;
+import com.threerings.util.Util;
 
 public class TextFieldUtil
 {

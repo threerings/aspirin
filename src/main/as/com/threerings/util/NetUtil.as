@@ -22,7 +22,6 @@
 package com.threerings.util {
 
 import flash.net.URLRequest;
-//import flash.net.navigateToURL; // function import
 
 public class NetUtil
 {

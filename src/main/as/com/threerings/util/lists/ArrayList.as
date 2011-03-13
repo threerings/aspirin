@@ -21,7 +21,6 @@
 
 package com.threerings.util.lists {
 
-import com.threerings.util.Arrays;
 import com.threerings.util.List;
 import com.threerings.util.Preconditions;
 import com.threerings.util.Util;

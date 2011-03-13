@@ -21,8 +21,6 @@
 
 package com.threerings.display {
 
-import flash.text.TextFormat;
-
 public class SiningTextAnimation extends TextCharAnimation
 {
     public function SiningTextAnimation (text :String, textArgs :Object)

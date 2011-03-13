@@ -22,7 +22,6 @@
 package com.threerings.util {
 
 import flash.errors.IllegalOperationError;
-
 import flash.events.Event;
 import flash.events.IEventDispatcher;
 

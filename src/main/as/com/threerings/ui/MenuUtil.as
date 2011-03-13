@@ -21,8 +21,8 @@
 
 package com.threerings.ui {
 
-import flash.ui.ContextMenuItem;
 import flash.events.ContextMenuEvent;
+import flash.ui.ContextMenuItem;
 
 import com.threerings.util.CommandEvent;
 

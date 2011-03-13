@@ -22,11 +22,9 @@
 package com.threerings.display {
 
 import flash.display.BitmapData;
-
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.events.TimerEvent;
-
 import flash.utils.Timer;
 
 import com.threerings.util.ValueEvent;

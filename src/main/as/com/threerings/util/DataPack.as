@@ -22,23 +22,15 @@
 package com.threerings.util {
 
 import flash.display.DisplayObject;
-
-import flash.errors.IllegalOperationError;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
-import flash.events.EventDispatcher;
 import flash.events.IOErrorEvent;
 import flash.events.SecurityErrorEvent;
-
+import flash.media.Sound;
 import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
-
-import flash.media.Sound;
-
 import flash.system.ApplicationDomain;
-
 import flash.utils.ByteArray;
 
 import com.threerings.util.MultiLoader;

@@ -23,19 +23,15 @@ package com.threerings.util {
 
 import flash.display.Loader;
 import flash.display.LoaderInfo;
-
 import flash.events.AsyncErrorEvent;
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.IEventDispatcher;
 import flash.events.IOErrorEvent;
 import flash.events.SecurityErrorEvent;
-
 import flash.net.URLRequest;
-
 import flash.system.ApplicationDomain;
 import flash.system.LoaderContext;
-
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 

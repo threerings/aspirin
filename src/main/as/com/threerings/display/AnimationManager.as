@@ -23,10 +23,8 @@ package com.threerings.display {
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;
-
 import flash.events.Event;
-
-import flash.utils.getTimer; // func import
+import flash.utils.getTimer;
 
 import com.threerings.util.Log;
 

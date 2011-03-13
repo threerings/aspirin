@@ -22,22 +22,19 @@
 package com.threerings.util {
 
 import flash.errors.IllegalOperationError;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
-
 import flash.geom.Point;
 import flash.geom.Rectangle;
-
 import flash.utils.ByteArray;
-
-import com.threerings.util.Util;
-import com.threerings.util.XmlUtil;
 
 import nochump.util.zip.ZipEntry;
 import nochump.util.zip.ZipError;
 import nochump.util.zip.ZipFile;
+
+import com.threerings.util.Util;
+import com.threerings.util.XmlUtil;
 
 /**
  * Dispatched when the DataPack could not load due to an error.

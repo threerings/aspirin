@@ -23,10 +23,8 @@ package com.threerings.util {
 
 import flash.display.DisplayObject;
 import flash.display.LoaderInfo;
-
 import flash.events.Event;
 import flash.events.IOErrorEvent;
-
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 

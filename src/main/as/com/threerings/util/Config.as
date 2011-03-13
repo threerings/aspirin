@@ -21,9 +21,8 @@
 
 package com.threerings.util {
 
-import flash.events.NetStatusEvent;
 import flash.events.EventDispatcher;
-
+import flash.events.NetStatusEvent;
 import flash.net.SharedObject;
 import flash.net.SharedObjectFlushStatus;
 

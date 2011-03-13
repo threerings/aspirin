@@ -21,15 +21,15 @@
 
 package com.threerings.ui {
 
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.F;
-
 import flash.display.DisplayObject;
 import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.EventPhase;
 import flash.events.MouseEvent;
+
+import com.threerings.util.EventHandlerManager;
+import com.threerings.util.F;
 
 /**
  * A Sprite that simulates SimpleButton behavior and gets around its annoying limitations.

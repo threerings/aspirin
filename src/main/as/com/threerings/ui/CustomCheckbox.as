@@ -21,15 +21,12 @@
 
 package com.threerings.ui {
 
-import com.threerings.display.DisplayUtil;
-import com.threerings.ui.CustomButton;
-import com.threerings.util.EventHandlerManager;
-import com.threerings.util.F;
-
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+
+import com.threerings.ui.CustomButton;
 
 /**
  * Dispatched when the checkbox's "checked" property changes

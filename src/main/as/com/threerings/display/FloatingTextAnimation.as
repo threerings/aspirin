@@ -22,11 +22,7 @@
 package com.threerings.display {
 
 import flash.display.Sprite;
-
-import flash.events.Event;
-
 import flash.filters.GlowFilter;
-
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;

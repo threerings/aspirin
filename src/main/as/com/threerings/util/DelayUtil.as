@@ -21,9 +21,6 @@
 
 package com.threerings.util {
 
-import flash.events.TimerEvent;
-import flash.utils.Timer;
-
 /**
  * A simple way to delay invocation of a function closure by one or more frames.
  * Similar to UIComponent's callLater, only flex-free.

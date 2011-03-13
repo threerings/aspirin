@@ -22,24 +22,19 @@
 package com.threerings.media {
 
 import flash.display.DisplayObject;
-
 import flash.events.AsyncErrorEvent;
-import flash.events.IOErrorEvent;
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
+import flash.events.IOErrorEvent;
 import flash.events.NetStatusEvent;
 import flash.events.SecurityErrorEvent;
 import flash.events.TimerEvent;
-
 import flash.geom.Point;
-
 import flash.media.SoundTransform;
 import flash.media.Video;
-
 import flash.net.NetConnection;
 import flash.net.NetStream;
-
 import flash.utils.Timer;
 
 import com.threerings.util.DelayUtil;
