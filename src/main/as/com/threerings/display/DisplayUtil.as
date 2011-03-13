@@ -20,11 +20,6 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.display {
-
-import com.threerings.geom.Vector2;
-import com.threerings.util.Arrays;
-import com.threerings.util.ClassUtil;
-
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
@@ -34,6 +29,12 @@ import flash.display.Sprite;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+
+import com.threerings.geom.Vector2;
+
+import com.threerings.util.Arrays;
+import com.threerings.util.ClassUtil;
+import com.threerings.util.F;
 
 public class DisplayUtil
 {
@@ -234,43 +235,74 @@ public class DisplayUtil
     }
 
     /**
-     * Call the specified function for the display object and all descendants.
+     * Call <code>callback</code> for <code>disp</code> and all its descendants.
      *
      * This is nearly exactly like mx.utils.DisplayUtil.walkDisplayObjects,
      * except this method copes with security errors when examining a child.
      *
-     * @param callbackFunction Signature:
+     * @param callback Signature:
      * function (disp :DisplayObject) :void
      *    or
      * function (disp :DisplayObject) :Boolean
+     *    or
+     * function (disp :DisplayObject, depth :int) :void
+     *   or
+     * function (disp :DisplayObject, depth :int) :Boolean
      *
-     * If you return a Boolean, you may return <code>true</code> to indicate that you've
-     * found what you were looking for, and halt iteration.
+     * If <code>callback</code> returns <code>true</code>, traversal will halt.
      *
-     * @return true if iteration was halted by callbackFunction returning true
+     * The depth is 0 for <code>disp</code>, and increases by 1 for each level of children.
+     *
+     * @return <code>true</code> if <code>callback<code> returned <code>true</code>
      */
     public static function applyToHierarchy (
-        disp :DisplayObject, callbackFunction :Function) :Boolean
+        disp :DisplayObject, callback :Function, securityErrorCallback :Function=null,
+        maxDepth :int=int.MAX_VALUE) :Boolean
     {
-        // halt iteration if callbackFunction returns true
-        if (Boolean(callbackFunction(disp))) {
+        var toApply :Function = callback;
+        // Earlier versions of this function didn't pass a depth to callback, so don't
+        // assume that. Since we know we're getting a function of length 1 or 2, adapt manually
+        // instead of using F.adapt.
+        if (callback.length == 1) {
+            toApply = function (curObj :DisplayObject, depth :int) :Boolean {
+                return callback(curObj);
+            }
+        }
+        return applyToHierarchy0(disp, maxDepth, toApply, securityErrorCallback, 0);
+    }
+
+    /** Helper for applyToHierarchy */
+    protected static function applyToHierarchy0 (disp :DisplayObject, maxDepth :int,
+        callback :Function, securityErrorCallback :Function, depth :int) :Boolean
+    {
+        // halt traversal if callbackFunction returns true
+        if (Boolean(callback(disp, depth))) {
             return true;
         }
 
-        if (disp is DisplayObjectContainer) {
-            var container :DisplayObjectContainer = disp as DisplayObjectContainer;
-            var nn :int = container.numChildren;
-            for (var ii :int = 0; ii < nn; ii++) {
-                try {
-                    disp = container.getChildAt(ii);
-                } catch (err :SecurityError) {
-                    continue;
+        if (++depth > maxDepth || !(disp is DisplayObjectContainer)) {
+            return false;
+        }
+        var container :DisplayObjectContainer = DisplayObjectContainer(disp);
+        var nn :int = container.numChildren;
+        for (var ii :int = 0; ii < nn; ii++) {
+            try {
+                disp = container.getChildAt(ii);
+            } catch (err :SecurityError) {
+                if (securityErrorCallback != null) {
+                    securityErrorCallback(err, depth);
                 }
-                // and then we apply outside of the try/catch block so that
-                // we don't hide errors thrown by the callbackFunction.
-                if (applyToHierarchy(disp, callbackFunction)) {
-                    return true;
-                }
+                continue;
+            }
+            // and then we apply outside of the try/catch block so that
+            // we don't hide errors thrown by the callback.
+            // halt iteration if callback returns true
+            if (Boolean(callback(disp, depth))) {
+                return true;
+            }
+            if (applyToHierarchy0(disp as DisplayObjectContainer, maxDepth, callback,
+                    securityErrorCallback, depth)) {
+                return true;
             }
         }
 
@@ -467,18 +499,38 @@ public class DisplayUtil
     }
 
     /**
-     * Find a component with the specified name in the specified display hierarchy.
-     * Whether finding deeply or shallowly, if two components have the target name and are
-     * at the same depth, the first one found will be returned.
+     * Finds the first component with the specified name in the specified display hierarchy turned
+     * up in a depth-first traversal.
      *
      * Note: This method will not find rawChildren of flex componenets.
      */
-    public static function findInHierarchy (
-        top :DisplayObject, name :String, findShallow :Boolean = true,
+    public static function findInHierarchy (top :DisplayObject, name :String,
         maxDepth :int = int.MAX_VALUE) :DisplayObject
     {
-        var result :Array = findInHierarchy0(top, name, findShallow, maxDepth);
-        return (result != null) ? DisplayObject(result[0]) : null;
+        var found :DisplayObject;
+        applyToHierarchy(top, function (cur :DisplayObject, depth :int) :Boolean {
+            if (cur != null && cur.name == name) {
+                found = cur;
+                return true;
+            }
+            return false;
+        }, null, maxDepth);
+        return found;
+    }
+
+    /**
+     * Returns all components for which <code>filter</code> returns true in <code>top</code>'s
+     * hierarchy.
+     */
+    public static function filterHierarchy (top :DisplayObject, filter :Function) :Array
+    {
+        var found :Array = [];
+        applyToHierarchy(top, function (cur :DisplayObject) :void {
+            if (filter(cur)) {
+                found.push(cur);
+            }
+        });
+        return found;
     }
 
     /**
@@ -492,7 +544,24 @@ public class DisplayUtil
      */
     public static function dumpHierarchy (top :DisplayObject) :String
     {
-        return dumpHierarchy0(top);
+        var result :String = "";
+        function printChild (depth :int, description :String) :void
+        {
+            if (depth > 0) {
+                result += "\n";
+            }
+            for (var ii :int = 0; ii < depth; ii++) {
+                result += "  ";
+            }
+            result += description;
+        }
+        function addChild (disp :DisplayObject, depth :int) :void {
+            if (disp != null) {
+                printChild(depth, "\"" + disp.name + "\"  " + ClassUtil.getClassName(disp));
+            }
+        }
+        applyToHierarchy(top, addChild, F.partial(printChild, F._1, "SECURITY-BLOCKED"));
+        return result;
     }
 
     /**
@@ -521,91 +590,5 @@ public class DisplayUtil
         bd.draw(disp, new Matrix(scale, 0, 0, scale, -bounds.x * scale, -bounds.y * scale));
         return bd;
     }
-
-    /**
-     * Internal worker method for findInHierarchy.
-     */
-    private static function findInHierarchy0 (
-        obj :DisplayObject, name :String, shallow :Boolean, maxDepth :int, curDepth :int = 0) :Array
-    {
-        if (obj == null) {
-            return null;
-        }
-
-        var bestResult :Array;
-        if (obj.name == name) {
-            if (shallow) {
-                return [ obj, curDepth ];
-
-            } else {
-                bestResult = [ obj, curDepth ];
-            }
-
-        } else {
-            bestResult = null;
-        }
-
-        if (curDepth < maxDepth && (obj is DisplayObjectContainer)) {
-            var cont :DisplayObjectContainer = obj as DisplayObjectContainer;
-            var nextDepth :int = curDepth + 1;
-            for (var ii :int = 0; ii < cont.numChildren; ii++) {
-                try {
-                    var result :Array = findInHierarchy0(
-                        cont.getChildAt(ii), name, shallow, maxDepth, nextDepth);
-                    if (result != null) {
-                        if (shallow) {
-                            // we update maxDepth for every hit, so result is always
-                            // shallower than any current bestResult
-                            bestResult = result;
-                            maxDepth = int(result[1]) - 1;
-                            if (maxDepth == curDepth) {
-                                break; // stop looking
-                            }
-
-                        } else {
-                            // only replace if it's deeper
-                            if (bestResult == null || int(result[1]) > int(bestResult[1])) {
-                                bestResult = result;
-                            }
-                        }
-                    }
-                } catch (err :SecurityError) {
-                    // skip this child
-                }
-            }
-        }
-
-        return bestResult;
-    }
-
-    /**
-     * Internal worker method for dumpHierarchy.
-     */
-    private static function dumpHierarchy0 (
-        obj :DisplayObject, spaces :String = "", inStr :String = "") :String
-    {
-        if (obj != null) {
-            if (inStr != "") {
-                inStr += "\n";
-            }
-            inStr += spaces + "\"" + obj.name + "\"  " + ClassUtil.getClassName(obj);
-
-            if (obj is DisplayObjectContainer) {
-                spaces += "  ";
-                var container :DisplayObjectContainer = obj as DisplayObjectContainer;
-                for (var ii :int = 0; ii < container.numChildren; ii++) {
-                    try {
-                        var child :DisplayObject = container.getChildAt(ii);
-                        inStr = dumpHierarchy0(container.getChildAt(ii), spaces, inStr);
-                    } catch (err :SecurityError) {
-                        inStr += "\n" + spaces + "SECURITY-BLOCKED";
-                    }
-                }
-            }
-        }
-        return inStr;
-    }
-
-
 }
 }
