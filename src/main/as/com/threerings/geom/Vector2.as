@@ -73,8 +73,8 @@ public class Vector2
     public static function fromXml (xml :XML, xAttrName :String="x", yAttrName :String="y")
         :Vector2
     {
-        var x :int = XmlUtil.getNumberAttr(xml, xAttrName);
-        var y :int = XmlUtil.getNumberAttr(xml, yAttrName);
+        var x :Number = XmlUtil.getNumberAttr(xml, xAttrName);
+        var y :Number = XmlUtil.getNumberAttr(xml, yAttrName);
         return new Vector2(x, y);
     }
 
