@@ -20,10 +20,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.geom {
-
 import flash.geom.Point;
 
 import com.threerings.util.Equalable;
+import com.threerings.util.XmlUtil;
 
 /**
  * Basic 2D vector implementation.
@@ -65,6 +65,17 @@ public class Vector2
         return new Vector2(
             Math.cos(radians) * len,   // == len * (cos(theta)*x - sin(theta)*y)
             Math.sin(radians) * len);  // == len * (sin(theta)*x + cos(theta)*y)
+    }
+
+    /**
+     * Creates a Vector2 from attributes on <code>xml</code>.
+     */
+    public static function fromXml (xml :XML, xAttrName :String="x", yAttrName :String="y")
+        :Vector2
+    {
+        var x :int = XmlUtil.getNumberAttr(xml, xAttrName);
+        var y :int = XmlUtil.getNumberAttr(xml, yAttrName);
+        return new Vector2(x, y);
     }
 
     /**
