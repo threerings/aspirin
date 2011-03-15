@@ -26,9 +26,6 @@ package com.threerings.util {
  */
 public class MathUtil
 {
-    /** The circle constant, tau (&#932;). http://tauday.com/ */
-    public static const TAU :Number = Math.PI * 2;
-
     /**
      * Returns the value of n clamped to be within the range [min, max].
      */
@@ -42,7 +39,7 @@ public class MathUtil
      */
     public static function toRadians (degrees :Number) :Number
     {
-        return degrees * TAU / 360;
+        return degrees * Math.PI / 180;
     }
 
     /**
@@ -50,8 +47,9 @@ public class MathUtil
      */
     public static function normalizeRadians (radians :Number) :Number
     {
-        var norm :Number = radians % TAU;
-        return (norm >= 0) ? norm : (norm + TAU);
+        const twopi :Number = Math.PI * 2;
+        var norm :Number = radians % twopi;
+        return (norm >= 0) ? norm : (norm + twopi);
     }
 
     /**
@@ -59,7 +57,7 @@ public class MathUtil
      */
     public static function toDegrees (radians :Number) :Number
     {
-        return radians * 360 / TAU;
+        return radians * 180 / Math.PI;
     }
 
     /**
