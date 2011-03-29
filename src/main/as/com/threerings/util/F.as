@@ -146,6 +146,37 @@ public class F
     }
 
     /**
+     * Array.forEach with a one argument callback.
+     *
+     * @param f (Object -> void)
+     */
+    public static function forEach (xs :Array, f :Function) :void
+    {
+        return xs.forEach(adapt(f));
+
+    }
+
+    /**
+     * Array.every with a one argument predicate.
+     *
+     * @param f (Object -> Boolean)
+     */
+    public static function every (xs :Array, f :Function) :Boolean
+    {
+        return xs.every(adapt(f));
+    }
+
+    /**
+     * Array.some with a one argument predicate.
+     *
+     * @param f (Object -> Boolean)
+     */
+    public static function some (xs :Array, f :Function) :Boolean
+    {
+        return xs.some(adapt(f));
+    }
+
+    /**
      * Creates a listener that removes itself from the event source and delegates to handler.
      *
      * @param handler (Event -> void)
