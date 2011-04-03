@@ -27,6 +27,10 @@
     <asdoc srcdir="${asrc.dir}" libpath="${aslib.path}" destdir="${deploy.dir}/asdocs"/>
   </target>
 
+  <target name="dist" depends="aslib"
+          description="Builds the library (for consistency with Java builds)..">
+  </target>
+
   <target name="maven-deploy" depends="aslib"
           description="Deploys build artifacts to a Maven repository.">
     <mavendeploy file="${deploy.dir}/${ant.project.name}.swc" pom="pom.xml"/>
