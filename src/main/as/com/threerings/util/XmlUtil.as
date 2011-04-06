@@ -114,18 +114,16 @@ public class XmlUtil
 
     public static function getSingleChild (xml :XML, name :String, defaultValue :* = undefined) :XML
     {
-        var child :XML = xml.child(name)[0];
-        if (null == child) {
-            if (undefined !== defaultValue) {
-                return defaultValue;
-            } else {
-                throw new XmlReadError(
-                    "error accessing child '" + name + "': child does not exist",
-                    xml);
-            }
+        var children :XMLList = xml.child(name);
+        if (children.length() == 0 && undefined !== defaultValue) {
+            return defaultValue;
+        } else if (children.length() != 1) {
+            throw new XmlReadError(
+                "There must be exactly 1 '" + name + "' child (found " + children.length() + ")",
+                xml);
         }
 
-        return child;
+        return children[0];
     }
 
     public static function hasAttribute (xml :XML, name :String) :Boolean
