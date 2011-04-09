@@ -42,6 +42,33 @@ public class FileUtil
         }
         return "";
     }
+
+    /**
+     * Returns the substring composed of the characters before the last '.' in the supplied string.
+     */
+    public static function stripDotSuffix (filename :String) :String
+    {
+        var ix :int = filename.lastIndexOf(".");
+        return (ix >= 0 ? filename.substr(0, ix) : filename);
+    }
+
+    /**
+     * Returns the substring composed of the characters after the last path separator
+     * in the supplied string.
+     */
+    public static function stripPath (filename :String, separator :String = "/") :String
+    {
+        var ix :int = filename.lastIndexOf(separator);
+        return (ix >= 0 ? filename.substr(ix + 1) : filename);
+    }
+
+    /**
+     * Strips the path and dot-suffix from the given filename.
+     */
+    public static function stripPathAndDotSuffix (filename :String, separator :String = "/") :String
+    {
+        return stripDotSuffix(stripPath(filename, separator));
+    }
 }
 
 }
