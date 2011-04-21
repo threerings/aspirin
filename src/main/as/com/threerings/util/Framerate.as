@@ -27,6 +27,7 @@ import flash.utils.getTimer;
 
 public class Framerate
 {
+    public var frameTimeCur :Number = -1;
     public var fpsCur :Number = -1;
     public var fpsMean :Number = -1;
     public var fpsMin :Number = -1;
@@ -52,8 +53,8 @@ public class Framerate
         }
 
         var time :int = flash.utils.getTimer();
-        var dt :int = time - _lastTime;
-        fpsCur = 1000 / dt;
+        frameTimeCur = time - _lastTime;
+        fpsCur = 1000 / frameTimeCur;
 
         // calculate mean, min, max
         _fpsBuffer.push(fpsCur);
