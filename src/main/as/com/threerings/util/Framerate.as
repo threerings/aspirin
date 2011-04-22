@@ -38,6 +38,8 @@ public class Framerate
 
     public function Framerate (disp :DisplayObject, timeWindow :int = DEFAULT_TIME_WINDOW)
     {
+        // keep enough historty for the number of 1/60 frames in timeWindow
+        // TODO: if this all flies, establish a way to use historySize or approxTimeWindow
         setHistorySize(timeWindow * 60 / 1000);
         _disp = disp;
         _disp.addEventListener(Event.ENTER_FRAME, onEnterFirstFrame);
