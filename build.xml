@@ -33,7 +33,7 @@
 
   <target name="maven-deploy" depends="aslib"
           description="Deploys build artifacts to a Maven repository.">
-    <mavendeploy file="${deploy.dir}/${ant.project.name}.swc" pom="pom.xml"/>
+    <mavendeploy file="${deploy.dir}/${ant.project.name}.swc" pom="pom.xml" srcdir="${asrc.dir}"/>
     <mavendeploy file="bin/import_action.py" pom="etc/py-pom.xml"/>
   </target>
 </project>
