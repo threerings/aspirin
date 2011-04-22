@@ -23,60 +23,86 @@ package com.threerings.util {
 
 import flash.display.DisplayObject;
 import flash.events.Event;
+import flash.utils.clearInterval;
 import flash.utils.getTimer;
+import flash.utils.setInterval;
 
 public class Framerate
 {
-    public var frameTimeCur :Number = -1;
-    public var fpsCur :Number = -1;
-    public var fpsMean :Number = -1;
-    public var fpsMin :Number = -1;
-    public var fpsMax :Number = -1;
+    // init with optimistic numbers to avoid special cases later
+    public var fpsCur :Number = 30;
+    public var frameTimeCur :Number = 1000 / fpsCur;
+    public var fpsMean :Number = 30;
+    public var fpsMin :Number = 30;
+    public var fpsMax :Number = 30;
 
     public function Framerate (disp :DisplayObject, timeWindow :int = DEFAULT_TIME_WINDOW)
     {
-        _fpsBuffer = new TimeBuffer(timeWindow, 128);
+        setHistorySize(timeWindow * 60 / 1000);
         _disp = disp;
-        _disp.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        _disp.addEventListener(Event.ENTER_FRAME, onEnterFirstFrame);
+
+        // calculate mean, min, max every so often
+        _statsInterval = setInterval(calcStats, AVERAGE_INTERVAL);
+    }
+
+    public function setHistorySize (histSize :int) :void
+    {
+        // start with all 30 to avoid edge special cases in sampler
+        _fpsBuffer = ArrayUtil.create(histSize, 30);
+        _fpsOffset = 0;
     }
 
     public function shutdown () :void
     {
+        _disp.removeEventListener(Event.ENTER_FRAME, onEnterFirstFrame);
         _disp.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+        clearInterval(_statsInterval);
     }
 
-    protected function onEnterFrame (... ignored) :void
+    protected function onEnterFirstFrame (_:*) :void
     {
-        if (_lastTime < 0) {
-            _lastTime = flash.utils.getTimer();
-            return;
-        }
+        _lastTime = flash.utils.getTimer();
+        _disp.removeEventListener(Event.ENTER_FRAME, onEnterFirstFrame);
+        _disp.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    }
 
+    protected function onEnterFrame (_:*) :void
+    {
+        // calculate sample
         var time :int = flash.utils.getTimer();
         frameTimeCur = time - _lastTime;
         fpsCur = 1000 / frameTimeCur;
 
-        // calculate mean, min, max
-        _fpsBuffer.push(fpsCur);
-        var fpsSum :Number = 0;
-        fpsMin = Number.MAX_VALUE;
-        fpsMax = Number.MIN_VALUE;
-        _fpsBuffer.forEach(function (num :Number, timestamp :int) :void {
-            fpsSum += num;
-            fpsMin = Math.min(fpsMin, num);
-            fpsMax = Math.max(fpsMax, num);
-        });
-        fpsMean = fpsSum / _fpsBuffer.length;
+        // record sample
+        _fpsBuffer[_fpsOffset] = fpsCur;
+        _fpsOffset = (_fpsOffset + 1) % _fpsBuffer.length;
 
         _lastTime = time;
     }
 
-    protected var _fpsBuffer :TimeBuffer;
+    protected function calcStats () :void
+    {
+        var fpsSum :Number = 0;
+        fpsMin = Number.MAX_VALUE;
+        fpsMax = Number.MIN_VALUE;
+        for each (var num :Number in _fpsBuffer) {
+            fpsSum += num;
+            fpsMin = Math.min(fpsMin, num);
+            fpsMax = Math.max(fpsMax, num);
+        };
+        fpsMean = fpsSum / _fpsBuffer.length;
+    }
+
     protected var _disp :DisplayObject;
 
-    protected var _lastTime :int = -1;
+    protected var _fpsBuffer :Array;
+    protected var _fpsOffset :int;
+    protected var _lastTime :int;
+    protected var _statsInterval :uint;
 
     protected static const DEFAULT_TIME_WINDOW :int = 5 * 1000; // 5 seconds
+    protected static const AVERAGE_INTERVAL :int = 500; // half second
 }
 
 }
