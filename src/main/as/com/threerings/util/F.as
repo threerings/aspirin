@@ -235,9 +235,7 @@ public class F
                 default:
                     throw new Error("You animal!  F.constructor only handles up to 10 args!");
             }
-
         }
     }
 }
-
 }

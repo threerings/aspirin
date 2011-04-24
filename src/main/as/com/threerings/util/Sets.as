@@ -190,16 +190,27 @@ public class Sets
     }
 
     /**
-     * Adds an Array of objects to the given set.
+     * Adds an Array or Set of objects to the given set.
      * @return true if any object was added to the set, and false otherwise.
      */
-    public static function addAll (theSet :Set, objects :Array) :Boolean
+    public static function addAll (theSet :Set, objects :Object) :Boolean
     {
         var modified :Boolean = false;
-        for each (var o :Object in objects) {
-            if (theSet.add(o)) {
-                modified = true;
+        if (objects is Set) {
+            Set(objects).forEach(function (item :Object) :void {
+                if (theSet.add(item)) {
+                    modified = true;
+                }
+            });
+        } else if (objects is Array) {
+            for each (var o :Object in objects as Array) {
+                if (theSet.add(o)) {
+                    modified = true;
+                }
             }
+        } else {
+            throw new ArgumentError("objects must be an Array or a Set, not a '" +
+                ClassUtil.getClassName(objects) + "'");
         }
         return modified;
     }
