@@ -79,6 +79,35 @@ public class Vector2
     }
 
     /**
+     * Returns a new vector that is the linear interpolation of vectors a and b
+     * at proportion p, where p is in [0, 1], p = 0 means the result is equal to a,
+     * and p = 1 means the result is equal to b.
+     */
+    public static function interpolate (a :Vector2, b :Vector2, p :Number) :Vector2
+    {
+        // todo: maybe convert this into a non-static function, to fit the rest of the class?
+        var q :Number = 1 - p;
+        return new Vector2(q * a.x + p * b.x,
+            q * a.y + p * b.y);
+    }
+
+    /**
+     * Returns the smaller of the two angles between v1 and v2, in radians.
+     * Result will be in range [0, pi].
+     */
+    public static function smallerAngleBetween (v1 :Vector2, v2 :Vector2) :Number
+    {
+        // v1 dot v2 == |v1||v2|cos(theta)
+        // theta = acos ((v1 dot v2) / (|v1||v2|))
+
+        var dot :Number = v1.dot(v2);
+        var len1 :Number = v1.length;
+        var len2 :Number = v2.length;
+
+        return Math.acos(dot / (len1 * len2));
+    }
+
+    /**
      * Constructs a Vector2 from the given values.
      */
     public function Vector2 (x :Number = 0, y :Number = 0)
@@ -256,6 +285,25 @@ public class Vector2
     }
 
     /**
+     * Offsets this Vector2's values by the specified amounts.
+     * Returns a reference to 'this', for chaining.
+     */
+    public function offsetLocal (xOffset :Number, yOffset :Number) :Vector2
+    {
+        x += xOffset;
+        y += yOffset;
+        return this;
+    }
+
+    /**
+     * Returns a copy of this Vector2, offset by the specified amount.
+     */
+    public function offset (xOffset :Number, yOffset :Number) :Vector2
+    {
+        return clone().offsetLocal(xOffset, yOffset);
+    }
+
+    /**
      * Returns a vector that is perpendicular to this one.
      * If ccw = true, the perpendicular vector is rotated 90 degrees counter-clockwise from this
      * vector, otherwise it's rotated 90 degrees clockwise.
@@ -321,35 +369,6 @@ public class Vector2
     public function similar (v :Vector2, epsilon :Number) :Boolean
     {
         return ((Math.abs(x - v.x) <= epsilon) && (Math.abs(y - v.y) <= epsilon));
-    }
-
-    /**
-     * Returns a new vector that is the linear interpolation of vectors a and b
-     * at proportion p, where p is in [0, 1], p = 0 means the result is equal to a,
-     * and p = 1 means the result is equal to b.
-     */
-    public static function interpolate (a :Vector2, b :Vector2, p :Number) :Vector2
-    {
-        // todo: maybe convert this into a non-static function, to fit the rest of the class?
-        var q :Number = 1 - p;
-        return new Vector2(q * a.x + p * b.x,
-                           q * a.y + p * b.y);
-    }
-
-    /**
-     * Returns the smaller of the two angles between v1 and v2, in radians.
-     * Result will be in range [0, pi].
-     */
-    public static function smallerAngleBetween (v1 :Vector2, v2 :Vector2) :Number
-    {
-        // v1 dot v2 == |v1||v2|cos(theta)
-        // theta = acos ((v1 dot v2) / (|v1||v2|))
-
-        var dot :Number = v1.dot(v2);
-        var len1 :Number = v1.length;
-        var len2 :Number = v2.length;
-
-        return Math.acos(dot / (len1 * len2));
     }
 
     /** Returns a string representation of the Vector2. */
