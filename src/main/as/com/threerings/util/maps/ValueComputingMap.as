@@ -22,6 +22,7 @@
 package com.threerings.util.maps {
 
 import com.threerings.util.Map;
+import com.threerings.util.Maps;
 
 /**
  * A Map that fills in values for missing keys using a supplied function rather than returning
@@ -29,6 +30,18 @@ import com.threerings.util.Map;
  */
 public class ValueComputingMap extends ForwardingMap
 {
+    /** Creates a new ValueComputingMap that uses the given function */
+    public static function newMapOf(keyClazz :Class, computer :Function) :Map
+    {
+        return new ValueComputingMap(Maps.newMapOf(keyClazz), computer);
+    }
+
+    /** Creates a new ValueComputing map that fills in empty arrays for missing keys. */
+    public static function newArrayMapOf(keyClazz :Class) :Map
+    {
+        return new ValueComputingMap(Maps.newMapOf(keyClazz), function (..._) :Array { return [] });
+    }
+
     public function ValueComputingMap (source :Map, computer :Function)
     {
         super(source);
