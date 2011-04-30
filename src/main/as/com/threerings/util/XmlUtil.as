@@ -126,7 +126,13 @@ public class XmlUtil
         return children[0];
     }
 
+    [Deprecated(replacement="hasAttr(xml, name)")]
     public static function hasAttribute (xml :XML, name :String) :Boolean
+    {
+        return hasAttr(xml, name);
+    }
+
+    public static function hasAttr (xml :XML, name :String) :Boolean
     {
         return (null != xml.attribute(name)[0]);
     }
