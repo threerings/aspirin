@@ -107,6 +107,11 @@ public class XmlUtil
         }
     }
 
+    public static function newClassMap () :XmlClassMapBuilder
+    {
+        return new XmlClassMapBuilder();
+    }
+
     public static function hasChild (xml :XML, name :String) :Boolean
     {
         return xml.child(name).length() > 0;
@@ -124,6 +129,34 @@ public class XmlUtil
         }
 
         return children[0];
+    }
+
+    public static function instantiateNode (classMap :XmlClassMap, xml :XML, ...initArgs) :*
+    {
+        var clazz :Class = requireClassMapping(xml, classMap);
+
+        initArgs = Util.unfuckVarargs(initArgs);
+
+        // Discover whether the class an XML arg in its first position. If it does,
+        // pass 'xml' as the first argument to the constructor
+        var initArgTypes :Array = classMap.getConstructorParamTypes();
+        if (initArgTypes.length > 0 &&
+            initArgTypes[0] == XML &&
+            initArgs.length == initArgTypes.length - 1) {
+            initArgs.unshift(xml);
+        }
+
+        return F.constructor(clazz).apply(null, initArgs);
+    }
+
+    public static function instantiateAllChildren (classMap :XmlClassMap, xml :XML,
+        ...initArgs) :Array
+    {
+        var objects :Array = [];
+        for each (var childXml :XML in xml.elements()) {
+            objects.push(instantiateNode(classMap, childXml, initArgs));
+        }
+        return objects;
     }
 
     [Deprecated(replacement="hasAttr(xml, name)")]
@@ -236,6 +269,15 @@ public class XmlUtil
             return defaultValue;
         }
         return getText(getSingleChild(xml, childName));
+    }
+
+    protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Class
+    {
+        var clazz :Class = classMap.getConstructor(xml);
+        if (clazz == null) {
+            throw new XmlReadError("No mapped class for '" + xml.localName() + "'", xml);
+        }
+        return clazz;
     }
 
     protected static function parseStringMember (stringVal :String, stringMapping :Array) :int
