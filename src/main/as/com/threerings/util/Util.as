@@ -125,6 +125,27 @@ public class Util
     }
 
     /**
+     * Serially and asynchronously calls a function for each element in an array, and an optional
+     * function on completion.
+     * <listing version="3.0">
+     *      function iterate (element :*, gotoNext :Function) :void {}
+     *      function finish () :void {}
+     * </listing>
+     */
+    public static function asyncForEach (xs :Array, iterate :Function, finish :Function) :void
+    {
+        var rest :Array = ArrayUtil.copyOf(xs);
+        function doNext () :void {
+            if (rest.length == 0) {
+                finish();
+                return;
+            }
+            iterate(rest.shift(), doNext);
+        }
+        doNext();
+    }
+
+    /**
      * Returns true if the specified object is just a regular old associative hash.
      */
     public static function isPlainObject (obj :Object) :Boolean
