@@ -70,11 +70,13 @@ public class Vector2
     /**
      * Creates a Vector2 from attributes on <code>xml</code>.
      */
-    public static function fromXml (xml :XML, xAttrName :String="x", yAttrName :String="y")
-        :Vector2
+    public static function fromXml (xml :XML, xAttrName :String="x", yAttrName :String="y",
+        defaultValue :Vector2 = null) :Vector2
     {
-        var x :Number = XmlUtil.getNumberAttr(xml, xAttrName);
-        var y :Number = XmlUtil.getNumberAttr(xml, yAttrName);
+        var x :Number = XmlUtil.getNumberAttr(xml, xAttrName,
+            (defaultValue != null ? defaultValue.x : undefined));
+        var y :Number = XmlUtil.getNumberAttr(xml, yAttrName,
+            (defaultValue != null ? defaultValue.y : undefined));
         return new Vector2(x, y);
     }
 
