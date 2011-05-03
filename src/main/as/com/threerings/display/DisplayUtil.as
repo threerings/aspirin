@@ -590,5 +590,26 @@ public class DisplayUtil
         bd.draw(disp, new Matrix(scale, 0, 0, scale, -bounds.x * scale, -bounds.y * scale));
         return bd;
     }
+
+    /**
+     * Gets the children of a display object container into an array.
+     */
+    public static function getChildren (parent :DisplayObjectContainer) :Array
+    {
+        var children :Array = [];
+        forEachChild(parent, children.push);
+        return children;
+    }
+
+    /**
+     * Calls a method for each child of a display object.
+     */
+    public static function forEachChild (parent :DisplayObjectContainer, callback :Function) :void
+    {
+        var children :Array = new Array(parent.numChildren);
+        for (var ii :int = 0; ii < parent.numChildren; ++ii) {
+            callback(parent.getChildAt(ii));
+        }
+    }
 }
 }
