@@ -606,8 +606,8 @@ public class DisplayUtil
      */
     public static function forEachChild (parent :DisplayObjectContainer, callback :Function) :void
     {
-        var children :Array = new Array(parent.numChildren);
-        for (var ii :int = 0; ii < parent.numChildren; ++ii) {
+        var nn :int = parent.numChildren;
+        for (var ii :int = 0; ii < nn; ++ii) {
             callback(parent.getChildAt(ii));
         }
     }
