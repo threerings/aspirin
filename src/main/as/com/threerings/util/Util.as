@@ -134,7 +134,7 @@ public class Util
      */
     public static function asyncForEach (xs :Array, iterate :Function, finish :Function) :void
     {
-        var rest :Array = ArrayUtil.copyOf(xs);
+        var rest :Array = Arrays.copyOf(xs);
         function doNext () :void {
             if (rest.length == 0) {
                 finish();
@@ -162,7 +162,7 @@ public class Util
                 finish();
             }
         }
-        for each (var elem :* in ArrayUtil.copyOf(xs)) {
+        for each (var elem :* in Arrays.copyOf(xs)) {
             iterate(elem, onOneComplete);
         }
         onOneComplete();

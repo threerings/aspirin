@@ -51,7 +51,7 @@ public class Framerate
     public function setHistorySize (histSize :int) :void
     {
         // start with all 30 to avoid edge special cases in sampler
-        _fpsBuffer = ArrayUtil.create(histSize, 30);
+        _fpsBuffer = Arrays.create(histSize, 30);
         _fpsOffset = 0;
     }
 
