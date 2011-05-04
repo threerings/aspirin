@@ -44,6 +44,27 @@ public class TextFieldUtil
     public static const HEIGHT_PAD :int = 4;
 
     /**
+     * Create a TextFieldBuilder for detailed specification of a TextField.
+     *
+     * @example
+     * <listing version="3.0">
+     * var tf :TextField = TextFieldUtil.newBuilder()
+     *     .multiline(true)
+     *     .wordWrap(true)
+     *     .selectable(false)
+     *     .autoSizeCenter()
+     *     .alignCenter()
+     *     .size(14)
+     *     .text(text)
+     *     .build();
+     * </listing>
+     */
+    public static function newBuilder () :TextFieldBuilder
+    {
+        return new TextFieldBuilder();
+    }
+
+    /**
      * Ensures that a single-line TextField is not wider than the specified width, and
      * truncates it with the truncation string if is. If the TextField is truncated,
      * it will be resized to its new textWidth.
