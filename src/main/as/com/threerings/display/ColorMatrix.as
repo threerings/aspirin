@@ -473,7 +473,7 @@ public class ColorMatrix
 
     public function applyColorDeficiency (type :String) :ColorMatrix
     {
-        // the values of this method are copied from http ://www.nofunc.com/Color_Matrix_Library/
+        // the values of this method are copied from http://www.nofunc.com/Color_Matrix_Library/
 
         switch (type) {
             case 'Protanopia' :
