@@ -163,6 +163,7 @@ public class Util
             }
         }
         for each (var elem :* in Arrays.copyOf(xs)) {
+            ++remaining;
             iterate(elem, onOneComplete);
         }
         onOneComplete();
