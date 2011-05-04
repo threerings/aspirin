@@ -146,6 +146,29 @@ public class Util
     }
 
     /**
+     * Calls an asynchronous function on each element in an array and invokes a callback when all
+     * calls have completed. The iterate function must guarantee exactly one call to the done
+     * function.
+     * <listing version="3.0">
+     *      function iterate (element :*, done :Function) :void {}
+     *      function finish () :void {}
+     * </listing>
+     */
+    public static function parallelForEach (xs :Array, iterate :Function, finish :Function) :void
+    {
+        var remaining :int = 1; // one for this method
+        function onOneComplete () :void {
+            if (--remaining == 0) {
+                finish();
+            }
+        }
+        for each (var elem :* in ArrayUtil.copyOf(xs)) {
+            iterate(elem, onOneComplete);
+        }
+        onOneComplete();
+    }
+
+    /**
      * Returns true if the specified object is just a regular old associative hash.
      */
     public static function isPlainObject (obj :Object) :Boolean
