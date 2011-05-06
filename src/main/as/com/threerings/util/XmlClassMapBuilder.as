@@ -9,9 +9,21 @@ public class XmlClassMapBuilder
         return this;
     }
 
-    public function map (elementName :String, clazz :Class) :XmlClassMapBuilder
+    /**
+     * Binds an XML element name to a constructor. 'classOrFactoryFunction' can either be
+     * a 'Class' object, or a Function that generates an instance of the class.
+     */
+    public function map (elementName :String, classOrFactoryFunction :Object) :XmlClassMapBuilder
     {
-        var oldVal :Object = _entries.put(elementName, F.constructor(clazz));
+        Preconditions.checkArgument(
+            classOrFactoryFunction is Class || classOrFactoryFunction is Function,
+            "classOrFactoryFunction must be of type Class or Function");
+
+        var ctorFn :Function = (classOrFactoryFunction is Class ?
+            F.constructor(Class(classOrFactoryFunction)) :
+            Function(classOrFactoryFunction));
+
+        var oldVal :Object = _entries.put(elementName, ctorFn);
         Preconditions.checkState(oldVal == null, "Duplicate mapping for '" + elementName + "'");
         return this;
     }
