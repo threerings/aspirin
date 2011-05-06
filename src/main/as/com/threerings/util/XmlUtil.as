@@ -133,7 +133,7 @@ public class XmlUtil
 
     public static function instantiateNode (classMap :XmlClassMap, xml :XML, ...initArgs) :*
     {
-        var clazz :Class = requireClassMapping(xml, classMap);
+        var ctor :Function = requireClassMapping(xml, classMap);
 
         initArgs = Util.unfuckVarargs(initArgs);
 
@@ -146,7 +146,7 @@ public class XmlUtil
             initArgs.unshift(xml);
         }
 
-        return F.constructor(clazz).apply(null, initArgs);
+        return ctor.apply(null, initArgs);
     }
 
     public static function instantiateAllChildren (classMap :XmlClassMap, xml :XML,
@@ -271,13 +271,13 @@ public class XmlUtil
         return getText(getSingleChild(xml, childName));
     }
 
-    protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Class
+    protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Function
     {
-        var clazz :Class = classMap.getConstructor(xml);
-        if (clazz == null) {
+        var ctor :Function = classMap.getConstructor(xml);
+        if (ctor == null) {
             throw new XmlReadError("No mapped class for '" + xml.localName() + "'", xml);
         }
-        return clazz;
+        return ctor;
     }
 
     protected static function parseStringMember (stringVal :String, stringMapping :Array) :int

@@ -11,7 +11,7 @@ public class XmlClassMapBuilder
 
     public function map (elementName :String, clazz :Class) :XmlClassMapBuilder
     {
-        var oldVal :Object = _entries.put(elementName, clazz);
+        var oldVal :Object = _entries.put(elementName, F.constructor(clazz));
         Preconditions.checkState(oldVal == null, "Duplicate mapping for '" + elementName + "'");
         return this;
     }
@@ -27,7 +27,7 @@ public class XmlClassMapBuilder
     }
 
     protected var _ctorParamTypes :Array = [];
-    protected const _entries :Map = Maps.newMapOf(String);
+    protected const _entries :Map = Maps.newMapOf(String); // Map<String, Function>
 }
 
 }
@@ -49,7 +49,7 @@ class XmlClassMapImpl
         return _ctorParamTypes;
     }
 
-    public function getConstructor (xmlElement :XML) :Class
+    public function getConstructor (xmlElement :XML) :Function
     {
         return _entries.get(xmlElement.localName());
     }
