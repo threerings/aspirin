@@ -34,6 +34,7 @@ import com.threerings.geom.Vector2;
 
 import com.threerings.util.Arrays;
 import com.threerings.util.ClassUtil;
+import com.threerings.util.Comparators;
 import com.threerings.util.F;
 
 public class DisplayUtil
@@ -207,30 +208,33 @@ public class DisplayUtil
     }
 
     /**
-     * Sorts a container's children, using Arrays.stableSort.
-     *
-     * comp is a function that takes two DisplayObjects, and returns int -1 if the first
+     * Sorts a container's children.
+     * @param container the container whose children to sort
+     * @param comp a function that takes two DisplayObjects, and returns int -1 if the first
      * object should appear before the second in the container, 1 if it should appear after,
-     * and 0 if the order does not matter. If omitted, Comparators.COMPARABLE
+     * and 0 if the order does not matter. If omitted, Comparators.compareComparables
      * will be used- all the children should implement Comparable.
      */
     public static function sortDisplayChildren (
         container :DisplayObjectContainer, comp :Function = null) :void
     {
-        var numChildren :int = container.numChildren;
-        // put all children in an array
-        var children :Array = new Array(numChildren);
-        var ii :int;
-        for (ii = 0; ii < numChildren; ii++) {
-            children[ii] = container.getChildAt(ii);
+        if (comp == null) {
+            comp = Comparators.compareComparables;
         }
 
-        // stable sort the array
-        Arrays.stableSort(children, comp);
-
-        // set their new indexes
-        for (ii = 0; ii < numChildren; ii++) {
-            container.setChildIndex(DisplayObject(children[ii]), ii);
+        // insertion sort implementation
+        var numChildren :int = container.numChildren;
+        for (var ii :int = 1; ii < numChildren; ii++) {
+            var val :DisplayObject = container.getChildAt(ii);
+            var jj :int = ii - 1;
+            for (; jj >= 0; jj--) {
+                if (comp(val, container.getChildAt(jj)) >= 0) {
+                    break;
+                }
+            }
+            if (++jj != ii) {
+                container.setChildIndex(val, jj);
+            }
         }
     }
 
