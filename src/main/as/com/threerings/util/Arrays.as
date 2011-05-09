@@ -178,8 +178,14 @@ public class Arrays
         for (var ii :int = 1; ii < nn; ii++) {
             var val :* = arr[ii];
             var jj :int = ii - 1;
-            for (; jj >= 0; jj--) {
-                var compVal :* = arr[jj];
+            var compVal :* = arr[jj];
+            var diff :Number = comp(val, compVal);
+            if (diff >= 0) {
+                continue;
+            }
+            arr[ii] = compVal;
+            for (jj--; jj >= 0; jj--) {
+                compVal = arr[jj];
                 if (comp(val, compVal) >= 0) {
                     break;
                 }
