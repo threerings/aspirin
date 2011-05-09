@@ -179,8 +179,7 @@ public class Arrays
             var val :* = arr[ii];
             var jj :int = ii - 1;
             var compVal :* = arr[jj];
-            var diff :Number = comp(val, compVal);
-            if (diff >= 0) {
+            if (comp(val, compVal) >= 0) {
                 continue;
             }
             arr[ii] = compVal;
