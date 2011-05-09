@@ -21,7 +21,7 @@ public class XmlClassMapBuilder
 
         var ctorFn :Function = (classOrFactoryFunction is Class ?
             F.constructor(Class(classOrFactoryFunction)) :
-            Function(classOrFactoryFunction));
+            classOrFactoryFunction as Function);
 
         var oldVal :Object = _entries.put(elementName, ctorFn);
         Preconditions.checkState(oldVal == null, "Duplicate mapping for '" + elementName + "'");
