@@ -239,6 +239,38 @@ public class DisplayUtil
     }
 
     /**
+     * Inserts a display object into a sorted container in its correct location according to a
+     * comparison function.
+     *
+     * @param comp a function that takes two objects and returns -1 if the first object should
+     * appear before the second in the container, 1 if it should appear after, and 0 if the order
+     * does not matter. If omitted, Comparators.compareComparables is used and all current children
+     * and the one to insert should be Comparable objects.
+     */
+    public static function sortedInsert (container :DisplayObjectContainer, child :DisplayObject,
+        comp :Function) :void
+    {
+        var low :int = 0;
+        var high :int = container.numChildren - 1;
+        while (low <= high) {
+            // http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
+            var mid :int = (low + high) >>> 1;
+            var midVal :DisplayObject = container.getChildAt(mid);
+            var cmp :int = comp(midVal, child);
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                container.addChildAt(child, mid);
+                return;
+            }
+        }
+
+        container.addChildAt(child, low);
+    }
+
+    /**
      * Call <code>callback</code> for <code>disp</code> and all its descendants.
      *
      * This is nearly exactly like mx.utils.DisplayUtil.walkDisplayObjects,
