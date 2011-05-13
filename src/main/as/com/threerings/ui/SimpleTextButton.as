@@ -40,7 +40,7 @@ public class SimpleTextButton extends SimpleButton
         upState = makeFace(text, rounded, foreground, background, padding, textFormat);
         overState = makeFace(text, rounded, highlight, background, padding, textFormat);
         downState = makeFace(text, rounded, background, highlight, padding, textFormat);
-        hitTestState = upState;
+        hitTestState = overState;
     }
 
     protected function makeFace (
