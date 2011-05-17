@@ -32,6 +32,18 @@ import flash.events.IEventDispatcher;
 public class EventHandlerManager
 {
     /**
+     * Creates an event handler manager with the given listener added in the usual fashion etc.
+     */
+    public static function registerOne (
+        dispatcher :IEventDispatcher, event :String, listener :Function,
+        useCapture :Boolean = false, priority :int = 0) :EventHandlerManager
+    {
+        var mgr :EventHandlerManager = new EventHandlerManager();
+        mgr.registerListener(dispatcher, event, listener, useCapture, priority);
+        return mgr;
+    }
+
+    /**
      * Create a EventHandlerManager, optionally specifying a "globalErrorHandler" with the
      * following signature:
      * <listing version="3.0">
@@ -50,8 +62,7 @@ public class EventHandlerManager
         _errorHandler = globalErrorHandler;
 
         if (parent != null) {
-            _parent = parent;
-            parent._children.push(this);
+            _parent.adopt(this);
         }
     }
 
@@ -147,6 +158,22 @@ public class EventHandlerManager
     public function registerUnload (dispatcher :IEventDispatcher) :void
     {
         registerListener(dispatcher, Event.UNLOAD, Util.adapt(freeAllHandlers));
+    }
+
+    /**
+     * Adds the given handler manager to this manager's children. Typically this is done by
+     * passing this to the child's constructor, but this method allows EventHandlerManager
+     * instances to also be used as a sort of registration that can be discarded or naturally
+     * embedded inside a hierarhcy.
+     * @param child will become a child of this instance. If this is shutdown, or its
+     * freeAllHandlers() or freeAllOn() functions are called, child will be similarly affected.
+     * @return
+     */
+    public function adopt (child :EventHandlerManager) :void
+    {
+        Preconditions.checkArgument(child._parent == null, "Cheeky!");
+        child._parent = this;
+        _children.push(child);
     }
 
     /**
