@@ -45,6 +45,34 @@ public class StageLifetime
     }
 
     /**
+     * Calls the given function whenever the corresponding display object is added to the stage
+     * <em>or</em> once the object is on the stage and the stage is resized. This includes a
+     * single synchronous call if the object is already on the stage.
+     * @param setNewSize closure that receives the width and height of the stage:
+     * <listing version="3.0">
+     *     function onSizeChange (newStageWidth :Number, newStageHeight :Number) :void
+     * </listing>
+     */
+    public static function listenForSizeChange (disp :DisplayObject, setNewSize :Function) :void
+    {
+        function onResize (_:*) :void {
+            setNewSize(disp.stage.stageWidth, disp.stage.stageHeight);
+        }
+        function onAdd (_:*) :void {
+            disp.stage.addEventListener(Event.RESIZE, onResize);
+            onResize(null);
+        }
+        function onRemove (_:*) :void {
+            disp.stage.removeEventListener(Event.RESIZE, onResize);
+        }
+        listen(disp, onAdd, onRemove);
+
+        if (disp.stage != null) {
+            onResize(null);
+        }
+    }
+
+    /**
      * Adds the given handler for ADDED_TO_STAGE, but guarantees not to call twice in succession
      * without an intervening REMOVED_FROM_STAGE event.
      */
