@@ -117,14 +117,16 @@ public class XmlUtil
         return xml.child(name).length() > 0;
     }
 
-    public static function getSingleChild (xml :XML, name :String, defaultValue :* = undefined) :XML
+    public static function getSingleChild (xml :XML, name :String = "*",
+        defaultValue :* = undefined) :XML
     {
-        var children :XMLList = xml.child(name);
+        var children :XMLList = xml.elements(name);
         if (children.length() == 0 && undefined !== defaultValue) {
             return defaultValue;
         } else if (children.length() != 1) {
-            throw new XmlReadError(
-                "There must be exactly 1 '" + name + "' child (found " + children.length() + ")",
+            throw new XmlReadError("There must be exactly 1 " +
+                (name == "*" ? "" : "'" + name + "' ") +
+                "child (found " + children.length() + ")",
                 xml);
         }
 
