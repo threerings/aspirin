@@ -21,6 +21,7 @@
 
 package com.threerings.util {
 import flash.display.DisplayObject;
+import flash.display.Stage;
 import flash.events.Event;
 
 /**
@@ -33,8 +34,12 @@ public class StageLifetime
      * Adds the given handlers for ADDED_TO_STAGE and REMOVED_FROM_STAGE events coming from the
      * given disp, but guarantee the call order will always be interleaved. The first listener
      * added will be onAdd if disp.stage is null, otherwise onRemove.
+     * @param sync if passed and set to true then the onAdd or addRemove callback will be called
+     * initially depending on whether the given object is already on stage. A null event is used in
+     * this case.
      */
-    public static function listen (disp :DisplayObject, onAdd :Function, onRemove :Function) :void
+    public static function listen (disp :DisplayObject, onAdd :Function, onRemove :Function,
+        sync :Boolean=false) :void
     {
         function handleOn (_:*) :void {
             toggle(true);
@@ -62,6 +67,9 @@ public class StageLifetime
 
         // listen for the next event the disp will dispatch
         toggle(disp.stage != null);
+        if (sync) {
+            handle(null, disp.stage != null);
+        }
     }
 
     /**
@@ -75,21 +83,20 @@ public class StageLifetime
      */
     public static function listenForSizeChange (disp :DisplayObject, setNewSize :Function) :void
     {
+        var stage :Stage;
         function onResize (_:*) :void {
             setNewSize(disp.stage.stageWidth, disp.stage.stageHeight);
         }
         function onAdd (_:*) :void {
-            disp.stage.addEventListener(Event.RESIZE, onResize);
+            (stage = disp.stage).addEventListener(Event.RESIZE, onResize);
             onResize(null);
         }
         function onRemove (_:*) :void {
-            disp.stage.removeEventListener(Event.RESIZE, onResize);
+            if (stage != null) {
+                stage.removeEventListener(Event.RESIZE, onResize);
+            }
         }
-        listen(disp, onAdd, onRemove);
-
-        if (disp.stage != null) {
-            onAdd(null);
-        }
+        listen(disp, onAdd, onRemove, true);
     }
 
     /**
