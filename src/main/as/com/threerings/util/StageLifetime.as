@@ -33,7 +33,7 @@ public class StageLifetime
      * Adds the given handlers for ADDED_TO_STAGE and REMOVED_FROM_STAGE events coming from the
      * given disp, but guarantee the call order will always be interleaved. The first listener
      * added will be onAdd if disp.stage is null, otherwise onRemove.
-     */ 
+     */
     public static function listen (disp :DisplayObject, onAdd :Function, onRemove :Function) :void
     {
         function handleOn (_:*) :void {
@@ -88,7 +88,7 @@ public class StageLifetime
         listen(disp, onAdd, onRemove);
 
         if (disp.stage != null) {
-            onResize(null);
+            onAdd(null);
         }
     }
 
