@@ -26,7 +26,7 @@ import flash.events.Event;
 
 /**
  * Manages the pairing of ADDED_TO_STAGE and REMOVED_FROM_STAGE events since strict pairing is
- * very useful but not supported.
+ * very useful but not supported. Also some other related stage event hackery.
  */
 public class StageLifetime
 {
@@ -34,6 +34,9 @@ public class StageLifetime
      * Adds the given handlers for ADDED_TO_STAGE and REMOVED_FROM_STAGE events coming from the
      * given disp, but guarantee the call order will always be interleaved. The first listener
      * added will be onAdd if disp.stage is null, otherwise onRemove.
+     * @param disp
+     * @param onAdd
+     * @param onRemove
      * @param sync if passed and set to true then the onAdd or addRemove callback will be called
      * initially depending on whether the given object is already on stage. A null event is used in
      * this case.
@@ -73,15 +76,18 @@ public class StageLifetime
     }
 
     /**
-     * Calls the given function whenever the corresponding display object is added to the stage
-     * <em>or</em> once the object is on the stage and the stage is resized. This includes a
-     * single synchronous call if the object is already on the stage.
+     * Calls the given function whenever the display object is added to the stage
+     * <em>or</em> once the object is on the stage and the stage is resized.
+     * @param disp
      * @param setNewSize closure that receives the width and height of the stage:
      * <listing version="3.0">
      *     function setNewSize (newStageWidth :Number, newStageHeight :Number) :void
      * </listing>
+     * @param sync Optionally make one synchronous call to the callback if the display object is
+     * currently on stage.
      */
-    public static function listenForSizeChange (disp :DisplayObject, setNewSize :Function) :void
+    public static function listenForSizeChange (disp :DisplayObject, setNewSize :Function,
+        sync :Boolean=true) :void
     {
         var stage :Stage;
         function onResize (_:*) :void {
@@ -89,13 +95,18 @@ public class StageLifetime
         }
         function onAdd (_:*) :void {
             (stage = disp.stage).addEventListener(Event.RESIZE, onResize);
-            onResize(null);
+            if (sync) {
+                onResize(null);
+            } else {
+                sync = true;
+            }
         }
         function onRemove (_:*) :void {
             if (stage != null) {
                 stage.removeEventListener(Event.RESIZE, onResize);
             }
         }
+        sync = sync || disp.stage == null;
         listen(disp, onAdd, onRemove, true);
     }
 
