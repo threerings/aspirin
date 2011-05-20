@@ -29,6 +29,23 @@ import flash.events.Event;
 public class ValueEvent extends Event
 {
     /**
+     * Returns an event handler for a value event that will call the given listener with the value
+     * of the event. Since actionscript will attempt to cast the value on call, the listener
+     * parameter type can be * or whatever is expected.
+     * @param listener
+     * <listing version="3.0">
+     *      function listener (value :~~) :void {}
+     *      function listener (foo :Foo) :void {}
+     * </listing>
+     */
+    public static function adapt (listener :Function) :Function
+    {
+        return function (evt :ValueEvent) :void {
+            listener(evt.value);
+        }
+    }
+
+    /**
      * Accessor: get the value.
      */
     public function get value () :*
