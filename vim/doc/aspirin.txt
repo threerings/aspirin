@@ -1,0 +1,26 @@
+*aspirin.txt* Plugin for navigating to and importing actionscript classes
+
+First, add the paths of your ActionScript resources to g:as_locations. Aspirin can find classes and top-level functions from several sources:
+* classes and top-level functions from a directory tree of ActionScript source
+* classes from a swc file
+* classes from all-classes.html from asdocs
+* top-level functions from package-detail.html from an asdoc package
+
+For example, adding
+
+let g:as_locations = [
+\ "~/Documents/flex3_langref/all-classes.html",
+\ "~/Documents/flex3_langref/flash/utils/package-detail.html",
+\ "~/dev/assemblage/aspirin/src/main/as"
+]
+
+to .vimrc would allow importing of the builtin classes and functions from Flash and the classes and top-level functions from aspirin.
+
+After setting g:as_locations, imports and navigation will work.
+
+Mappings:
+<Leader>j or <Plug>AspirinJump
+    Jump to the class or top-level function under the cursor
+
+<Leader>i or <Plug>AspirinImport
+    Add an import for the class or top-level function under the cursor
