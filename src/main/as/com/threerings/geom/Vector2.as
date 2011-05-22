@@ -23,6 +23,8 @@ package com.threerings.geom {
 import flash.geom.Point;
 
 import com.threerings.util.Equalable;
+import com.threerings.util.Preconditions;
+import com.threerings.util.StringUtil;
 import com.threerings.util.XmlUtil;
 
 /**
@@ -78,6 +80,16 @@ public class Vector2
         var y :Number = XmlUtil.getNumberAttr(xml, yAttrName,
             (defaultValue != null ? defaultValue.y : undefined));
         return new Vector2(x, y);
+    }
+
+    /**
+     * Parses a string in the form "x,y" into a Vector2
+     */
+    public static function fromString (str :String) :Vector2
+    {
+        var parts :Array = str.split(",");
+        Preconditions.checkState(parts.length == 2, "Bad format (should look like \"x,y\")");
+        return new Vector2(StringUtil.parseNumber(parts[0]), StringUtil.parseNumber(parts[1]));
     }
 
     /**
@@ -376,7 +388,7 @@ public class Vector2
     /** Returns a string representation of the Vector2. */
     public function toString () :String
     {
-        return "[" + x + ", " + y + "]";
+        return "" + x + "," + y;
     }
 }
 
