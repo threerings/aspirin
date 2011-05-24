@@ -10,4 +10,9 @@ if !exists("b:did_aspirinplugin")
         map <buffer> <unique> <LocalLeader>i <Plug>AspirinImport
     endif
     noremap <buffer> <silent> <unique> <Plug>AspirinImport :call AspirinImport()<CR>
+
+    if !hasmapto('<Plug>AspirinLastEx')
+        map <buffer> <unique> <LocalLeader>x <Plug>AspirinLastEx
+    endif
+    noremap <buffer> <silent> <unique> <Plug>AspirinLastEx :call AspirinLastEx()<CR>
 endif

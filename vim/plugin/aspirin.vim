@@ -34,3 +34,7 @@ function! AspirinImport()
     call s:GetCursorWord()
     python aspirin.addimport(vim.eval("getreg()").strip())
 endfunction
+
+function! AspirinLastEx()
+    python aspirin.send_ex_to_quickfix()
+endfunction

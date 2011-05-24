@@ -19,11 +19,14 @@ def addimport(classname):
         vim.command('let ignored=append(packageline, "import %s;")' % found[0])
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
 
+def valexists(val):
+    return bool(int(vim.eval('exists("%s")' % val)))
+
 last_lookup_paths = []
 classname_to_full = {}
 def lookup(classname):
     global last_lookup_paths
-    if not bool(int(vim.eval('exists("g:as_locations")'))):
+    if not valexists("g:as_locations"):
         print "Set 'g:as_locations' to a list of as paths"
         return None
     locs = vim.eval("g:as_locations")
@@ -109,3 +112,56 @@ def scan_dir(base):
             if not fn.endswith('.as'):
                 continue
             yield package + fn[:-3], d + "/" + fn
+
+def readback(file):
+    buf = ""
+    file.seek(-1, 2)
+    lastchar = file.read(1)
+    trailing_newline = (lastchar == "\n")
+    while 1:
+        newline_pos = buf.rfind("\n")
+        pos = file.tell()
+        if newline_pos != -1:
+            # Found a newline
+            line = buf[newline_pos+1:]
+            buf = buf[:newline_pos]
+            if pos or newline_pos or trailing_newline:
+                line += "\n"
+            yield line
+        elif pos:
+            # Need to fill buffer
+            toread = min(4096, pos)
+            file.seek(-toread, 1)
+            buf = file.read(toread) + buf
+            file.seek(-toread, 1)
+            if pos == toread:
+                buf = "\n" + buf
+        else:
+            break # Start-of-file
+
+ex = re.compile('^	at ')
+default_mac_flashlog = \
+    os.path.expanduser("~/Library/Preferences/Macromedia/Flash Player/Logs/flashlog.txt")
+def send_ex_to_quickfix():
+    inex = False
+    lines = []
+    if valexists("g:as_log"):
+        path = os.path.expanduser(vim.eval("g:as_log"))
+        if not os.path.exists(path):
+            print >> sys.stderr, "The path in g:as_log, '%s', doesn't exist." % path
+            return
+    elif os.path.exists(default_mac_flashlog):
+        path = default_mac_flashlog
+    else:
+        print >> sys.stderr, "Set g:as_log to the path to your Flash log"
+        return
+    for line in readback(open(path)):
+        if ex.search(line):
+            inex = True
+            lines.append(line[line.find('at ') + 3:-1])
+        elif inex:
+            lines.append(line[:-1])
+            break
+    vim.command("set errorformat+=%m[%f:%l]")
+    vim.command("cexpr %s" % list(reversed(lines)))
+    vim.command("set errorformat-=%m[%f:%l]")
