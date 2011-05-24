@@ -83,7 +83,7 @@ def scan_asdoc_allclasses(fn):
         if m:
             yield pathtofull(m.group(2)), base + m.group(2) + ".html"
 
-packagename = re.compile('<td align="left" id="subTitle" class="titleTableSubTitle">([\w.]+)')
+packagename = re.compile('<title>([\w.]+)')
 funcname = re.compile('<td class="summaryTableSecondCol"><a href="package.html#(\w+)')
 def scan_asdoc_package(fn):
     base = 'file://' + os.path.dirname(os.path.abspath(fn)) + "/package.html#"
