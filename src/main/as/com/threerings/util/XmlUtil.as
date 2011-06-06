@@ -218,6 +218,20 @@ public class XmlUtil
             });
     }
 
+    /**
+     * Parses a string in the form "FOO,BAR,MONKEY" into a Set of Enums
+     */
+    public static function getEnumSetAttr (xml :XML, name :String, enumType :Class) :Set
+    {
+        return getAttr(xml, name, null, function (value :String) :Set {
+            var set :Set = Sets.newSetOf(enumType);
+            for each (var enumName :String in value.split(",")) {
+                set.add(Enum.valueOf(enumType, enumName));
+            }
+            return set;
+        });
+    }
+
     public static function getAttr (
         xml :XML, name :String, defaultValue :*, parseFunction :Function = null) :*
     {
