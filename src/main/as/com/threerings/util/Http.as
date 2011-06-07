@@ -36,6 +36,8 @@ public class Http
         Preconditions.checkNotNull(data, "postData data must be non-null");
         if (data is ByteArray) {
             binary();
+        } else if (data is XML && _contentType == null) {
+            contentType("text/xml");
         }
         _data = data;
         _method = URLRequestMethod.POST;
@@ -72,6 +74,15 @@ public class Http
     }
 
     /**
+     * Set the MIME type of the data in the request.
+     */
+    public function contentType (type :String) :Http
+    {
+        _contentType = type;
+        return this;
+    }
+
+    /**
      * Convert the response body to another type using a function before passing it to the
      * onSuccess callback.
      */
@@ -89,7 +100,6 @@ public class Http
         }
         if (_data is XML) {
             req.data = _data;
-            req.contentType = "text/xml";
         } else if (_data is ByteArray) {
             req.data = _data;
         } else if (getQualifiedClassName(_data) === "Object") {
@@ -99,6 +109,9 @@ public class Http
             }
         } else if (_data != null) {
             throw new Error("Unknown type of data: " + _data);
+        }
+        if (_contentType != null) {
+            req.contentType = _contentType;
         }
         var loader :URLLoader = new URLLoader(req);
         if (_dataFormat != null) {
@@ -125,6 +138,7 @@ public class Http
     protected var _failureCallback :Function;
     protected var _dataFormat :String;
     protected var _parser :Function;
+    protected var _contentType :String;
 
     private static const log :Log = Log.getLog(Http);
 }
