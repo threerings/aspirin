@@ -16,7 +16,7 @@ def addimport(classname):
     if found:
         vim.command("let ignored=cursor(0, 0)")# Search for package from the beginning
         vim.command("let packageline = search('^package ', 'c')")
-        vim.command('let ignored=append(packageline, "import %s;")' % found[0])
+        vim.command('let ignored=append(packageline + 1, "import %s;")' % found[0])
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
 
 def valexists(val):
