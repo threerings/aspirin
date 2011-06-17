@@ -21,9 +21,7 @@
 
 package com.threerings.util {
 
-/**
- * This is going to be Deprecated. Use com.threerings.util.Arrays.
- */
+[Deprecated(replacement="com.threerings.util.Arrays")]
 public class ArrayUtil
 {
     public static function create (size :uint, val :* = null) :Array
