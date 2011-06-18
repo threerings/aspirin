@@ -225,11 +225,7 @@ public class XmlUtil
         defaultValue :* = undefined) :Set
     {
         return getAttr(xml, name, defaultValue, function (value :String) :Set {
-            var set :Set = Sets.newSetOf(enumType);
-            for each (var enumName :String in value.split(",")) {
-                set.add(Enum.valueOf(enumType, enumName));
-            }
-            return set;
+            return parseEnumSet(value, enumType);
         });
     }
 
@@ -286,6 +282,18 @@ public class XmlUtil
             return defaultValue;
         }
         return getText(getSingleChild(xml, childName));
+    }
+
+    /**
+     * Parses a string in the form "FOO,BAR,MONKEY" into a Set of Enums
+     */
+    public static function parseEnumSet (value :String, enumType :Class) :Set
+    {
+        var set :Set = Sets.newSetOf(enumType);
+        for each (var enumName :String in value.split(",")) {
+            set.add(Enum.valueOf(enumType, enumName));
+        }
+        return set;
     }
 
     protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Function
