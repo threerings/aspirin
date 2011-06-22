@@ -4,18 +4,118 @@ import cPickle, os, re, sys, subprocess, time, vim, zipfile
 from xml.etree import ElementTree
 
 def jump(classname):
-    found = lookup(classname)
+    found = choose_lookup(classname)
     if found:
         if found[1].endswith('.html'):
             subprocess.check_call(['open', found[1]])
         else:
             vim.command("edit " + found[1])
 
-def addimport(classname):
-    found = lookup(classname)
+class ClassImportContext(object):
+    def __init__(self, helperclasses, startline=1):
+        self.imported = set(["ArgumentError", "Array", "Boolean", "Class", "Date", "Error",
+            "Function", "Math", "Namespace", "Number", "Object", "QName", "RangeError",
+            "ReferenceError", "RegExp", "SecurityError", "String", "SyntaxError", "TypeError",
+            "URIError", "VerifyError", "XML", "XMLList"])
+        self.used = set()
+        self.package = None # Will remain None if we're a helper class
+        self.classname = None # Will be set by walking through this class
+        self.helperclasses = helperclasses
+        self.startline = startline
+
+    def addMissingImports(self):
+        if self.package:
+            self.used -= self.helperclasses # The main class doesn't need to import helpers
+        if self.classname in self.used:
+            self.used.remove(self.classname) # Don't need to import ourselves
+        numadded = 0
+        for unknown in self.used - self.imported:
+            # Never scan for auto-import; it runs on every save
+            fulls = lookup(unknown, scan_if_not_found=False)
+
+            # Check if the class is known and in this package
+            inpackage = False
+            if not self.package is None:
+                for full in fulls:
+                    if full[0] == self.package + "." + unknown:
+                        inpackage = True
+                        break
+            if not inpackage:
+                addimport(unknown, self.startline, scan_if_not_found=False)
+                numadded += 1
+        return numadded
+
+class_in_as = re.compile("[ :(]([A-Z]\w*)([(.);,= ]|$)")
+import_in_as = re.compile("^import [\w.]*\.(\w+);$")
+package_in_as = re.compile("^package ([\w.]*)")
+classdef_in_as = re.compile("class (\w+)")
+def addimports():
+    lines = vim.eval("getline(1, 100000)")
+
+    # find the helperclasses defined outside of the main class in the file if any
+    helperclasses = None
+    for line in lines:
+        if classdef_in_as.search(line):
+            if helperclasses is None:
+                # First class we encounter is the main class, so don't add it to the set
+                helperclasses = set()
+            else:
+                helperclasses.add(classdef_in_as.search(line).group(1))
+
+    ctx = ClassImportContext(helperclasses)
+    multicomment = False
+    linenumber = 0
+    for line in lines:
+        linenumber += 1
+        if multicomment:
+            endidx = line.find('*/')
+            if endidx == -1:
+                continue
+            line = line[endidx:] # Keep searching in whatever's outside the comment
+            multicomment = False
+        if import_in_as.match(line):
+            ctx.imported.add(import_in_as.match(line).group(1))
+        elif package_in_as.match(line):
+            ctx.startline = linenumber
+            ctx.package = package_in_as.match(line).group(1)
+        elif line and line[0] == '}':
+            # We hit a bracket on the first character, which indicates end of class in ooo-land
+            # It'd be better to look at brace nesting, but that'd be more work.
+
+            # Now that we're out of the class, add the imports for it, and shift our linenumber by
+            # the number of import lines added
+            linenumber += ctx.addMissingImports()
+
+            # Start a new class in case there's a helper class following
+            ctx = ClassImportContext(helperclasses, linenumber)
+        else:
+            # Must be a non-import code line. First trim off comments that start on this line
+            singlecommentidx = line.find('//')
+            multicommentidx = line.find('/*')
+            if multicommentidx != -1:
+                if singlecommentidx != -1 and singlecommentidx < multicommentidx:
+                    line = line[:singlecommentidx]
+                else:
+                    multicomment = line.find('*/') < multicommentidx
+                    line = line[:multicommentidx]
+            elif singlecommentidx != -1:
+                line = line[:singlecommentidx]
+
+            if classdef_in_as.search(line):
+                ctx.classname = classdef_in_as.search(line).group(1)
+            # TODO - Figure out if we're in a string and stop searching. If we got that, the class
+            # re is close to good enough that we could turn scanning on. in addMissingImports.
+            for m in class_in_as.finditer(line):
+                ctx.used.add(m.group(1))
+
+def addimport(classname, packageline=None, scan_if_not_found=True):
+    found = choose_lookup(classname, scan_if_not_found)
     if found:
         vim.command("let ignored=cursor(0, 0)")# Search for package from the beginning
-        vim.command("let packageline = search('^package ', 'c')")
+        if packageline is None:
+            vim.command("let packageline = search('^package ', 'c')")
+        else:
+            vim.command("let packageline = %s" % packageline)
         vim.command('let ignored=append(packageline + 1, "import %s;")' % found[0])
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
 
@@ -24,18 +124,24 @@ def valexists(val):
 
 last_lookup_paths = []
 classname_to_full = {}
-def lookup(classname):
+def lookup(classname, scan_if_not_found=True):
     global last_lookup_paths
     if not valexists("g:as_locations"):
         print "Set 'g:as_locations' to a list of as paths"
-        return None
+        return None, None
     locs = vim.eval("g:as_locations")
-    if not classname in classname_to_full or last_lookup_paths != locs:
+    if (scan_if_not_found and not classname in classname_to_full) or last_lookup_paths != locs:
         scan(locs)
         last_lookup_paths = locs
-    fulls = sorted(classname_to_full.get(classname, set()))
+    return sorted(classname_to_full.get(classname, set()))
+
+def choose_lookup(classname, scan=True):
+    fulls = lookup(classname, scan)
+    if fulls == None:
+        return None
     if len(fulls) == 0:
-        print "No classes found for '%s'" % classname
+        if scan:
+            print "No classes found for '%s'" % classname
         return None
 
     if len(fulls) == 1:
@@ -51,7 +157,6 @@ def lookup(classname):
     return fulls[int(idx) - 1]
 
 def scan(locs):
-    begin = time.time()
     classname_to_full.clear()
     for path in locs:
         path = os.path.expanduser(path)

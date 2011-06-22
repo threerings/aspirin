@@ -15,6 +15,13 @@ else:
     reload(aspirin)
 EOF
 
+augroup aspirin
+    autocmd!
+    if exists("g:as_locations") && !exists("g:no_aspirin_autoimport")
+        autocmd aspirin BufWritePre *.as call AspirinAutoImport()
+    endif
+augroup END
+
 function! s:GetCursorWord()
     " get the current position, and then yank the word under the cursor into a register
     let s:startpos = getpos(".")
@@ -28,6 +35,11 @@ endfunction
 function! AspirinJump()
     call s:GetCursorWord()
     python aspirin.jump(vim.eval("getreg()").strip())
+endfunction
+
+function! AspirinAutoImport()
+    call s:GetCursorWord()
+    python aspirin.addimports()
 endfunction
 
 function! AspirinImport()
