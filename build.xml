@@ -13,7 +13,7 @@
       dependencyRefsBuildFile="${deploy.dir}/pom.dependencies">
       <pom file="pom.xml"/>
     </artifact:dependencies>
-    <pathconvert pathsep="@{pathSep}" property="aslib.path" refid="pom.fileset"/>
+    <pathconvert pathsep="," property="aslib.path" refid="pom.fileset"/>
     <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.0"/>
   </target>
 
