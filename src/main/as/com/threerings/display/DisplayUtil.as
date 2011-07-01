@@ -42,7 +42,7 @@ public class DisplayUtil
     /**
      * Uniformly scales a DisplayObject if its width or height are outside the given size
      * constraints.
-     * Any constraint that's <= 0 will be ignored.
+     * Any constraint that's &lt;= 0 will be ignored.
      */
     public static function clampSize (disp :DisplayObject, minWidth :Number = 0,
         maxWidth :Number = 0, minHeight :Number = 0, maxHeight :Number = 0) :void
@@ -291,7 +291,7 @@ public class DisplayUtil
      * The passed in depth is 0 for <code>disp</code>, and increases by 1 for each level of
      * children.
      *
-     * @return <code>true</code> if <code>callback<code> returned <code>true</code>
+     * @return <code>true</code> if <code>callback</code> returned <code>true</code>
      */
     public static function applyToHierarchy (
         root :DisplayObject, callback :Function, securityErrorCallback :Function=null,

@@ -75,21 +75,21 @@ public class MathUtil
      * Returns distance from point (x1, y1) to (x2, y2) in 2D.
      *
      * <p>Supports various distance metrics: the common Euclidean distance, taxicab distance,
-     * arbitrary Minkowski distances, and Chebyshev distance.
+     * arbitrary Minkowski distances, and Chebyshev distance.</p>
      *
      * <p>See the <a href="http://www.nist.gov/dads/HTML/lmdistance.html">NIST web page on
-     * distance definitions</a>.<p>
+     * distance definitions</a>.</p>
      *
      * @param x1 x value of the first point
      * @param y1 y value of the first point
      * @param x2 x value of the second point
      * @param y2 y value of the second point
      * @param p Optional: p value of the norm function. Common cases:
-     *          <ul><li>p = 2 (default): standard Euclidean distance on a plane
-     *              <li>p = 1: taxicab distance (aka Manhattan distance)
-     *              <li>p = Infinity: Chebyshev distance
+     *          <ul><li>p = 2 (default): standard Euclidean distance on a plane</li>
+     *              <li>p = 1: taxicab distance (aka Manhattan distance)</li>
+     *              <li>p = Infinity: Chebyshev distance</li>
      *          </ul>
-     *          <b>Note</b>: p < 1 or p = NaN are treated as equivalent to p = Infinity
+     *          <b>Note</b>: p &lt; 1 or p = NaN are treated as equivalent to p = Infinity
      */
     public static function distance (
         x1 :Number, y1 :Number, x2 :Number, y2 :Number, p :Number = 2) :Number
@@ -132,7 +132,7 @@ public class MathUtil
      * <pre>
      * -15 -10 -8 -2 0 2 8 10 15
      *  -2  -1 -1 -1 0 0 0  1  1
-     * </pre>
+     * </pre></p>
      */
     public static function floorDiv (dividend :int, divisor :int) :int
     {

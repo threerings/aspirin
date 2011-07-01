@@ -37,7 +37,7 @@ public class TimeBuffer
      * Constructs a new TimeBuffer.
      *
      * @param maxAge the time, in milliseconds, that an entry can live in the TimeBuffer before
-     * being removed. If maxAge <= 0, elements will never be removed. Defaults to 0.
+     * being removed. If maxAge &lt;= 0, elements will never be removed. Defaults to 0.
      *
      * @initialCapacity the initial capacity of the Array that the TimeBuffer uses to store
      * elements. Defaults to 10.
@@ -232,7 +232,7 @@ public class TimeBuffer
     }
 
     /**
-     * Removes all entries whose age is < minTimestamp from the TimeBuffer.
+     * Removes all entries whose age is &lt; minTimestamp from the TimeBuffer.
      */
     public function pruneOldEntries (minTimestamp :int) :void
     {

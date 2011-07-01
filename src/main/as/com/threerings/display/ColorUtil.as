@@ -47,7 +47,7 @@ public class ColorUtil
     }
 
     /**
-     * Returns a color's Hue value, in degrees. 0<=Hue<=360.
+     * Returns a color's Hue value, in degrees. 0 &lt;= Hue &lt;= 360.
      * http://en.wikipedia.org/wiki/Hue
      */
     public static function getHue (color :uint) :Number
@@ -61,7 +61,7 @@ public class ColorUtil
     }
 
     /**
-     * Returns a color's brightness value, as a percentage. 0<=Brightness<=1.
+     * Returns a color's brightness value, as a percentage. 0 &lt;= Brightness &lt;= 1.
      */
     public static function getBrightness (color :uint) :Number
     {
@@ -73,7 +73,7 @@ public class ColorUtil
     }
 
     /**
-     * Adjusts the brightness of the given color. 0<=brightness<=1.
+     * Adjusts the brightness of the given color. 0&lt;=brightness&lt;=1.
      */
     public static function setBrightness (color :uint, brightness :Number) :uint
     {

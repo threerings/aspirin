@@ -63,7 +63,7 @@ public class Random
     }
 
     /**
-     * Returns the an int value n where 0 <= value < n.
+     * Returns the an int value n where 0 &lt;= value &lt; n.
      *
      * @param n the range to return.  If this is set to 0 it will return a
      * random integer value.  Anything less than 0 will thrown an error.
@@ -94,7 +94,7 @@ public class Random
     }
 
     /**
-     * Returns a random Number where 0.0 <= value < 1.0.
+     * Returns a random Number where 0.0 &lt;= value &lt; 1.0.
      */
     public function nextNumber () :Number
     {

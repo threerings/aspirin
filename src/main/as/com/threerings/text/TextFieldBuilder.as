@@ -568,8 +568,8 @@ public class TextFieldBuilder
 
     /**
      * Indicates whether the text that uses this text format is underlined (true) or not (false).
-     * This underlining is similar to that produced by the <U> tag, but the latter is not true
-     * underlining, because it does not skip descenders correctly. The default value is null,
+     * This underlining is similar to that produced by the &lt;U&gt; tag, but the latter is not
+     * true underlining, because it does not skip descenders correctly. The default value is null,
      * which indicates that underlining is not used.
      */
     public function underline (val :Boolean) :TextFieldBuilder

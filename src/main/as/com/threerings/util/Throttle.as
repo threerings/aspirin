@@ -46,7 +46,7 @@ import flash.utils.getTimer;
  *
  *     // perform operation
  * }
- * </pre>
+ * </pre></p>
  */
 public class Throttle
 {
@@ -58,7 +58,7 @@ public class Throttle
      * <code>operations</code> as an array is created to track the time at which each operation was
      * performed (e.g. use 6 ops per 10 seconds rather than 60 ops per 100 seconds if
      * possible). However, note that you may not always want to reduce the ratio as much as
-     * possible if you wish to allow bursts of operations up to some large value.
+     * possible if you wish to allow bursts of operations up to some large value. </p>
      */
     public function Throttle (operations :int, period :int)
     {

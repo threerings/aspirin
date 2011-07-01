@@ -186,7 +186,7 @@ public class Log
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
      * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
-     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
+     * is printed on debug players, or a "message={message}" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -207,7 +207,7 @@ public class Log
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
      * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
-     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
+     * is printed on debug players, or a "message={message}" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -228,7 +228,7 @@ public class Log
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
      * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
-     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
+     * is printed on debug players, or a "message={message}" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">
@@ -249,7 +249,7 @@ public class Log
      * If any argument is a function, it is invoked with no args, so that you may avoid
      * converting detailed data into a String unless the message is actually logged.
      * A final parameter may be an Error, ErrorEvent, or UnhandledErrorEvent: the stack trace
-     * is printed on debug players, or a "message=<message>" is appended if there is no stack trace.
+     * is printed on debug players, or a "message={message}" is appended if there is no stack trace.
      *
      * @example
      * <listing version="3.0">

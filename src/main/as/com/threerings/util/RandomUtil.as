@@ -31,8 +31,8 @@ public class RandomUtil
      *
      * @param weights an Array containing Numbers, ints, or uints. All values should be
      * non-negative.
-     * @param a random function that returns (0 <= value < 1), if null then Math.random() will
-     * be used.
+     * @param a random function that returns (0 &lt;= value &lt; 1), if null then Math.random()
+     * will be used.
      */
     public static function getWeightedIndex (weights :Array, randomFn :Function = null) :int
     {

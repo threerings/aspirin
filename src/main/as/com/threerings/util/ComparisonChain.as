@@ -30,7 +30,7 @@ package com.threerings.util {
  * comparison result was zero.
  *
  * <p>Once any comparison returns a nonzero value, remaining comparisons are
- * "short-circuited".
+ * "short-circuited".</p>
  *
  * @example
  * <listing version="3.0">
