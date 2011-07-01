@@ -4,7 +4,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>aspirin</artifactId>
   <packaging>swc</packaging>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
   <name>aspirin</name>
   <description>Utilities for use in developing ActionScript applications.</description>
   <url>http://code.google.com/p/ooo-aspirin/</url>
@@ -35,9 +35,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://ooo-aspirin.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://ooo-aspirin.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://ooo-aspirin.googlecode.com/svn/trunk/</url>
+    <connection>scm:svn:http://ooo-aspirin.googlecode.com/svn/tags/aspirin-1.7</connection>
+    <developerConnection>scm:svn:https://ooo-aspirin.googlecode.com/svn/tags/aspirin-1.7</developerConnection>
+    <url>http://ooo-aspirin.googlecode.com/svn/tags/aspirin-1.7</url>
   </scm>
 
   <properties>
