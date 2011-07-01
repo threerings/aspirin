@@ -74,6 +74,7 @@
       <artifactId>flex-framework</artifactId>
       <version>${flex.version}</version>
       <type>pom</type>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 

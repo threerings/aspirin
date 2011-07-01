@@ -8,7 +8,12 @@
   <import file="${user.home}/.m2/ooo-build/${ooo-build.vers}/ooo-build.xml"/>
 
   <target name="-prepare" depends="-init-ooo">
-    <mavendep pom="pom.xml" pathProp="aslib.path"/>
+    <!-- we can't use <mavendep> here because we need to exclude our pom depends -->
+    <artifact:dependencies filesetId="pom.fileset" cacheDependencyRefs="true" type="swc"
+      dependencyRefsBuildFile="${deploy.dir}/pom.dependencies">
+      <pom file="pom.xml"/>
+    </artifact:dependencies>
+    <pathconvert pathsep="@{pathSep}" property="aslib.path" refid="pom.fileset"/>
     <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.0"/>
   </target>
 
