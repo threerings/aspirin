@@ -48,7 +48,7 @@ class ClassImportContext(object):
 class_in_as = re.compile("[ :(]([A-Z]\w*)([(.);,= ]|$)")
 import_in_as = re.compile("^import [\w.]*\.(\w+);$")
 package_in_as = re.compile("^package ([\w.]*)")
-classdef_in_as = re.compile("class (\w+)")
+classdef_in_as = re.compile("(?:class|interface) (\w+)")
 def addimports():
     lines = vim.eval("getline(1, 100000)")
 
