@@ -168,6 +168,33 @@ public class Sets
     }
 
     /**
+     * Returns a Set that contains all elements that are contained in either 'a' or 'b',
+     * but not in both.
+     *
+     * a and b are unmodified. result must be empty, and must not be a or b.
+     *
+     * @return result
+     */
+    public static function symmetricDifference (a :Set, b :Set, result :Set) :Set
+    {
+        checkSets(a, b, result);
+
+        a.forEach(function (o :Object) :void {
+            if (!b.contains(o)) {
+                result.add(o);
+            }
+        });
+
+        b.forEach(function (o :Object) :void {
+            if (!a.contains(o)) {
+                result.add(o);
+            }
+        });
+
+        return result;
+    }
+
+    /**
      * Tests if at least one entry in a set meets a condition.
      * @param set the set whose entries are to be tested
      * @param condition a function that tests a set entry:
