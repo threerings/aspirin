@@ -79,21 +79,37 @@ public class StringUtil
     }
 
     /**
-     * Does the specified string end with the specified substring.
+     * Does the specified string end with any of the specified substrings.
      */
-    public static function endsWith (str :String, substr :String) :Boolean
+    public static function endsWith (str :String, substr :String, ... additionalSubstrs) :Boolean
     {
         var startDex :int = str.length - substr.length;
-        return (startDex >= 0) && (str.indexOf(substr, startDex) >= 0);
+        if ((startDex >= 0) && (str.indexOf(substr, startDex) >= 0)) {
+            return true;
+        }
+        for each (var additional :String in additionalSubstrs) {
+            if (endsWith(str, additional)) {
+                // Call the non-vararg version of ourselves to keep from repeating the logic
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Does the specified string start with the specified substring.
+     * Does the specified string start with any of the specified substrings.
      */
-    public static function startsWith (str :String, substr :String) :Boolean
+    public static function startsWith (str :String, substr :String, ... additionalSubstrs) :Boolean
     {
-        // just check once if it's at the beginning
-        return (str.lastIndexOf(substr, 0) == 0);
+        if (str.lastIndexOf(substr, 0) == 0) {
+            return true;
+        }
+        for each (var additional :String in additionalSubstrs) {
+            if (str.lastIndexOf(additional, 0) == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
