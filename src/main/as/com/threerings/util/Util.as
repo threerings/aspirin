@@ -170,6 +170,26 @@ public class Util
     }
 
     /**
+     * Calls each of the asynchronous functions in the given array, invoking a callback when all
+     * calls have completed.
+     * @param functions array of Function instances to execute. Each element should be a function
+     * that takes an onSuccess callback, which is guarantees will be called asynchronously when
+     * all the job finishes:
+     * <listing version="3.0">
+     *      function execute (onSuccess :Function) :void {}
+     * </listing>
+     * @param onSuccess the callback to invoke when all executed functions have completed.
+     */
+    public static function executeInParallel (functions :Array, onSuccess :Function) :void
+    {
+        function iterate (elem :Function, onSuccess :Function) :void {
+            elem(onSuccess);
+        }
+
+        parallelForEach(functions, iterate, onSuccess);
+    }
+
+    /**
      * Returns true if the specified object is just a regular old associative hash.
      */
     public static function isPlainObject (obj :Object) :Boolean
