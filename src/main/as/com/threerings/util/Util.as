@@ -173,8 +173,8 @@ public class Util
      * Calls each of the asynchronous functions in the given array, invoking a callback when all
      * calls have completed.
      * @param functions array of Function instances to execute. Each element should be a function
-     * that takes an onSuccess callback, which is guarantees will be called asynchronously when
-     * all the job finishes:
+     * that takes an onSuccess callback. The function must guarantee that onSuccess will be called
+     * when its associated task completes:
      * <listing version="3.0">
      *      function execute (onSuccess :Function) :void {}
      * </listing>
