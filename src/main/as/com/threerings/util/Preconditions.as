@@ -45,7 +45,7 @@ public class Preconditions
     public static function checkNotNull (ref :*, message :String = null, ... args) :*
     {
         if (ref == null) {
-            throw new TypeError(Joiner.pairsArray(message || "", args));
+            throw new TypeError(Joiner.pairsArray(message || "Null reference", args));
         }
         return ref;
     }
