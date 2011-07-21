@@ -1,6 +1,6 @@
 # Majority of the functionality of the aspirin plugin. It's out in its own module to namespace it
 # from Vim's shared Python interpreter
-import cPickle, os, re, sys, subprocess, time, vim, zipfile
+import cPickle, os, re, sys, subprocess, vim, zipfile
 from xml.etree import ElementTree
 
 def jump(classname):
