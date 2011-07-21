@@ -263,7 +263,6 @@ public class Util
         // catch various common cases (both primitive or null)
         if (obj1 === obj2) {
             return true;
-
         } else if (obj1 is Equalable) {
             // if obj1 is Equalable, then that decides it
             return (obj1 as Equalable).equals(obj2);

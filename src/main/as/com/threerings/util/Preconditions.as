@@ -30,10 +30,10 @@ public class Preconditions
      * Checks that the specified expression is true.
      * @throws Error
      */
-    public static function checkState (expression :Boolean, message :String = null) :void
+    public static function checkState (expression :Boolean, message :String = null, ... args) :void
     {
         if (!expression) {
-            throw new Error(message || "");
+            throw new Error(Joiner.pairsArray(message || "", args));
         }
     }
 
@@ -42,10 +42,10 @@ public class Preconditions
      * @return the reference that was checked.
      * @throws TypeError
      */
-    public static function checkNotNull (ref :*, message :String = null) :*
+    public static function checkNotNull (ref :*, message :String = null, ... args) :*
     {
         if (ref == null) {
-            throw new TypeError(message || "");
+            throw new TypeError(Joiner.pairsArray(message || "", args));
         }
         return ref;
     }
@@ -54,10 +54,11 @@ public class Preconditions
      * Check that the specified expression is true.
      * @throws ArgumentError
      */
-    public static function checkArgument (expression :Boolean, message :String = null) :void
+    public static function checkArgument (expression :Boolean, message :String = null, ... args)
+        :void
     {
         if (!expression) {
-            throw new ArgumentError(message || "");
+            throw new ArgumentError(Joiner.pairsArray(message || "", args));
         }
     }
 
@@ -66,11 +67,14 @@ public class Preconditions
      * @return the index that was checked.
      * @throws RangeError
      */
-    public static function checkIndex (index :int, size :int, message :String = null) :int
+    public static function checkIndex (index :int, size :int, message :String = null, ... args) :int
     {
         if ((index < 0) || (index >= size)) {
-            throw new RangeError(message ||
-                Joiner.pairs("Index out of bounds", "index", index, "size", size));
+            if (message == null) {
+                message = "Index out of bounds";
+                args = ["index", index, "size", size];
+            }
+            throw new RangeError(Joiner.pairsArray(message, args));
         }
         return index;
     }
@@ -82,11 +86,14 @@ public class Preconditions
      * @throws RangeError
      */
     public static function checkRange (
-        value :Number, low :Number, high :Number, message :String = null) :Number
+        value :Number, low :Number, high :Number, message :String = null, ... args) :Number
     {
         if (isNaN(value) || (value < low) || (value > high)) {
-            throw new RangeError(message ||
-                Joiner.pairs("Value out of range", "value", value, "low", low, "high", high));
+            if (message == null) {
+                message = "Value out of range";
+                args = ["value", value, "low", low, "high", high];
+            }
+            throw new RangeError(Joiner.pairsArray(message, args));
         }
         return value;
     }
