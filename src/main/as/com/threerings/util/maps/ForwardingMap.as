@@ -91,6 +91,12 @@ public class ForwardingMap
     }
 
     /** @inheritDoc */
+    public function items () :Array
+    {
+        return _source.items();
+    }
+
+    /** @inheritDoc */
     public function forEach (fn :Function) :void
     {
         _source.forEach(fn);

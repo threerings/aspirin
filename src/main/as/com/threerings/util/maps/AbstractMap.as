@@ -62,6 +62,14 @@ public /* abstract */ class AbstractMap
         return s;
     }
 
+    /** @copy com.threerings.util.Map#items() */
+    public function items () :Array
+    {
+        var result :Array = [];
+        forEach(function (k :Object, v :Object) :void { result.push([k, v]); });
+        return result;
+    }
+
     /** @copy com.threerings.util.Map#forEach() */
     public function forEach (fn :Function) :void
     {

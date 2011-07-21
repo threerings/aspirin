@@ -81,6 +81,12 @@ public interface Map
     function values () :Array;
 
     /**
+     * Returns an Array of Arrays of [key, value] for each key and value in this Map.
+     * The Array is not a 'view': it can be modified without disturbing the Map from whence it came.
+     */
+    function items () :Array;
+
+    /**
      * Call the specified function to iterate over the mappings in this Map.
      * Signature:
      * function (key :Object, value :Object) :void
