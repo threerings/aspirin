@@ -309,6 +309,7 @@ public class TextFieldBuilder
     }
 
     /**
+     * Makes an uneditable text field. This is the default.
      * Equivalent to type(TextFieldType.DYNAMIC)
      */
     public function typeDynamic () :TextFieldBuilder
@@ -317,7 +318,7 @@ public class TextFieldBuilder
     }
 
     /**
-     * Equivalent to type(TextFieldType.INPUT)
+     * Makes an editable text field. Equivalent to type(TextFieldType.INPUT)
      */
     public function typeInput () :TextFieldBuilder
     {
@@ -404,7 +405,7 @@ public class TextFieldBuilder
      * Specifies whether the text is boldface. The default value is null, which
      * means no boldface is used. If the value is true, then the text is boldface.
      */
-    public function bold (val :Boolean) :TextFieldBuilder
+    public function bold (val :Boolean=true) :TextFieldBuilder
     {
         _formatProps.bold = val;
         return this;
