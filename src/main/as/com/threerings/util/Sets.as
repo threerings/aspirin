@@ -243,6 +243,32 @@ public class Sets
     }
 
     /**
+     * Removes an Array or Set of objects from the given set.
+     * @return true if any object was removed from the set, and false otherwise.
+     */
+    public static function removeAll (theSet :Set, objects :Object) :Boolean
+    {
+        var modified :Boolean = false;
+        if (objects is Set) {
+            Set(objects).forEach(function (item :Object) :void {
+                if (theSet.remove(item)) {
+                    modified = true;
+                }
+            });
+        } else if (objects is Array) {
+            for each (var o :Object in objects as Array) {
+                if (theSet.remove(o)) {
+                    modified = true;
+                }
+            }
+        } else {
+            throw new ArgumentError("objects must be an Array or a Set, not a '" +
+                ClassUtil.getClassName(objects) + "'");
+        }
+        return modified;
+    }
+
+    /**
      * Helper method for Set operations.
      */
     protected static function checkSets (a :Set, b :Set, result :Set) :void
