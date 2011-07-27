@@ -1,9 +1,7 @@
 //
-// $Id$
-//
 // aspirin library - Taking some of the pain out of Actionscript development.
-// Copyright (C) 2007-2010 Three Rings Design, Inc., All Rights Reserved
-// http://code.google.com/p/ooo-aspirin/
+// Copyright (C) 2007-2011 Three Rings Design, Inc., All Rights Reserved
+// http://github.com/threerings/aspirin
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
