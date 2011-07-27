@@ -8,8 +8,8 @@ Aspirin is meant to be a .swc that you link against when building a swf, not a r
 
 Adding aspirin.swc to your build
 ================================
-Integration into a Maven- or Ivy-based build is easy. Add a dependency on com.threerings:aspirin:1.6. Aspirin is published to Maven Central, so you need not add it to your local Maven repository.
+Integration into a Maven- or Ivy-based build is easy. Add a dependency on com.threerings:aspirin:1.9. Aspirin is published to Maven Central, so you need not add it to your local Maven repository.
 
-Or you can obtain the necessary swc file manually from "downloads".
+You can also [download aspirin-1.9.swc](https://github.com/downloads/threerings/aspirin/aspirin-1.9.swc).
 
 You can also build it from source and incorporate it into your build in any way that suits your fancy.
