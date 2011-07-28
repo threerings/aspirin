@@ -7,9 +7,9 @@
   <version>1.10-SNAPSHOT</version>
   <name>aspirin</name>
   <description>Utilities for use in developing ActionScript applications.</description>
-  <url>http://code.google.com/p/ooo-aspirin/</url>
+  <url>http://github.com/threerings/aspirin/</url>
   <issueManagement>
-    <url>http://code.google.com/p/ooo-aspirin/issues/list</url>
+    <url>http://github.com/threerings/aspirin/issues</url>
   </issueManagement>
 
   <parent>
@@ -35,9 +35,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:http://ooo-aspirin.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://ooo-aspirin.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://ooo-aspirin.googlecode.com/svn/trunk/</url>
+    <connection>scm:git:git://github.com/threerings/aspirin.git</connection>
+    <developerConnection>scm:git:git@github.com:threerings/aspirin.git</developerConnection>
+    <url>http://github.com/threerings/aspirin/</url>
   </scm>
 
   <properties>
