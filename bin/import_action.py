@@ -7,19 +7,63 @@ packandname = re.compile('import (.*\.(.+));')
 # Order in which to group packages by prefix.  The longest prefix that matches an import determines
 # the group the package belongs to.
 ordering = ["flash",
+        "java",
+        "javax",
+        "android",
         "",
-        "com.threerings",
-        "com.threerings.io",
+        "com.samskivert",
+        "com.samskivert.swing",
+        "com.samskivert.servlet",
+        "com.samskivert.velocity",
+        "com.samskivert.jdbc",
+
+        "com.samskivert.depot",
+
+        "com.threerings.io",# Narya
+        "com.threerings.no",
         "com.threerings.util",
         "com.threerings.presents",
-        "com.threerings.orth",
-        "com.threerings.riposte",
-        "com.threerings.samsara",
+        "com.threerings.crowd",
+        "com.threerings.admin",
+        "com.threerings.bureau",
+
+        "com.threerings.display",# Aspirin
+        "com.threerings.geom",
+        "com.threerings.media",
+        "com.threerings.text",
+        "com.threerings.ui",
+
         "com.threerings.flashbang",
-        "com.threerings.downtown",
-        "com.threerings.biteme",
-        "com.threerings.who",
-        "com.threerings.blueharvest"]
+
+        "com.threerings.samsara",
+
+        "com.threerings.cast", # Nenya
+        "com.threerings.resource",
+        "com.threerings.miso",
+        "com.threerings.jme",
+        "com.threerings.openal",
+        "com.threerings.tools",
+
+        "com.threerings.lembas",
+
+        "com.threerings.parlor", # Vilya
+        "com.threerings.puzzle",
+        "com.threerings.whirled",
+        "com.threerings.micasa",
+        "com.threerings.stage",
+        "com.threerings.stats",
+
+        "com.threerings.orth",
+
+        "com.threerings",
+        "com.threerings.piracy",
+        "com.threerings.ppa",
+        "com.threerings.yohoho",
+        "com.threerings.who"]
+
+# Group static identically, but after regular imports
+ordering.extend(["static %s" % o for o in ordering])
+
 ordering = [(o, re.compile("^" + o + ".*")) for o in ordering]
 byprecision = sorted(ordering, key=lambda x: -len(x[0]))
 
