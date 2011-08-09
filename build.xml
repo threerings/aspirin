@@ -17,7 +17,7 @@
     <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.0"/>
   </target>
 
-  <target name="distclean" description="Removes all generated files and directories">
+  <target name="clean" description="Removes all generated files and directories">
     <delete dir="${deploy.dir}"/>
   </target>
 
