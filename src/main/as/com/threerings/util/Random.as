@@ -32,49 +32,51 @@ public class Random
     /**
      * Creates a pseudo random number generation.
      *
-     * @param seed a seed of 0 will randomly seed the generator, anything
-     * other than 0 will create a generator with the specified seed.
+     * @param seed a seed of 0 will randomly seed the generator, anything other than 0 will create
+     * a generator with the specified seed.
      */
     public function Random (seed :uint = 0)
     {
         if (seed == 0) {
-            seed = uint(seedUniquifier++ + uint(Math.random() * 4294967295));
+            seed = uint(_seedUniquifier++ + uint(Math.random() * 4294967295));
         }
-        x = new Array();
+        _x = new Array();
         setSeed(seed);
     }
 
     /**
-     * Sets the seed of the generator.  This will result in the same generator
-     * sequence of values as a new generator created with the specified seed.
+     * Sets the seed of the generator. This will result in the same generator sequence of values
+     * as a new generator created with the specified seed.
      */
     public function setSeed (seed :uint) :void
     {
-        x[0] = seed;
-        for (var i :int = 1; i < N; i++) {
-            x[i] = imul(1812433253, x[i - 1] ^ (x[i - 1] >>> 30)) + i;
-            x[i] &= 0xffffffff;
+        _x[0] = seed;
+        for (var ii :int = 1; ii < N; ii++) {
+            _x[ii] = imul(1812433253, _x[ii - 1] ^ (_x[ii - 1] >>> 30)) + ii;
+            _x[ii] &= 0xffffffff;
         }
-        p = 0;
-        q = 1;
-        r = M;
+        _p = 0;
+        _q = 1;
+        _r = M;
     }
 
     /**
      * Returns the an int value n where 0 &lt;= value &lt; n.
      *
-     * @param n the range to return.  If this is set to 0 it will return a
-     * random integer value.  Anything less than 0 will thrown an error.
+     * @param n the range to return. If this is set to 0 it will return a random integer value.
+     * Anything less than 0 will throw an error.
      */
-    public function nextInt (n :int=0) :int
+    public function nextInt (n :int = 0) :int
     {
-        if (n < 0)
+        if (n < 0) {
             throw new Error("n must be positive");
+        }
 
-        if (n == 0) return int(next(32));
+        if (n == 0) {
+            return int(next(32));
+        }
 
-        // Eyeball Sun's documenation of java.util.Random for an explanation
-        // of this while loop.
+        // Eyeball Sun's documentation of java.util.Random for an explanation of this while loop.
         var bits :int, val :int;
         do {
             bits = int(next(31));
@@ -101,13 +103,13 @@ public class Random
 
     protected function next (bits: int) :uint
     {
-        var y :uint = (x[p] & UPPER_MASK) | (x[q] & LOWER_MASK);
-        x[p] = x[r] ^ (y >>> 1) ^ ((y & 1) * MATRIX_A);
-        y = x[p];
+        var y :uint = (_x[_p] & UPPER_MASK) | (_x[_q] & LOWER_MASK);
+        _x[_p] = _x[_r] ^ (y >>> 1) ^ ((y & 1) * MATRIX_A);
+        y = _x[_p];
 
-        if (++p == N) { p = 0; }
-        if (++q == N) { q = 0; }
-        if (++r == N) { r = 0; }
+        if (++_p == N) { _p = 0; }
+        if (++_q == N) { _q = 0; }
+        if (++_r == N) { _r = 0; }
 
         y ^= (y >>> 11);
         y ^= (y << 7) & 0x9d2c5680;
@@ -117,7 +119,8 @@ public class Random
         return y >>> (32 - bits);
     }
 
-    protected function imul (a: Number, b: Number): Number {
+    protected function imul (a: Number, b: Number): Number
+    {
         var al :Number = a & 0xffff;
         var ah :Number = a >>> 16;
         var bl :Number = b & 0xffff;
@@ -128,12 +131,12 @@ public class Random
         return (mh << 16) | (ml & 0xffff);
     }
 
-    protected var x :Array;
-    protected var p :int;
-    protected var q :int;
-    protected var r :int;
+    protected var _x :Array;
+    protected var _p :int;
+    protected var _q :int;
+    protected var _r :int;
 
-    protected static var seedUniquifier :uint = 2812526361;
+    protected static var _seedUniquifier :uint = 2812526361;
 
     protected static const N :int = 624;
     protected static const M :int = 397;
