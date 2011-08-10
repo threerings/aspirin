@@ -17,7 +17,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package com.threerings.util {
+package com.threerings.util
+{
 
 /**
  * Contains methods that should be in Array, but aren't. Additionally
@@ -223,9 +224,10 @@ public class Arrays
     public static function shuffle (arr :Array, rando :Random = null) :void
     {
         var randFunc :Function = (rando != null) ? rando.nextInt :
-            function (n :int) :int {
-                return int(Math.random() * n);
-            };
+                function (n :int) :int
+                {
+                    return int(Math.random() * n);
+                };
         // starting from the end of the list, repeatedly swap the element in
         // question with a random element previous to it up to and including
         // itself
@@ -371,12 +373,44 @@ public class Arrays
     }
 
     /**
+     * Gets the intersection of two sets
+     * @return an array containing only the items common to both parameters
+     */
+    public static function intersect (ar1 :Array, ar2 :Array) :Array
+    {
+        var list :Array = [];
+        for each(var obj1 :Object in ar1) {
+            for each(var obj2 :Object in ar2) {
+                if (obj1 == obj2) {
+                    list.push(obj1);
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Provides a set equal to the relative compliment of subtrahend in minuend
+     * @param minuend The array you want most of
+     * @param subtrahend The array you want none of
+     * @return A new array, containing all of minuend, excluding subtrahend
+     */
+    public static function subtract(minuend:Array, subtrahend:Array):Array
+    {
+        var list:Array = copyOf(minuend);
+        for each(var obj:Object in subtrahend){
+            removeAll(list, obj);
+        }
+        return list;
+    }
+
+    /**
      * A splice that takes an optional Array of elements to splice in.
      * The function on Array is fairly useless unless you know exactly what you're splicing
      * in at compile time. Fucking varargs.
      */
-    public static function splice (
-        arr :Array, index :int, deleteCount :int, insertions :Array = null) :Array
+    public static function splice (arr :Array, index :int, deleteCount :int, insertions :Array = null) :Array
     {
         var i :Array = (insertions == null) ? [] : insertions.concat(); // don't modify insertions
         i.unshift(index, deleteCount);
@@ -413,8 +447,7 @@ public class Arrays
      * @param dstOffset the position in the destition array to begin copying into
      * @param count the number of elements to copy
      */
-    public static function copy (
-        src :Array, srcOffset :uint, dst :Array, dstOffset :uint, count :uint) :void
+    public static function copy (src :Array, srcOffset :uint, dst :Array, dstOffset :uint, count :uint) :void
     {
         // see if we need to make a temporary copy
         if ((src == dst) && (srcOffset + count > dstOffset)) {
@@ -443,7 +476,8 @@ public class Arrays
     public static function transpose (x :Array, y :Array, ...arrays) :Array
     {
         arrays.splice(0, 0, x, y);
-        var len :int = Math.max.apply(null, arrays.map(Util.adapt(function (arr :Array) :int {
+        var len :int = Math.max.apply(null, arrays.map(Util.adapt(function (arr :Array) :int
+        {
             return arr.length;
         })));
         var result :Array = new Array(len);
@@ -473,8 +507,7 @@ public class Arrays
      * <code>(-(<i>insertion point</i>) - 1)</code> (always a negative
      * value) if the object was not found in the list.
      */
-    public static function binarySearch (
-        array :Array, offset :int, length :int, key :*, comp :Function) :int
+    public static function binarySearch (array :Array, offset :int, length :int, key :*, comp :Function) :int
     {
         var low :int = offset;
         var high :int = offset + length - 1;
@@ -507,8 +540,7 @@ public class Arrays
     /**
      * Implementation of remove methods.
      */
-    private static function removeImpl (
-        arr :Array, element :Object, firstOnly :Boolean) :Boolean
+    private static function removeImpl (arr :Array, element :Object, firstOnly :Boolean) :Boolean
     {
         return removeIfImpl(arr, Predicates.createEquals(element), firstOnly);
     }
