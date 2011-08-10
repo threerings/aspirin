@@ -373,24 +373,6 @@ public class Arrays
     }
 
     /**
-     * Gets the intersection of two sets
-     * @return an array containing only the items common to both parameters
-     */
-    public static function intersect (ar1 :Array, ar2 :Array) :Array
-    {
-        var list :Array = [];
-        for each(var obj1 :Object in ar1) {
-            for each(var obj2 :Object in ar2) {
-                if (obj1 == obj2) {
-                    list.push(obj1);
-                    break;
-                }
-            }
-        }
-        return list;
-    }
-
-    /**
      * Provides a set equal to the relative compliment of subtrahend in minuend
      * @param minuend The array you want most of
      * @param subtrahend The array you want none of
