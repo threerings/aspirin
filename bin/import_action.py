@@ -2,7 +2,9 @@
 '''Groups and sorts imports while removing duplicates from actionscript files in a directory tree'''
 import collections, os, re, sys
 
-packandname = re.compile('import (.*\.(.+));')
+# Group 1 is the entirety of the import including a semicolon if there was one. Group 2 is just the
+# classname, or a wildcard import.
+packandname = re.compile('import (.*\.([\w*$]+);?)')
 
 # Order in which to group packages by prefix.  The longest prefix that matches an import determines
 # the group the package belongs to.
@@ -10,6 +12,7 @@ ordering = ["flash",
         "java",
         "javax",
         "android",
+        "scala",
         "",
         "com.samskivert",
         "com.samskivert.swing",
@@ -90,7 +93,7 @@ def order(imports):
                 splits[splitprefix.match(imp).groups(1)].append(imp)
             for split in sorted(splits.values()):
                 for imp in sorted(split):
-                    lines.append("import %s;" % imp)
+                    lines.append("import %s" % imp)
                 lines.append("")
     if lines and lines[-1] == '':
         lines[-1] = '\n'
@@ -119,7 +122,8 @@ def findOrdering(lines):
             rawsections[-1].append(line)
             if m.group(1) not in matches:
                 matches.add(m)
-                if m.group(1).endswith("*"): # Star imports are automatically considered to be used
+                # Star imports are automatically considered to be used
+                if m.group(2).endswith("*") or m.group(2).endswith("_"):
                     foundsections[-1].add(m.group(1))
             continue
         elif inimports:
@@ -168,7 +172,7 @@ def process(path):
                 if dn == '.svn':
                     del dirnames[i]
             for fn in filenames:
-                if fn.endswith('.as'):
+                if fn.endswith('.as') or fn.endswith(".java") or fn.endswith('.scala'):
                     try:
                         organizeImports(dirpath + "/" + fn)
                     except:
