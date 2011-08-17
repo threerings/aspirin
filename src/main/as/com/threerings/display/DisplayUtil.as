@@ -28,12 +28,11 @@ import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 
-import com.threerings.geom.Vector2;
-
-import com.threerings.util.Arrays;
 import com.threerings.util.ClassUtil;
 import com.threerings.util.Comparators;
 import com.threerings.util.F;
+
+import com.threerings.geom.Vector2;
 
 public class DisplayUtil
 {

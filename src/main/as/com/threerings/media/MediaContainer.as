@@ -40,13 +40,13 @@ import flash.system.Security;
 import flash.system.SecurityDomain;
 import flash.utils.ByteArray;
 
-import com.threerings.display.ImageUtil;
-import com.threerings.display.LoaderUtil;
-
 import com.threerings.util.FileUtil;
 import com.threerings.util.Log;
 import com.threerings.util.Util;
 import com.threerings.util.ValueEvent;
+
+import com.threerings.display.ImageUtil;
+import com.threerings.display.LoaderUtil;
 
 /**
  * Dispatched when the size of the media being loaded is known.

@@ -28,6 +28,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 import com.threerings.display.ImageUtil;
+
 import com.threerings.text.TextFieldUtil;
 
 /**
