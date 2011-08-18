@@ -19,9 +19,6 @@
 
 package com.threerings.util {
 
-import com.threerings.util.Enum;
-import com.threerings.util.StringUtil;
-
 public class XmlUtil
 {
     /**
@@ -227,6 +224,17 @@ public class XmlUtil
         });
     }
 
+    /**
+     * Parses a string in the form "FOO,BAR,MONKEY" into an Array of Enums
+     */
+    public static function getEnumArrayAttr (xml :XML, name :String, enumType :Class,
+        defaultValue :* = undefined) :Array
+    {
+        return getAttr(xml, name, defaultValue, function (value :String) :Array {
+            return parseEnumArray(value, enumType);
+        });
+    }
+
     public static function getAttr (
         xml :XML, name :String, defaultValue :*, parseFunction :Function = null) :*
     {
@@ -293,6 +301,19 @@ public class XmlUtil
         }
         return set;
     }
+
+    /**
+     * Parses a string in the form "FOO,BAR,MONKEY" into a Set of Enums
+     */
+    public static function parseEnumArray (value :String, enumType :Class) :Array
+    {
+        var values :Array = [];
+        for each (var enumName :String in value.split(",")) {
+            values.push(Enum.valueOf(enumType, enumName));
+        }
+        return values;
+    }
+
 
     protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Function
     {
