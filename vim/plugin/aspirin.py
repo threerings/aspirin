@@ -116,6 +116,7 @@ def addimport(classname, packageline=None, scan_if_not_found=True):
             vim.command("let packageline = search('^package ', 'c')")
         else:
             vim.command("let packageline = %s" % packageline)
+        vim.command('let s:startpos = getpos(".")')
         vim.command('let ignored=append(packageline + 1, "import %s;")' % found[0])
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
 

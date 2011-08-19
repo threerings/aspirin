@@ -22,29 +22,20 @@ augroup aspirin
     endif
 augroup END
 
-function! s:GetCursorWord()
-    " get the current position, and then yank the word under the cursor into a register
-    let s:startpos = getpos(".")
-    normal wbyw
-endfunction
-
 function! AspirinRescan()
     python aspirin.scan()
 endfunction
 
 function! AspirinJump()
-    call s:GetCursorWord()
-    python aspirin.jump(vim.eval("getreg()").strip())
+    python aspirin.jump(vim.eval('expand("<cword>")'))
 endfunction
 
 function! AspirinAutoImport()
-    call s:GetCursorWord()
     python aspirin.addimports()
 endfunction
 
 function! AspirinImport()
-    call s:GetCursorWord()
-    python aspirin.addimport(vim.eval("getreg()").strip())
+    python aspirin.addimport(vim.eval('expand("<cword>")'))
 endfunction
 
 function! AspirinLastEx()
