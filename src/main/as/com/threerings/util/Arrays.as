@@ -240,6 +240,16 @@ public class Arrays
     }
 
     /**
+     * Swap the elements in the specified positions in the specified list.
+     */
+    public static function swap (arr :Array, i :int, j :int) :void
+    {
+        var tmp :Object = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+    /**
      * Returns the index of the first item in the array for which the predicate function
      * returns true, or -1 if no such item was found. The predicate function should be of type:
      *   function (element :*) :Boolean { }
