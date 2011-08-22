@@ -228,14 +228,10 @@ public class Arrays
                 {
                     return int(Math.random() * n);
                 };
-        // starting from the end of the list, repeatedly swap the element in
-        // question with a random element previous to it up to and including
-        // itself
-        for (var ii :int = arr.length - 1; ii > 0; ii--) {
-            var idx :int = randFunc(ii + 1);
-            var tmp :Object = arr[idx];
-            arr[idx] = arr[ii];
-            arr[ii] = tmp;
+        // starting from the end of the list, repeatedly swap the element in question with a
+        // random element previous to it up to and including itself
+        for (var ii :int = arr.length; ii > 1; ii--) {
+            swap(arr, ii-1, randFunc(ii));
         }
     }
 
