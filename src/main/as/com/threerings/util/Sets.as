@@ -43,15 +43,13 @@ public class Sets
 {
     /**
      * Create a new Set for storing values of the specified class. If values is given, the items in
-     * the Array are added to the created Set.
+     * the Array or Set are added to the created Set.
      */
-    public static function newSetOf (valueClazz :Class, values :Array=null) :Set
+    public static function newSetOf (valueClazz :Class, values :Object=null) :Set
     {
         var set :Set = new MapSet(Maps.newMapOf(valueClazz));
         if (values != null) {
-            for each (var val :Object in values) {
-                set.add(val);
-            }
+            addAll(set, values);
         }
         return set;
     }

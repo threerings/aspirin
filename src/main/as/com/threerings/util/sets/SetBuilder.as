@@ -19,6 +19,7 @@
 
 package com.threerings.util.sets {
 
+import com.threerings.util.ClassUtil;
 import com.threerings.util.Set;
 import com.threerings.util.maps.MapBuilder;
 
@@ -103,13 +104,22 @@ public class SetBuilder
     }
 
     /**
-     * Add all the values in the specified Set.
+     * Add all the values in the specified Set or Array.
      */
-    public function addAll (other :Set) :SetBuilder
+    public function addAll (objects :Object) :SetBuilder
     {
-        other.forEach(function (o :Object) :void {
-            _mb.put(o, true);
-        });
+        if (objects is Set) {
+            Set(objects).forEach(function (item :Object) :void {
+                _mb.put(o, true);
+            });
+        } else if (objects is Array) {
+            for each (var o :Object in objects as Array) {
+                _mb.put(o, true);
+            }
+        } else {
+            throw new ArgumentError("objects must be an Array or a Set, not a '" +
+                ClassUtil.getClassName(objects) + "'");
+        }
         return this;
     }
 
