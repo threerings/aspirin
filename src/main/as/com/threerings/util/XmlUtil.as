@@ -308,6 +308,12 @@ public class XmlUtil
     public static function parseEnumArray (value :String, enumType :Class) :Array
     {
         var values :Array = [];
+
+        // Since enums can't have 0-length enum names, an empty string means an empty array.
+        if (value.length == 0) {
+            return values;
+        }
+
         for each (var enumName :String in value.split(",")) {
             values.push(Enum.valueOf(enumType, enumName));
         }
