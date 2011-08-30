@@ -59,10 +59,14 @@ ordering = ["flash",
         "com.threerings.orth",
 
         "com.threerings",
+        "com.threerings.msoy",
         "com.threerings.piracy",
         "com.threerings.ppa",
+        "com.threerings.who",
         "com.threerings.yohoho",
-        "com.threerings.who"]
+
+        "client", # GWT
+]
 
 # Group static identically, but after regular imports
 ordering.extend(["static %s" % o for o in ordering])
