@@ -548,6 +548,27 @@ public class DisplayUtil
     }
 
     /**
+     * Finds the first component with the specified name in the specified display hierarchy turned
+     * up in a depth-first traversal. Throws an error if nothing was found, or if the wrong type
+     * object was found.
+     *
+     * Note: This method will not find rawChildren of flex componenets.
+     */
+    public static function requireInHierarchy (top :DisplayObject, name :String,
+        requiredClass :Class = null, maxDepth :int = int.MAX_VALUE) :*
+    {
+        var found :DisplayObject = findInHierarchy(top, name, maxDepth);
+        if (found == null) {
+            throw new Error("Couldn't find '" + name + "' in display hierarchy");
+        }
+        if (requiredClass == null || (found is requiredClass)) {
+            return found;
+        }
+        throw new Error("Display hierarchy object '" + name + "' is wrong type: " +
+            ClassUtil.tinyClassName(found));
+    }
+
+    /**
      * Returns all components for which <code>filter</code> returns true in <code>top</code>'s
      * hierarchy.
      */
