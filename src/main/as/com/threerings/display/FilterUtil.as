@@ -78,6 +78,24 @@ public class FilterUtil
     }
 
     /**
+     * Returns true if the specified filter can be found in the filters array of the DisplayObject.
+     */
+    public static function containsFilter (disp :DisplayObject, filter :BitmapFilter) :Boolean
+    {
+        checkArgs(disp, filter);
+        if (disp.filters == null || disp.filters.length == 0) {
+            return false;
+        }
+
+        for (var ii :int = 0; ii < disp.filters.length; ii++) {
+            if (equals(disp.filters[ii], filter)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Are the two filters equals?
      */
     public static function equals (f1 :BitmapFilter, f2 :BitmapFilter) :Boolean
