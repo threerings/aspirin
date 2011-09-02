@@ -92,6 +92,14 @@ public class Randoms
     }
 
     /**
+     * Has a probability <code>p</code> of returning true.
+     */
+    public function getProbability (p :Number) :Boolean
+    {
+        return _r.nextNumber() < p;
+    }
+
+    /**
      * Returns <code>true</code> or <code>false</code> with approximately even probability.
      */
     public function getBoolean () :Boolean
