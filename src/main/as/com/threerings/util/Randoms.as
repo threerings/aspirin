@@ -62,6 +62,26 @@ public class Randoms
     }
 
     /**
+     * Returns a pseudorandom, uniformly distributed <code>Number</code> value between
+     * <code>0.0</code> (inclusive) and the <code>high</code> (exclusive).
+     *
+     * @param high the high value limiting the random number sought.
+     */
+    public function getNumber (high :Number) :Number
+    {
+        return _r.nextNumber() * high;
+    }
+
+    /**
+     * Returns a pseudorandom, uniformly distributed <code>Number</code> value between
+     * <code>low</code> (inclusive) and <code>high</code> (exclusive).
+     */
+    public function getNumberInRange (low :Number, high :Number) :Number
+    {
+        return low + (_r.nextNumber() * (high - low));
+    }
+
+    /**
      * Returns true approximately one in <code>n</code> times.
      *
      * @throws IllegalArgumentException if <code>n</code> is not positive.
