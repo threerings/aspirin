@@ -89,6 +89,20 @@ public class Maps
     }
 
     /**
+     * Returns an immutable, empty Map.
+     *
+     * This method returns the same Map instance to every caller.
+     */
+    public static function empty () :Map
+    {
+        if (EMPTY == null) {
+            // Type doesn't matter, and DictionaryMap has slightly less overhead.
+            EMPTY = newBuilder(int).makeImmutable().build();
+        }
+        return EMPTY;
+    }
+
+    /**
      * Do the two Maps contain the same keys and values?
      */
     public static function equals (map1 :Map, map2 :Map) :Boolean
@@ -193,5 +207,8 @@ public class Maps
         });
         return matches;
     }
+
+    // This has to be lazily initialized. Don't modify!
+    protected static var EMPTY :Map;
 }
 }

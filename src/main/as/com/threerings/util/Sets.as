@@ -80,6 +80,20 @@ public class Sets
     }
 
     /**
+     * Returns an immutable, empty Set.
+     *
+     * This method returns the same Set instance to every caller.
+     */
+    public static function empty () :Set
+    {
+        if (EMPTY == null) {
+            // Type doesn't matter, and DictionaryMap has slightly less overhead.
+            EMPTY = newBuilder(int).makeImmutable().build();
+        }
+        return EMPTY;
+    }
+
+    /**
      * Return true if the two sets are equal.
      */
     public static function equals (a :Set, b :Set) :Boolean
@@ -276,5 +290,8 @@ public class Sets
             throw new ArgumentError("result must be empty");
         }
     }
+
+    // this has to be lazily initialized. Don't modify!
+    protected static var EMPTY :Set;
 }
 }
