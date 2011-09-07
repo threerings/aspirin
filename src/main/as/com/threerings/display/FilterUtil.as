@@ -83,11 +83,13 @@ public class FilterUtil
     public static function containsFilter (disp :DisplayObject, filter :BitmapFilter) :Boolean
     {
         checkArgs(disp, filter);
-        if (disp.filters == null || disp.filters.length == 0) {
+        var filts :Array = disp.filters;
+        if (filts == null) {
             return false;
         }
 
-        for (var ii :int = 0; ii < disp.filters.length; ii++) {
+        var length :int = filts.length;
+        for (var ii :int = 0; ii < length; ii++) {
             if (equals(disp.filters[ii], filter)) {
                 return true;
             }
