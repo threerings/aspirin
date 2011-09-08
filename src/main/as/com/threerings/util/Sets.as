@@ -45,7 +45,7 @@ public class Sets
      * Create a new Set for storing values of the specified class. If values is given, the items in
      * the Array or Set are added to the created Set.
      */
-    public static function newSetOf (valueClazz :Class, values :Object=null) :Set
+    public static function newSetOf (valueClazz :Class, values :Object = null) :Set
     {
         var set :Set = new MapSet(Maps.newMapOf(valueClazz));
         if (values != null) {
@@ -57,9 +57,14 @@ public class Sets
     /**
      * Create a new sorted Set for storing value of the specified class.
      */
-    public static function newSortedSetOf (valueClazz :Class, comp :Function = null) :Set
+    public static function newSortedSetOf (valueClazz :Class, comp :Function = null,
+        values :Object = null) :Set
     {
-        return new MapSet(Maps.newSortedMapOf(valueClazz, comp));
+        var set :Set = new MapSet(Maps.newSortedMapOf(valueClazz, comp));
+        if (values != null) {
+            addAll(set, values);
+        }
+        return set;
     }
 
     /**
