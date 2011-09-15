@@ -30,16 +30,18 @@ package com.threerings.util {
 public class Random
 {
     /**
-     * Creates a pseudo random number generator.
-     *
-     * @param seed a seed of 0 will randomly seed the generator, anything other than 0 will create
-     * a generator with the specified seed.
+     * Creates a pseudo random number generator with a random seed.
      */
-    public function Random (seed :uint = 0)
+    public static function createRandom () :Random
     {
-        if (seed == 0) {
-            seed = uint(_seedUniquifier++ + uint(Math.random() * 4294967295));
-        }
+        return new Random(uint(_seedUniquifier++ + uint(Math.random() * 4294967295)));
+    }
+
+    /**
+     * Creates a pseudo random number generator with the specified seed.
+     */
+    public function Random (seed :uint)
+    {
         _x = new Array();
         setSeed(seed);
     }

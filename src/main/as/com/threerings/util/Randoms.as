@@ -27,7 +27,7 @@ package com.threerings.util {
  */
 public class Randoms
 {
-    public static const RAND :Randoms = new Randoms(new Random());
+    public static const RAND :Randoms = new Randoms(Random.createRandom());
 
     /**
      * Construct a Randoms.
