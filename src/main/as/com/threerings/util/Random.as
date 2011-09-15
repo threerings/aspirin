@@ -30,7 +30,7 @@ package com.threerings.util {
 public class Random
 {
     /**
-     * Creates a pseudo random number generation.
+     * Creates a pseudo random number generator.
      *
      * @param seed a seed of 0 will randomly seed the generator, anything other than 0 will create
      * a generator with the specified seed.
