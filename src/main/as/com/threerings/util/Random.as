@@ -32,12 +32,12 @@ public class Random
     /**
      * Creates a pseudo random number generation.
      *
-     * @param seed a seed of NaN will randomly seed the generator, anything other than NaN will
-     * create a generator with the specified seed.
+     * @param seed a seed of 0 will randomly seed the generator, anything other than 0 will create
+     * a generator with the specified seed.
      */
-    public function Random (seed :uint = NaN)
+    public function Random (seed :uint = 0)
     {
-        if (isNaN(seed)) {
+        if (seed == 0) {
             seed = uint(_seedUniquifier++ + uint(Math.random() * 4294967295));
         }
         _x = new Array();
