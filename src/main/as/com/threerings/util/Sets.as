@@ -131,8 +131,11 @@ public class Sets
     {
         checkSets(a, b, result);
 
-        a.forEach(result.add);
-        b.forEach(result.add);
+        function addToResult (e :Object) :void {
+            result.add(e);
+        }
+        a.forEach(addToResult);
+        b.forEach(addToResult);
 
         return result;
     }
