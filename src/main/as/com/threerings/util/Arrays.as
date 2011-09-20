@@ -97,7 +97,7 @@ public class Arrays
      */
     public static function copyOf (arr :Array) :Array
     {
-        return arr.slice();
+        return arr.concat();
     }
 
     /**
