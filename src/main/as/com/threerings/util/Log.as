@@ -268,6 +268,24 @@ public class Log
         warning("stackTrace", error);
     }
 
+    public function format (... args) :String
+    {
+        var msg :String = String(args[0]); // the primary log message
+        var strace :String = (args.length % 2 == 1) ? null : processFinalArg(args);
+        if (args.length > 1) {
+            for (var ii :int = 1; ii < args.length; ii += 2) {
+                msg += (ii == 1) ? " [" : ", ";
+                msg += argToString(args[ii]) + "=" + argToString(args[ii + 1]);
+            }
+            msg += "]";
+        }
+        if (strace != null) {
+            msg += "\n" + strace;
+        }
+
+        return msg;
+    }
+
     /** @private */
     protected function doLog (level :int, args :Array) :void
     {
@@ -287,18 +305,7 @@ public class Log
     {
         var msg :String = getTimeStamp() + " " + LEVEL_NAMES[level] + ": " + _module;
         if (args.length > 0) {
-            msg += " " + String(args[0]); // the primary log message
-            var strace :String = (args.length % 2 == 1) ? null : processFinalArg(args);
-            if (args.length > 1) {
-                for (var ii :int = 1; ii < args.length; ii += 2) {
-                    msg += (ii == 1) ? " [" : ", ";
-                    msg += argToString(args[ii]) + "=" + argToString(args[ii + 1]);
-                }
-                msg += "]";
-            }
-            if (strace != null) {
-                msg += "\n" + strace;
-            }
+            msg += " " + format(args);
         }
         return msg;
     }
