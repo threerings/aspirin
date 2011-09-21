@@ -305,7 +305,7 @@ public class Log
     {
         var msg :String = getTimeStamp() + " " + LEVEL_NAMES[level] + ": " + _module;
         if (args.length > 0) {
-            msg += " " + format(args);
+            msg += " " + format.apply(this, args);
         }
         return msg;
     }
