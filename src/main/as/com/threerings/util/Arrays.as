@@ -43,7 +43,7 @@ public class Arrays
      * Creates a new Array filled with a range of numbers.
      *
      * @param min Number to start counting from.
-     * @param max Number to count up to.
+     * @param max Number to count up to, exclusive.
      * @param step Count by this number. Must be positive.
      * @return [min, max)
      */
