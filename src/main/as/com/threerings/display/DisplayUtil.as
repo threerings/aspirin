@@ -659,5 +659,27 @@ public class DisplayUtil
             callback(parent.getChildAt(ii));
         }
     }
+
+    /**
+     * Searches up the display tree from an object and returns an ancestor container of an
+     * expected type, or null if the type was not found. The search can optionally be stopped at a
+     * given container.
+     */
+    public static function findAncestorOfType (start :DisplayObject, type :Class,
+        stop :DisplayObjectContainer = null) :*
+    {
+        if (start is type) {
+            return start;
+        }
+
+        var parent :DisplayObjectContainer = start.parent;
+        while (parent != stop && parent != null) {
+            if (parent is type) {
+                break;
+            }
+            parent = parent.parent;
+        }
+        return parent as type;
+    }
 }
 }
