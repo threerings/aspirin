@@ -36,7 +36,9 @@ ordering = ["flash",
         "com.threerings.text",
         "com.threerings.ui",
 
+        "tripleplay",
         "com.threerings.flashbang",
+        "flashbang",
 
         "com.threerings.samsara",
 
