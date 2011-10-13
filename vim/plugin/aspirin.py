@@ -1,6 +1,6 @@
 # Majority of the functionality of the aspirin plugin. It's out in its own module to namespace it
 # from Vim's shared Python interpreter
-import cPickle, os, re, sys, subprocess, vim, zipfile
+import os, re, sys, subprocess, vim, zipfile
 from xml.etree import ElementTree
 
 def jump(classname):
@@ -40,8 +40,7 @@ class ClassImportContext(object):
                     if full[0] == self.package + "." + unknown:
                         inpackage = True
                         break
-            if not inpackage:
-                addimport(unknown, self.startline, scan_if_not_found=False)
+            if not inpackage and addimport(unknown, self.startline, scan_if_not_found=False):
                 numadded += 1
         return numadded
 
@@ -87,7 +86,7 @@ def addimports():
             linenumber += ctx.addMissingImports()
 
             # Start a new class in case there's a helper class following
-            ctx = ClassImportContext(helperclasses, linenumber)
+            ctx = ClassImportContext(helperclasses, linenumber - 1)
         else:
             # Must be a non-import code line. First trim off comments that start on this line
             singlecommentidx = line.find('//')
@@ -119,6 +118,7 @@ def addimport(classname, packageline=None, scan_if_not_found=True):
         vim.command('let s:startpos = getpos(".")')
         vim.command('let ignored=append(packageline + 1, "import %s;")' % found[0])
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
+    return found
 
 def valexists(val):
     return bool(int(vim.eval('exists("%s")' % val)))
