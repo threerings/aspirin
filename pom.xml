@@ -69,6 +69,7 @@
       <artifactId>zip</artifactId>
       <version>1.0</version>
       <type>swc</type>
+      <scope>external</scope>
     </dependency>
     <dependency>
       <groupId>com.adobe.flex.framework</groupId>
