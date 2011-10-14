@@ -22,6 +22,10 @@ augroup aspirin
     endif
 augroup END
 
+if !exists("g:aspirin_open")
+    let g:aspirin_open= "open"
+endif
+
 function! AspirinRescan()
     python aspirin.scan()
 endfunction

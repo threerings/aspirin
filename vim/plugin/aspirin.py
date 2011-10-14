@@ -7,7 +7,7 @@ def jump(classname):
     found = choose_lookup(classname)
     if found:
         if found[1].endswith('.html'):
-            subprocess.check_call(['open', found[1]])
+            subprocess.check_call([vim.eval("g:aspirin_open"), found[1]])
         else:
             vim.command("edit " + found[1])
 
