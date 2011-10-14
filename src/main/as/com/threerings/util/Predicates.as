@@ -97,7 +97,8 @@ public class Predicates
      */
     public static function createNot (pred :Function) :Function
     {
-        return function (... args) :Boolean {
+        return function (item :*, ... args) :Boolean {
+            args.unshift(item);
             return !pred.apply(null, args);
         };
     }
@@ -108,7 +109,8 @@ public class Predicates
      */
     public static function createAnd (... predicates) :Function
     {
-        return function (... args) :Boolean {
+        return function (item :*, ... args) :Boolean {
+            args.unshift(item);
             for each (var pred :Function in predicates) {
                 if (!pred.apply(null, args)) {
                     return false;
@@ -124,7 +126,8 @@ public class Predicates
      */
     public static function createOr (... predicates) :Function
     {
-        return function (... args) :Boolean {
+        return function (item :*, ... args) :Boolean {
+            args.unshift(item);
             for each (var pred :Function in predicates) {
                 if (pred.apply(null, args)) {
                     return true;
