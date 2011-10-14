@@ -6,6 +6,11 @@ if !exists("b:did_aspirinplugin")
     endif
     noremap <buffer> <silent> <unique> <Plug>AspirinJump :call AspirinJump()<CR>
 
+    if !hasmapto('<Plug>AspirinOpenClass')
+        map <buffer> <unique> <LocalLeader>o <Plug>AspirinOpenClass
+    endif
+    noremap <buffer> <silent> <unique> <Plug>AspirinOpenClass :call AspirinOpenClass()<CR>
+
    	if !hasmapto('<Plug>AspirinImport')
         map <buffer> <unique> <LocalLeader>i <Plug>AspirinImport
     endif

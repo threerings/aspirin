@@ -1,15 +1,19 @@
 # Majority of the functionality of the aspirin plugin. It's out in its own module to namespace it
 # from Vim's shared Python interpreter
-import os, re, sys, subprocess, vim, zipfile
+import itertools, os, re, sys, subprocess, vim, zipfile
 from xml.etree import ElementTree
 
 def jump(classname):
     found = choose_lookup(classname)
     if found:
-        if found[1].endswith('.html'):
-            subprocess.check_call([vim.eval("g:aspirin_open"), found[1]])
-        else:
-            vim.command("edit " + found[1])
+        openclass(found)
+
+def openclass(fullclassname):
+    path = full_to_path[fullclassname]
+    if path.endswith('.html'):
+        subprocess.check_call([vim.eval("g:aspirin_open"), path])
+    else:
+        vim.command("edit " + path)
 
 class ClassImportContext(object):
     def __init__(self, helperclasses, startline=1):
@@ -37,7 +41,7 @@ class ClassImportContext(object):
             inpackage = False
             if not self.package is None:
                 for full in fulls:
-                    if full[0] == self.package + "." + unknown:
+                    if full == self.package + "." + unknown:
                         inpackage = True
                         break
             if not inpackage and addimport(unknown, self.startline, scan_if_not_found=False):
@@ -116,7 +120,7 @@ def addimport(classname, packageline=None, scan_if_not_found=True):
         else:
             vim.command("let packageline = %s" % packageline)
         vim.command('let s:startpos = getpos(".")')
-        vim.command('let ignored=append(packageline + 1, "import %s;")' % found[0])
+        vim.command('let ignored=append(packageline + 1, "import %s;")' % found)
         vim.command("let ignored=cursor(s:startpos[1] + 1, s:startpos[2])")
     return found
 
@@ -124,7 +128,9 @@ def valexists(val):
     return bool(int(vim.eval('exists("%s")' % val)))
 
 last_lookup_paths = []
-classname_to_full = {}
+classname_to_full = {} # Simple classname to set<full classname>
+full_to_path = {}
+fullclassnames = []
 def lookup(classname, scan_if_not_found=True):
     global last_lookup_paths
     if not valexists("g:as_locations"):
@@ -150,14 +156,19 @@ def choose_lookup(classname, scan=True):
     else:
         print "Multiple classes found for", classname
         for idx, full in enumerate(fulls):
-            print idx + 1, full[0]
+            print idx + 1, full
         vim.command('let idx=input("Class number or blank to abort: ")')
         idx = vim.eval("idx").strip()
         if not idx:
             return None
     return fulls[int(idx) - 1]
 
+def listclasses():
+    lookup("NonsenseClass", False)
+    return fullclassnames
+
 def scan(locs):
+    full_to_path.clear()
     classname_to_full.clear()
     for path in locs:
         path = os.path.expanduser(path)
@@ -171,13 +182,16 @@ def scan(locs):
             addclasses(scan_dir(path))
         else:
             print "Don't know how to handle", path
+    global fullclassnames
+    fullclassnames = sorted(list(itertools.chain.from_iterable(classname_to_full.itervalues())))
 
 def addclasses(classes):
     for fullname, path in classes:
         simplename = fullname.split('.')[-1]
         if simplename not in classname_to_full:
             classname_to_full[simplename] = set()
-        classname_to_full[simplename].add((fullname, path))
+        classname_to_full[simplename].add(fullname)
+        full_to_path[fullname] = path
 
 pathtofull = lambda path: '.'.join(path.split('/'))
 

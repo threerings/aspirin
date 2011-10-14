@@ -45,3 +45,37 @@ endfunction
 function! AspirinLastEx()
     python aspirin.send_ex_to_quickfix()
 endfunction
+
+function! AspirinOpenClass()
+    call s:AspirinLoadCommandT()
+    python vim.command('let paths=%s' % aspirin.listclasses())
+    ruby $command_t.show_finder AsClassFinder.new(AsListScanner.new VIM::evaluate("paths"))
+endfunction
+
+function! s:AspirinLoadCommandT()
+    if exists("g:loaded_aspirin_command_t")
+        return
+    endif
+    let g:loaded_scim_command_t = 1
+ruby << EOF
+require 'command-t/scanner'
+require 'command-t/finder/basic_finder'
+
+class AsClassFinder < CommandT::BasicFinder
+    def open selection, options
+        ::VIM::command("python aspirin.openclass('#{selection}')")
+    end
+
+    def bufferBased?
+        false
+    end
+end
+
+class AsListScanner < CommandT::Scanner
+    attr_accessor :paths
+    def initialize paths
+        @paths = paths
+    end
+end
+EOF
+endfunction
