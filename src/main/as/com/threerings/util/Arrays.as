@@ -238,11 +238,11 @@ public class Arrays
     /**
      * Swap the elements in the specified positions in the specified list.
      */
-    public static function swap (arr :Array, i :int, j :int) :void
+    public static function swap (arr :Array, ii :int, jj :int) :void
     {
-        var tmp :Object = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
+        var tmp :Object = arr[ii];
+        arr[ii] = arr[jj];
+        arr[jj] = tmp;
     }
 
     /**
@@ -400,9 +400,9 @@ public class Arrays
      */
     public static function splice (arr :Array, index :int, deleteCount :int, insertions :Array = null) :Array
     {
-        var i :Array = (insertions == null) ? [] : insertions.concat(); // don't modify insertions
-        i.unshift(index, deleteCount);
-        return arr.splice.apply(arr, i);
+        var ii :Array = (insertions == null) ? [] : insertions.concat(); // don't modify insertions
+        ii.unshift(index, deleteCount);
+        return arr.splice.apply(arr, ii);
     }
 
     /**

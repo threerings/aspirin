@@ -295,10 +295,10 @@ public class ColorMatrix
     public function blend (mat :ColorMatrix, amount :Number) :ColorMatrix
     {
         var inv_amount :Number = (1 - amount);
-        var i :int = 0;
-        while (i < 20) {
-            matrix[i] = ((inv_amount * Number(matrix[i])) + (amount * Number(mat.matrix[i])));
-            i++;
+        var ii :int = 0;
+        while (ii < 20) {
+            matrix[ii] = ((inv_amount * Number(matrix[ii])) + (amount * Number(mat.matrix[ii])));
+            ii++;
         };
 
         return this;

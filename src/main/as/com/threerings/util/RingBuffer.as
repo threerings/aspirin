@@ -46,8 +46,8 @@ public class RingBuffer
         var newArray :Array = new Array();
         var newLength :uint = Math.min(_length, newCapacity);
         newArray.length = newCapacity;
-        for (var i :uint = 0; i < newLength; ++i) {
-            newArray[i] = this.at(i);
+        for (var ii :uint = 0; ii < newLength; ++ii) {
+            newArray[ii] = this.at(ii);
         }
 
         _capacity = newCapacity;
@@ -77,9 +77,9 @@ public class RingBuffer
      */
     public function unshift (...args) :uint
     {
-        for (var i :int = args.length - 1; i >= 0; --i) {
+        for (var ii :int = args.length - 1; ii >= 0; --ii) {
             var index :uint = (_firstIndex > 0 ? _firstIndex - 1 : _capacity - 1);
-            _array[index] = args[i];
+            _array[index] = args[ii];
             _length = Math.min(_length + 1, _capacity);
             _firstIndex = index;
         }
@@ -96,9 +96,9 @@ public class RingBuffer
      */
     public function push (...args) :uint
     {
-        for (var i :uint = 0; i < args.length; ++i) {
+        for (var ii :uint = 0; ii < args.length; ++ii) {
             var index :uint = ((_firstIndex + _length) % _capacity);
-            _array[index] = args[i];
+            _array[index] = args[ii];
             _length = Math.min(_length + 1, _capacity);
 
             // did we overwrite the first index?
@@ -180,8 +180,8 @@ public class RingBuffer
      */
     public function every (callback :Function, thisObject :* = null) :Boolean
     {
-        for (var i :int = 0; i < _length; ++i) {
-            if (!callback.call(thisObject, this.at(i))) {
+        for (var ii :int = 0; ii < _length; ++ii) {
+            if (!callback.call(thisObject, this.at(ii))) {
                 return false;
             }
         }
@@ -194,8 +194,8 @@ public class RingBuffer
      */
     public function forEach (callback :Function, thisObject :* = null) :void
     {
-        for (var i :int = 0; i < _length; ++i) {
-            callback.call(thisObject, this.at(i));
+        for (var ii :int = 0; ii < _length; ++ii) {
+            callback.call(thisObject, this.at(ii));
         }
     }
 
@@ -206,9 +206,9 @@ public class RingBuffer
      */
     public function indexOf (searchElement :*, fromIndex :int = 0) :int
     {
-        for (var i :int = 0; i < _length; ++i) {
-            if (this.at(i) === searchElement) {
-                return i;
+        for (var ii :int = 0; ii < _length; ++ii) {
+            if (this.at(ii) === searchElement) {
+                return ii;
             }
         }
 

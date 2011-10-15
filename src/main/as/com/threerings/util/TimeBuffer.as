@@ -220,9 +220,9 @@ public class TimeBuffer
      */
     public function indexOf (searchElement :*, fromIndex :int = 0) :int
     {
-        for (var i :int = 0; i < _length; ++i) {
-            if (at(i) === searchElement) {
-                return i;
+        for (var ii :int = 0; ii < _length; ++ii) {
+            if (at(ii) === searchElement) {
+                return ii;
             }
         }
 
