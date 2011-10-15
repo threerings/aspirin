@@ -384,7 +384,7 @@ public class Arrays
      * @param subtrahend The array you want none of
      * @return A new array, containing all of minuend, excluding subtrahend
      */
-    public static function subtract(minuend:Array, subtrahend:Array):Array
+    public static function subtract (minuend :Array, subtrahend :Array) :Array
     {
         var list:Array = copyOf(minuend);
         for each(var obj:Object in subtrahend){
