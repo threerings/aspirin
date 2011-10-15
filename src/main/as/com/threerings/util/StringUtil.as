@@ -311,6 +311,15 @@ public class StringUtil
     }
 
     /**
+     * Returns a string representation of the number that's prepadded with zeros to be at least
+     * the specified length.
+     */
+    public static function zeroPad (n :int, length :int) :String
+    {
+        return prepad(n.toString(), length, "0");
+    }
+
+    /**
      * Substitute "{n}" tokens for the corresponding passed-in arguments.
      */
     public static function substitute (str :String, ... args) :String
