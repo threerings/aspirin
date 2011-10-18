@@ -606,7 +606,8 @@ public class DisplayUtil
             result += description;
         }
         function addChild (disp :DisplayObject, depth :int) :void {
-            printChild(depth, "\"" + disp.name + "\"  " + ClassUtil.getClassName(disp));
+            printChild(depth, disp == null ?
+                "null" : "\"" + disp.name + "\"  " + ClassUtil.getClassName(disp));
         }
         applyToHierarchy(top, addChild, F.partial(printChild, F._1, "SECURITY-BLOCKED"));
         return result;
