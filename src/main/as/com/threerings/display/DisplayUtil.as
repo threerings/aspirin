@@ -595,8 +595,7 @@ public class DisplayUtil
     public static function dumpHierarchy (top :DisplayObject) :String
     {
         var result :String = "";
-        function printChild (depth :int, description :String) :void
-        {
+        function printChild (depth :int, description :String) :void {
             if (depth > 0) {
                 result += "\n";
             }
