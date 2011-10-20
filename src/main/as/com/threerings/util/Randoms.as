@@ -128,6 +128,19 @@ public class Randoms
         return list[_r.nextInt(list.length)];
     }
 
+    /**
+     * Pick a random element from the specified Array and remove it from the list, or return
+     * <code>ifEmpty</code> if it is empty.
+     */
+    public function pluck (list :Array, ifEmpty :*) :*
+    {
+        if (list == null || list.length == 0) {
+            return ifEmpty;
+        }
+
+        return list.splice(_r.nextInt(list.length), 1)[0];
+    }
+
     protected var _r :Random;
 }
 }
