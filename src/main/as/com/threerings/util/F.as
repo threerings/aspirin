@@ -151,7 +151,6 @@ public class F
     public static function forEach (xs :Array, f :Function) :void
     {
         return xs.forEach(adapt(f));
-
     }
 
     /**
