@@ -69,7 +69,7 @@ public class ContainerOrder
     public function set sequence (children :Array) :void
     {
         _children = children;
-        _cmp = new Ordering(children).compare;
+        _ordering = new Ordering(children);
     }
 
     public function get sequence () :Array
@@ -108,7 +108,7 @@ public class ContainerOrder
     public function insert (child :DisplayObject) :void
     {
         if (child.parent != _container) {
-            DisplayUtil.sortedInsert(_container, child, _cmp);
+            DisplayUtil.sortedInsert(_container, child, _ordering.compare);
         }
     }
 
@@ -137,6 +137,6 @@ public class ContainerOrder
 
     private var _container :DisplayObjectContainer;
     private var _children :Array;
-    private var _cmp :Function;
+    private var _ordering :Ordering;
 }
 }
