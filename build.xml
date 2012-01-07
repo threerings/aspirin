@@ -14,7 +14,7 @@
       <pom file="pom.xml"/>
     </artifact:dependencies>
     <pathconvert pathsep="," property="aslib.path" refid="pom.fileset"/>
-    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.0"/>
+    <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.4"/>
   </target>
 
   <target name="clean" description="Removes all generated files and directories">
