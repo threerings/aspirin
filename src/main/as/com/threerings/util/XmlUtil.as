@@ -156,6 +156,15 @@ public class XmlUtil
         return objects;
     }
 
+    public static function map (xs :XMLList, f :Function) :Array
+    {
+        const result :Array = [];
+        for each (var node :XML in xs) {
+            result.push(f(node));
+        }
+        return result;
+    }
+
     [Deprecated(replacement="hasAttr(xml, name)")]
     public static function hasAttribute (xml :XML, name :String) :Boolean
     {
