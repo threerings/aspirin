@@ -20,10 +20,10 @@
 package com.threerings.util {
 
 /**
-* Provides utility routines to simplify obtaining randomized values.
+ * <p>Provides utility routines to simplify obtaining randomized values.</p>
  *
- * <p>Each instance of Randoms contains an underlying Random instance. If you wish to have a
- * private stream of pseudorandom numbers, use the {@link #with} factory.
+ * Each instance of Randoms contains an underlying Random instance. If you wish to have a
+ * private stream of pseudorandom numbers, pass an unshared Random to the constructor.
  */
 public class Randoms
 {
