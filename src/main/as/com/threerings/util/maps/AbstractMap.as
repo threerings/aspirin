@@ -19,13 +19,16 @@
 
 package com.threerings.util.maps {
 
+import com.threerings.util.Equalable;
 import com.threerings.util.Map;
+import com.threerings.util.Maps;
 
 /**
  * A skeletal building block for maps.
  * @private
  */
 public /* abstract */ class AbstractMap
+    implements Equalable
 {
     /** @copy com.threerings.util.Map#size() */
     public function size () :int
@@ -72,6 +75,15 @@ public /* abstract */ class AbstractMap
     public function forEach (fn :Function) :void
     {
         throw new Error("Abstract");
+    }
+
+    /** @copy com.threerings.util.Equalable#equals() */
+    public function equals (o :Object) :Boolean
+    {
+        const m :Map = o as Map
+        if (m == null) return false;
+        return Maps.equals(Map(this), m);
+
     }
 
     /** The size of the map. @private */

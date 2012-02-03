@@ -100,6 +100,12 @@ public class ForwardingMap
         _source.forEach(fn);
     }
 
+    /** @inheritDoc */
+    public function equals (o :Object) :Boolean
+    {
+        return _source.equals(o);
+    }
+
     /** The Map to which we forward requests. @private */
     protected var _source :Map;
 }
