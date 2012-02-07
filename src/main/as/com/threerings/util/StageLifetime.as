@@ -35,9 +35,8 @@ public class StageLifetime
      * @param disp
      * @param onAdd
      * @param onRemove
-     * @param sync if passed and set to true then the onAdd or addRemove callback will be called
-     * initially depending on whether the given object is already on stage. A null event is used in
-     * this case.
+     * @param sync if passed and set to true then the onAdd callback will be called initially
+     * if the given object is already on stage. A null event is used in this case.
      */
     public static function listen (disp :DisplayObject, onAdd :Function, onRemove :Function,
         sync :Boolean=false) :void
@@ -68,8 +67,10 @@ public class StageLifetime
 
         // listen for the next event the disp will dispatch
         toggle(disp.stage != null);
-        if (sync) {
-            handle(null, disp.stage != null);
+
+        // if sync is requested and the object is already on stage, call back
+        if (sync && disp.stage != null) {
+            handle(null, true);
         }
     }
 
