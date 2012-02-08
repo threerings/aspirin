@@ -65,7 +65,7 @@ public class FrameSprite extends Sprite
      */
     protected function handleFrame (... ignored) :void
     {
-        // nothing here. Override in yor subclass.
+        // nothing here. Override in your subclass.
     }
 
     /** Should we call handleFrame() when we get ADDED_TO_STAGE? */
