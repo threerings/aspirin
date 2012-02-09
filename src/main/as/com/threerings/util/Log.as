@@ -292,12 +292,12 @@ public class Log
         if (level < getLevel(_module)) {
             return; // we don't want to log it!
         }
-        var logMessage :String = formatMessage(level, args);
+        var logMessage :String = formatMessage(level, args.concat());
         trace(logMessage);
         // possibly also dispatch to any other log targets.
         for each (var target :LogTarget in _targets) {
             if (target is PreformatLogTarget) {
-                PreformatLogTarget(target).logArgs(_module, level, args, logMessage);
+                PreformatLogTarget(target).logArgs(_module, level, args.concat(), logMessage);
             }
             target.log(logMessage);
         }
