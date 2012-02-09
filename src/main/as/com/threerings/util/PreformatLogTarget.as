@@ -24,6 +24,6 @@ package com.threerings.util {
  */
 public interface PreformatLogTarget extends LogTarget
 {
-    function logArgs (level :int, args :Array, formatted :String) :void
+    function logArgs (module :String, level :int, args :Array, formatted :String) :void
 }
 }

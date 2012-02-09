@@ -297,7 +297,7 @@ public class Log
         // possibly also dispatch to any other log targets.
         for each (var target :LogTarget in _targets) {
             if (target is PreformatLogTarget) {
-                PreformatLogTarget(target).logArgs(level, args, logMessage);
+                PreformatLogTarget(target).logArgs(_module, level, args, logMessage);
             }
             target.log(logMessage);
         }
