@@ -296,6 +296,9 @@ public class Log
         trace(logMessage);
         // possibly also dispatch to any other log targets.
         for each (var target :LogTarget in _targets) {
+            if (target is PreformatLogTarget) {
+                PreformatLogTarget(target).logArgs(level, args, logMessage);
+            }
             target.log(logMessage);
         }
     }
