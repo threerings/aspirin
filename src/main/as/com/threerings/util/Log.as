@@ -117,9 +117,28 @@ public class Log
      */
     public static function removeTarget (target :LogTarget) :void
     {
-        var dex :int = _targets.indexOf(target);
-        if (dex != -1) {
-            _targets.splice(dex, 1);
+        var idx :int = _targets.indexOf(target);
+        if (idx >= 0) {
+            _targets.splice(idx, 1);
+        }
+    }
+
+    /**
+     * Adds a preformat logging target.
+     */
+    public static function addPreformatTarget (target :PreformatLogTarget) :void
+    {
+        _preformatTargets.push(target);
+    }
+
+    /**
+     * Remove a preformat logging target.
+     */
+    public static function removePreformatTarget (target :PreformatLogTarget) :void
+    {
+        var idx :int = _preformatTargets.indexOf(target);
+        if (idx >= 0) {
+            _preformatTargets.splice(idx, 1);
         }
     }
 
@@ -292,13 +311,13 @@ public class Log
         if (level < getLevel(_module)) {
             return; // we don't want to log it!
         }
-        var logMessage :String = formatMessage(level, args.concat());
+        for each (var preformatTarget :PreformatLogTarget in _preformatTargets) {
+            preformatTarget.logArgs(_module, level, args);
+        }
+        var logMessage :String = formatMessage(level, args);
         trace(logMessage);
         // possibly also dispatch to any other log targets.
         for each (var target :LogTarget in _targets) {
-            if (target is PreformatLogTarget) {
-                PreformatLogTarget(target).logArgs(_module, level, args.concat(), logMessage);
-            }
             target.log(logMessage);
         }
     }
@@ -447,6 +466,9 @@ public class Log
 
     /** Other registered LogTargets, besides the trace log. @private */
     protected static var _targets :Array = [];
+
+    /** Registered PreformatLogTargets */
+    protected static var _preformatTargets :Array = [];
 
     /** A cache of log levels, copied from _setLevels. @private */
     protected static var _levels :Object = {};
