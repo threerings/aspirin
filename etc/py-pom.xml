@@ -4,7 +4,7 @@
   <groupId>com.threerings.aspirin</groupId>
   <artifactId>import_action</artifactId>
   <packaging>py</packaging>
-  <version>1.12</version>
+  <version>1.13-SNAPSHOT</version>
   <name>import_action</name>
   <description>Python script to organize and actionscript imports</description>
   <url>http://code.google.com/p/ooo-aspirin/</url>
