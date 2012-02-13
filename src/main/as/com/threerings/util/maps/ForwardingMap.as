@@ -106,6 +106,12 @@ public class ForwardingMap
         return _source.equals(o);
     }
 
+    /** @inheritDoc */
+    public function toString () :String
+    {
+        return Object(_source).toString();
+    }
+
     /** The Map to which we forward requests. @private */
     protected var _source :Map;
 }
