@@ -69,7 +69,6 @@
       <artifactId>zip</artifactId>
       <version>1.0</version>
       <type>swc</type>
-      <scope>external</scope>
     </dependency>
     <dependency>
       <groupId>com.adobe.flex.framework</groupId>
@@ -87,13 +86,14 @@
         <groupId>org.sonatype.flexmojos</groupId>
         <artifactId>flexmojos-maven-plugin</artifactId>
         <extensions>true</extensions>
-        <version>3.9</version>
+        <version>4.2-beta</version>
         <configuration>
           <omitTraceStatements>false</omitTraceStatements>
           <debug>true</debug>
           <incremental>false</incremental>
           <useNetwork>false</useNetwork>
           <verboseStacktraces>true</verboseStacktraces>
+          <showWarnings>false</showWarnings>
         </configuration>
         <dependencies>
           <dependency>
