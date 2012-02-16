@@ -101,7 +101,8 @@ public class Util
     }
 
     /**
-     * Returns a function that will call each of the given functions in order.
+     * Returns a function that will call each of the given functions in order. The return values
+     * of the functions are ignored. The returned function returns void.
      */
     public static function sequence (... functions) :Function
     {
@@ -174,7 +175,10 @@ public class Util
      * that takes an onSuccess callback. The function must guarantee that onSuccess will be called
      * when its associated task completes:
      * <listing version="3.0">
-     *      function execute (onSuccess :Function) :void {}
+     *      function execute (onSuccess :Function) :void
+     *      {
+     *          onSuccess();
+     *      }
      * </listing>
      * @param onSuccess the callback to invoke when all executed functions have completed.
      */
