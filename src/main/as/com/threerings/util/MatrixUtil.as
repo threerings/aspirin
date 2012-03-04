@@ -30,7 +30,7 @@ public class MatrixUtil
     
     public static function setScaleX (m :Matrix, scaleX :Number) :void 
     {
-        var cur :Number = scaleX(m);
+        var cur :Number = MatrixUtil.scaleX(m);
         if (cur != 0) {
             var scale :Number = scaleX / cur;
             m.a *= scale;
@@ -49,7 +49,7 @@ public class MatrixUtil
     
     public static function setScaleY (m :Matrix, scaleY :Number) :void 
     {
-        var cur :Number = scaleY(m);
+        var cur :Number = MatrixUtil.scaleY(m);
         if (cur != 0) {
             var scale :Number = scaleY / cur;
             m.c *= scale;
@@ -68,7 +68,7 @@ public class MatrixUtil
     
     public static function setSkewX (m :Matrix, skewX :Number) :void 
     {
-        var scaleY :Number = scaleY(m);
+        var scaleY :Number = MatrixUtil.scaleY(m);
         m.c = -scaleY * Math.sin(skewX);
         m.d = scaleY * Math.cos(skewX);
     }
@@ -80,22 +80,22 @@ public class MatrixUtil
     
     public static function setSkewY (m :Matrix, skewY :Number) :void 
     {
-        var scaleX :Number = scaleX(m);
+        var scaleX :Number = MatrixUtil.scaleX(m);
         m.a = scaleX * Math.cos(skewY);
         m.b = scaleX * Math.sin(skewY);
     }
     
     public static function rotation (m :Matrix) :Number 
     {
-        return skewY(m);
+        return MatrixUtil.skewY(m);
     }
     
     public static function setRotation (m :Matrix, rotation :Number) :void 
     {
-        var curRotation :Number = rotation(m);
-        var curSkewX :Number = skewX(m);
-        setSkewX(m, curSkewX + rotation - curRotation);
-        setSkewY(m, rotation);
+        var curRotation :Number = MatrixUtil.rotation(m);
+        var curSkewX :Number = MatrixUtil.skewX(m);
+        MatrixUtil.setSkewX(m, curSkewX + rotation - curRotation);
+        MatrixUtil.setSkewY(m, rotation);
     }
 }
 }
