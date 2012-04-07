@@ -324,18 +324,20 @@ class Listener
     /** The event handler. */
     public function handleEvent (event :Event) :void
     {
-        try {
+        if (_errHandler == null) {
             _listener(event);
-        } catch (e :Error) {
-            if (_errHandler != null) {
+        } else {
+            try {
+                _listener(event);
+            } catch (e :Error) {
                 try {
                     _errHandler(e);
                 } catch (e2 :Error) {
                     // fuck that
                 }
+                throw e; // rethrow the error, it can't hurt, and if we're in FP 10.1 and are
+                // using the new built-in global event handler, we want it to see this!
             }
-            throw e; // rethrow the error, it can't hurt, and if we're in FP 10.1 and are
-            // using the new built-in global event handler, we want it to see this!
         }
     }
 
