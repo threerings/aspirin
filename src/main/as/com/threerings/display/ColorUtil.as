@@ -139,43 +139,43 @@ public class ColorUtil
 
         var hsbvals :Array = new Array(3);
 
-    	var cmax :int = (r > g) ? r : g;
-	if (b > cmax) {
+        var cmax :int = (r > g) ? r : g;
+        if (b > cmax) {
             cmax = b;
         }
-	var cmin :int = (r < g) ? r : g;
-	if (b < cmin) {
+        var cmin :int = (r < g) ? r : g;
+        if (b < cmin) {
             cmin = b;
         }
 
-	brightness = cmax / 255.0;
-	if (cmax != 0) {
-	    saturation = (Number(cmax - cmin)) / (Number(cmax));
+        brightness = cmax / 255.0;
+        if (cmax != 0) {
+            saturation = (Number(cmax - cmin)) / (Number(cmax));
         } else {
-	    saturation = 0;
+            saturation = 0;
         }
-	if (saturation == 0) {
-	    hue = 0;
+        if (saturation == 0) {
+            hue = 0;
         } else {
-	    var redc :Number = (Number(cmax - r)) / (Number(cmax - cmin));
-	    var greenc :Number = (Number(cmax - g)) / (Number(cmax - cmin));
-	    var bluec :Number = (Number(cmax - b)) / (Number(cmax - cmin));
-	    if (r == cmax) {
-		hue = bluec - greenc;
+            var redc :Number = (Number(cmax - r)) / (Number(cmax - cmin));
+            var greenc :Number = (Number(cmax - g)) / (Number(cmax - cmin));
+            var bluec :Number = (Number(cmax - b)) / (Number(cmax - cmin));
+            if (r == cmax) {
+                hue = bluec - greenc;
             } else if (g == cmax) {
-	        hue = 2.0 + redc - bluec;
+                hue = 2.0 + redc - bluec;
             } else {
-		hue = 4.0 + greenc - redc;
+                hue = 4.0 + greenc - redc;
             }
-	    hue = hue / 6.0;
-	    if (hue < 0) {
-		hue = hue + 1.0;
+            hue = hue / 6.0;
+            if (hue < 0) {
+                hue = hue + 1.0;
             }
-	}
-	hsbvals[0] = hue;
-	hsbvals[1] = saturation;
-	hsbvals[2] = brightness;
-	return hsbvals;
+        }
+        hsbvals[0] = hue;
+        hsbvals[1] = saturation;
+        hsbvals[2] = brightness;
+        return hsbvals;
     }
 
     /**
