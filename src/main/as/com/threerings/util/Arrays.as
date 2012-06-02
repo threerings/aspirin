@@ -265,6 +265,25 @@ public class Arrays
     }
 
     /**
+     * Returns the index of the last item in the array for which the predicate function
+     * returns true, or -1 if no such item was found. The predicate function should be of type:
+     *   function (element :*) :Boolean { }
+     *
+     * @return the zero-based index of the matching element, or -1 if none found.
+     */
+    public static function lastIndexIf (arr :Array, predicate :Function) :int
+    {
+        if (arr != null) {
+            for (var ii :int = arr.length - 1; ii >= 0; ii--) {
+                if (predicate(arr[ii])) {
+                    return ii;
+                }
+            }
+        }
+        return -1; // never found
+    }
+
+    /**
      * Returns the first item in the array for which the predicate function returns true, or
      * undefined if no such item was found. The predicate function should be of type:
      *   function (element :*) :Boolean { }
@@ -274,6 +293,19 @@ public class Arrays
     public static function findIf (arr :Array, predicate :Function) :*
     {
         var index :int = (arr != null ? indexIf(arr, predicate) : -1);
+        return (index >= 0 ? arr[index] : undefined);
+    }
+
+    /**
+     * Returns the last item in the array for which the predicate function returns true, or
+     * undefined if no such item was found. The predicate function should be of type:
+     *   function (element :*) :Boolean { }
+     *
+     * @return the matching element, or undefined if no matching element was found.
+     */
+    public static function findLastIf (arr :Array, predicate :Function) :*
+    {
+        var index :int = (arr != null ? lastIndexIf(arr, predicate) : -1);
         return (index >= 0 ? arr[index] : undefined);
     }
 
@@ -289,6 +321,26 @@ public class Arrays
     {
         if (arr != null) {
             for (var ii :int = 0; ii < arr.length; ii++) {
+                if (Util.equals(arr[ii], element)) {
+                    return ii;
+                }
+            }
+        }
+        return -1; // never found
+    }
+
+    /**
+     * Returns the last index of the supplied element in the array. Note that if the element
+     * implements Equalable, an element that is equals() will have its index returned, instead
+     * of requiring the search element to be === (strictly equal) to an element in the array
+     * like Array.lastIndexOf().
+     *
+     * @return the zero-based index of the matching element, or -1 if none found.
+     */
+    public static function lastIndexOf (arr :Array, element :Object) :int
+    {
+        if (arr != null) {
+            for (var ii :int = arr.length - 1; ii >= 0; ii--) {
                 if (Util.equals(arr[ii], element)) {
                     return ii;
                 }
