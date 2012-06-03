@@ -97,7 +97,7 @@ public class EventHandlerManager
      */
     public function registerListener (
         dispatcher :IEventDispatcher, event :String, listener :Function,
-        useCapture :Boolean = false, priority :int = 0) :void
+        useCapture :Boolean = false, priority :int = 0) :Registration
     {
         var l :Listener = new Listener(_errorHandler, dispatcher, event, listener, useCapture);
         // canonicalize
@@ -110,6 +110,10 @@ public class EventHandlerManager
 
         // register (or re-register) at the priority
         l.register(priority);
+
+        return RegistrationFactory.createWithFunction(function () :void {
+            unregisterListener(dispatcher, event, listener, useCapture);
+        });
     }
 
     /**
@@ -134,7 +138,7 @@ public class EventHandlerManager
      */
     public function registerOneShotCallback (
         dispatcher :IEventDispatcher, event :String, listener :Function,
-        useCapture :Boolean = false, priority :int = 0) :void
+        useCapture :Boolean = false, priority :int = 0) :Registration
     {
         var eventListener :Function = function (e :Event) :void {
             unregisterListener(dispatcher, event, eventListener, useCapture);
@@ -146,16 +150,16 @@ public class EventHandlerManager
             }
         };
 
-        registerListener(dispatcher, event, eventListener, useCapture, priority);
+        return registerListener(dispatcher, event, eventListener, useCapture, priority);
     }
 
     /**
      * Registers the freeAllHandlers() method to be called upon Event.UNLOAD on the supplied
      * event dispatcher.
      */
-    public function registerUnload (dispatcher :IEventDispatcher) :void
+    public function registerUnload (dispatcher :IEventDispatcher) :Registration
     {
-        registerListener(dispatcher, Event.UNLOAD, Util.adapt(freeAllHandlers));
+        return registerListener(dispatcher, Event.UNLOAD, Util.adapt(freeAllHandlers));
     }
 
     /**
@@ -219,12 +223,11 @@ public class EventHandlerManager
      */
     public function registerListenerUntil (
         triggerDispatcher :IEventDispatcher, triggerEvent :String,
-        dispatcher :IEventDispatcher, event :String, listener :Function) :void
+        dispatcher :IEventDispatcher, event :String, listener :Function) :Registration
     {
-        registerListener(dispatcher, event, listener);
-        registerOneShotCallback(triggerDispatcher, triggerEvent, function () :void {
-            unregisterListener(dispatcher, event, listener);
-        });
+        var r :Registration = registerListener(dispatcher, event, listener);
+        registerOneShotCallback(triggerDispatcher, triggerEvent, r.cancel);
+        return r;
     }
 
     /**
