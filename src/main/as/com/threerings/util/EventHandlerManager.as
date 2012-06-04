@@ -111,7 +111,7 @@ public class EventHandlerManager
         // register (or re-register) at the priority
         l.register(priority);
 
-        return RegistrationFactory.createWithFunction(function () :void {
+        return Registrations.createWithFunction(function () :void {
             unregisterListener(dispatcher, event, listener, useCapture);
         });
     }

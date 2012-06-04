@@ -19,7 +19,7 @@
 
 package com.threerings.util {
 
-public class RegistrationFactory
+public class Registrations
 {
     public static function createWithFunction (f :Function) :Registration {
         return new FunctionRegistration(f);
