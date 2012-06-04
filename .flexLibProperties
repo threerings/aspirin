@@ -151,6 +151,7 @@
     <classEntry path="com.threerings.util.Registrations"/>
     <classEntry path="com.threerings.util.Registration"/>
     <classEntry path="com.threerings.util.RegistrationManager"/>
+    <classEntry path="com.threerings.util.WeightedArray"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
