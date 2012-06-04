@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="1">
   <includeClasses>
     <classEntry path="com.threerings.display.AlphaFade"/>
     <classEntry path="com.threerings.display.Animation"/>
@@ -107,6 +107,9 @@
     <classEntry path="com.threerings.util.Random"/>
     <classEntry path="com.threerings.util.RandomUtil"/>
     <classEntry path="com.threerings.util.Randoms"/>
+    <classEntry path="com.threerings.util.Registration"/>
+    <classEntry path="com.threerings.util.RegistrationList"/>
+    <classEntry path="com.threerings.util.Registrations"/>
     <classEntry path="com.threerings.util.RemoteImageCache"/>
     <classEntry path="com.threerings.util.RemoteImageCacheEvent"/>
     <classEntry path="com.threerings.util.RingBuffer"/>
@@ -121,6 +124,7 @@
     <classEntry path="com.threerings.util.Util"/>
     <classEntry path="com.threerings.util.ValueEvent"/>
     <classEntry path="com.threerings.util.WeakReference"/>
+    <classEntry path="com.threerings.util.WeightedArray"/>
     <classEntry path="com.threerings.util.XmlClassMap"/>
     <classEntry path="com.threerings.util.XmlClassMapBuilder"/>
     <classEntry path="com.threerings.util.XmlReadError"/>
@@ -148,10 +152,6 @@
     <classEntry path="com.threerings.util.sets.MapSet"/>
     <classEntry path="com.threerings.util.sets.SetBuilder"/>
     <classEntry path="com.threerings.util.sprintf"/>
-    <classEntry path="com.threerings.util.Registrations"/>
-    <classEntry path="com.threerings.util.Registration"/>
-    <classEntry path="com.threerings.util.RegistrationManager"/>
-    <classEntry path="com.threerings.util.WeightedArray"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
