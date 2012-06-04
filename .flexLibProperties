@@ -150,6 +150,7 @@
     <classEntry path="com.threerings.util.sprintf"/>
     <classEntry path="com.threerings.util.RegistrationFactory"/>
     <classEntry path="com.threerings.util.Registration"/>
+    <classEntry path="com.threerings.util.RegistrationManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
