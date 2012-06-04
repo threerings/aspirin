@@ -19,7 +19,8 @@
 
 package com.threerings.util {
 
-public class RegistrationManager
+public class RegistrationList
+    implements Registration
 {
     /**
      * Adds a Registration to the manager.
@@ -34,7 +35,7 @@ public class RegistrationManager
     /**
      * Cancels all Registrations that have been added to the manager.
      */
-    public function cancelAll () :void
+    public function cancel () :void
     {
         var regs :Array = _regs;
         _regs = [];
