@@ -18,6 +18,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.geom {
+
 import flash.geom.Point;
 
 import com.threerings.util.Equalable;
@@ -344,6 +345,24 @@ public class Vector2
     public function scale (value :Number) :Vector2
     {
         return clone().scaleLocal(value);
+    }
+
+    /**
+     * Multiplies this vector's components by the given vector's components.
+     */
+    public function multLocal (v :Vector2) :Vector2
+    {
+        x *= v.x;
+        y *= v.y;
+        return this;
+    }
+
+    /**
+     * Returns a copy of this vector, multiplied by the given vector's components.
+     */
+    public function mult (v :Vector2) :Vector2
+    {
+        return clone().multLocal(v);
     }
 
     /**
