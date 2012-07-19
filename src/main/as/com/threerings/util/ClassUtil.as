@@ -18,8 +18,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package com.threerings.util {
-
-import flash.utils.describeType;
+import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 
@@ -93,27 +92,8 @@ public class ClassUtil
             return false;
         }
 
-        // ok, let's introspect on the class and see what we've got.
-        var typeInfo :XMLList = describeType(srcClass).child("factory");
-
-        // See which classes we extend.
-        var exts :XMLList = typeInfo.child("extendsClass").attribute("type");
-        var type :String;
-        for each (type in exts) {
-            if (asClass == getClassByName(type)) {
-                return true;
-            }
-        }
-
-        // See which interfaces we implement.
-        var imps :XMLList = typeInfo.child("implementsInterface").attribute("type");
-        for each (type in imps) {
-            if (asClass == getClassByName(type)) {
-                return true;
-            }
-        }
-
-        return false;
+        const metadata :Metadata = getMetadata(srcClass);
+        return metadata.extSet.contains(asClass) || metadata.impSet.contains(asClass);
     }
 
     public static function getClass (obj :Object) :Class
@@ -134,5 +114,47 @@ public class ClassUtil
         }
         return null; // error case
     }
+
+    protected static function getMetadata (forClass :Class) :Metadata
+    {
+        var metadata :Metadata = _metadata[forClass];
+        if (metadata == null) {
+            metadata = _metadata[forClass] = new Metadata(forClass);
+        }
+        return metadata;
+    }
+
+    protected static const _metadata :Dictionary = new Dictionary();
 }
+}
+
+import flash.utils.Dictionary;
+import flash.utils.describeType;
+
+import com.threerings.util.ClassUtil;
+import com.threerings.util.Set;
+import com.threerings.util.maps.DictionaryMap;
+import com.threerings.util.sets.MapSet;
+
+class Metadata
+{
+    public const extSet :Set = new MapSet(new DictionaryMap());
+    public const impSet :Set = new MapSet(new DictionaryMap());
+
+    public function Metadata (forClass :Class)
+    {
+        const typeInfo :XMLList = describeType(forClass).child("factory");
+
+        // See which classes we extend.
+        const exts :XMLList = typeInfo.child("extendsClass").attribute("type");
+        for each (var extStr :String in exts) {
+            extSet.add(ClassUtil.getClassByName(extStr));
+        }
+
+        // See which interfaces we implement.
+        var imps :XMLList = typeInfo.child("implementsInterface").attribute("type");
+        for each (var impStr :String in imps) {
+            impSet.add(ClassUtil.getClassByName(impStr));
+        }
+    }
 }
