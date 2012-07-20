@@ -92,8 +92,7 @@ public class ClassUtil
             return false;
         }
 
-        const metadata :Metadata = getMetadata(srcClass);
-        return metadata.extSet.contains(asClass) || metadata.impSet.contains(asClass);
+        return getMetadata(srcClass).isSubtypeOf(asClass);
     }
 
     public static function getClass (obj :Object) :Class
@@ -128,7 +127,6 @@ public class ClassUtil
 }
 }
 
-import flash.utils.Dictionary;
 import flash.utils.describeType;
 
 import com.threerings.util.ClassUtil;
@@ -156,5 +154,10 @@ class Metadata
         for each (var impStr :String in imps) {
             impSet.add(ClassUtil.getClassByName(impStr));
         }
+    }
+
+    public function isSubtypeOf (asClass :Class) :Boolean
+    {
+        return extSet.contains(asClass) || impSet.contains(asClass);
     }
 }
