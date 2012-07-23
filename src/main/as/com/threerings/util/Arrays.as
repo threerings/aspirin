@@ -439,7 +439,7 @@ public class Arrays
     public static function subtract (minuend :Array, subtrahend :Array) :Array
     {
         var list:Array = copyOf(minuend);
-        for each(var obj:Object in subtrahend){
+        for each (var obj :Object in subtrahend) {
             removeAll(list, obj);
         }
         return list;

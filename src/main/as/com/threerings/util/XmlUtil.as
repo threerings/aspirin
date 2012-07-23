@@ -329,7 +329,6 @@ public class XmlUtil
         return values;
     }
 
-
     protected static function requireClassMapping (xml :XML, classMap :XmlClassMap) :Function
     {
         var ctor :Function = classMap.getConstructor(xml);
