@@ -304,11 +304,7 @@ public class XmlUtil
      */
     public static function parseEnumSet (value :String, enumType :Class) :Set
     {
-        var set :Set = Sets.newSetOf(enumType);
-        for each (var enumName :String in value.split(",")) {
-            set.add(Enum.valueOf(enumType, enumName));
-        }
-        return set;
+        return Sets.newSetOf(enumType, parseEnumArray(value, enumType));
     }
 
     /**
