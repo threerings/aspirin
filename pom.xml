@@ -10,7 +10,7 @@
   <groupId>com.threerings</groupId>
   <artifactId>aspirin</artifactId>
   <packaging>swc</packaging>
-  <version>1.13.2</version>
+  <version>1.14-SNAPSHOT</version>
 
   <name>Aspirin</name>
   <description>Utilities for use in developing ActionScript applications.</description>
